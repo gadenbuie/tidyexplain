@@ -15,6 +15,11 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
   - Filtering Joins: [`semi_join()`](#semi-join),
     [`anti_join()`](#anti-join)
 
+  - Learn more about
+    
+      - [Relational Data](#relational-data)
+      - [gganimate](#gganimate)
+
 ## Mutate Joins
 
 <img src="images/original-dfs.png" width="480px" />
@@ -118,3 +123,27 @@ anti_join(x, y, by = "id")
 #>   <int> <chr>
 #> 1     3 x3
 ```
+
+## Learn More
+
+### Relational Data
+
+The [Relational Data](http://r4ds.had.co.nz/relation-data.html) chapter
+of the [R for Data Science](http://r4ds.had.co.nz/) book by Garrett
+Grolemund and Hadley Wickham is an excellent resource for learning more
+about relational data.
+
+The [dplyr two-table verbs
+vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
+Bryan’s [Cheatsheet for dplyr join
+functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
+great resources.
+
+### gganimate
+
+The animations were made possible by the newly re-written
+[gganimate](https://github.com/thomasp85/gganimate#README) package by
+[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
+Robinson](https://github.com/dgrtwo)). The [package
+readme](https://github.com/thomasp85/gganimate#README) provides an
+excellent (and quick) introduction to gganimte.
