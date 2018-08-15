@@ -6,6 +6,15 @@
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
 [garrickadenbuie.com](https://www.garrickadenbuie.com)
 
+[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
+
+  - Mutate Joins: [`inner_join()`](#inner-join),
+    [`left_join()`](#left-join), [`right_join()`](#right-join),
+    [`full_join()`](#full-join)
+
+  - Filtering Joins: [`semi_join()`](#semi-join),
+    [`anti_join()`](#anti-join)
+
 ## Mutate Joins
 
 <img src="images/original-dfs.png" width="480px" />
