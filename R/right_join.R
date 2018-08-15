@@ -11,7 +11,12 @@ extra_blocks <- inner_join(x, y, "id") %>%
 
 rj <- initial_dfs %>%
   bind_rows(joined_dfs, extra_blocks) %>%
-  arrange(desc(.id), frame, desc(label), value) %>%
+  filter(!is.na(value)) %>%
+  mutate(
+    .id = ifelse(label == "x", label, .id),
+    removed = as.integer(grepl("3", value))
+  ) %>%
+  arrange(removed, .id, frame, value) %>%
   plot_data("right_join(x, y)") %>%
   animate_plot()
 
