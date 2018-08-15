@@ -80,6 +80,19 @@ source("R/left_join.R")
 left_join(x, y, by = "id")
 ```
 
+### Left Join (Extra Rows in y)
+
+```{r left-join-extra}
+source("R/left_join_extra.R")
+```
+
+![](images/left-join-extra.gif)
+
+```{r echo=TRUE}
+y_extra # has multiple rows with the key from `x`
+left_join(x, y_extra, by = "id")
+```
+
 ### Right Join
 
 ```{r right-join}

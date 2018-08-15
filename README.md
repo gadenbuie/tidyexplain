@@ -68,6 +68,29 @@ left_join(x, y, by = "id")
 #> 3     3 x3    <NA>
 ```
 
+### Left Join (Extra Rows in y)
+
+![](images/left-join-extra.gif)
+
+``` r
+y_extra # has multiple rows with the key from `x`
+#> # A tibble: 4 x 2
+#>      id y    
+#>   <dbl> <chr>
+#> 1     1 y1   
+#> 2     2 y2   
+#> 3     4 y4   
+#> 4     2 y5
+left_join(x, y_extra, by = "id")
+#> # A tibble: 4 x 3
+#>      id x     y    
+#>   <dbl> <chr> <chr>
+#> 1     1 x1    y1   
+#> 2     2 x2    y2   
+#> 3     2 x2    y5   
+#> 4     3 x3    <NA>
+```
+
 ### Right Join
 
 ![](images/right-join.gif)
