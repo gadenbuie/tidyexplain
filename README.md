@@ -8,7 +8,7 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
 
 ## Mutate Joins
 
-<img src="images/original-dfs.png" style="max-width: 480px" />
+<img src="images/original-dfs.png" width="480px" />
 
 ``` r
 x

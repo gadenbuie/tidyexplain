@@ -37,7 +37,7 @@ g <- plot_data(initial_dfs) +
 ggsave(g, file = here::here("images/original-dfs.png"))
 ```
 
-<img src="images/original-dfs.png" style="max-width: 480px" />
+<img src="images/original-dfs.png" width="480px" />
 
 ```{r echo=TRUE}
 x
