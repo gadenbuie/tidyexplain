@@ -23,7 +23,7 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
 
-- Mutate Joins: [`inner_join()`](#inner-join), [`left_join()`](#left-join),
+- Mutating Joins: [`inner_join()`](#inner-join), [`left_join()`](#left-join),
   [`right_join()`](#right-join), [`full_join()`](#full-join)
   
 - Filtering Joins: [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
@@ -32,7 +32,7 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
     - [Relational Data](#relational-data)
     - [gganimate](#gganimate)
 
-## Mutate Joins
+## Mutating Joins
 
 ```{r intial-dfs}
 source("R/00_base.R")
@@ -58,6 +58,8 @@ y
 
 ### Inner Join
 
+> All rows from `x` where there are matching values in `y`, and all columns from `x` and `y`.
+
 ```{r inner-join}
 source("R/inner_join.R")
 ```
@@ -70,6 +72,8 @@ inner_join(x, y, by = "id")
 
 ### Left Join
 
+> All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns.
+
 ```{r left-join}
 source("R/left_join.R")
 ```
@@ -81,6 +85,8 @@ left_join(x, y, by = "id")
 ```
 
 ### Left Join (Extra Rows in y)
+
+> ... If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
 
 ```{r left-join-extra}
 source("R/left_join_extra.R")
@@ -95,6 +101,8 @@ left_join(x, y_extra, by = "id")
 
 ### Right Join
 
+> All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns.
+
 ```{r right-join}
 source("R/right_join.R")
 ```
@@ -106,6 +114,8 @@ right_join(x, y, by = "id")
 ```
 
 ### Full Join
+
+> All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing.
 
 ```{r full-join}
 source("R/full_join.R")
@@ -121,6 +131,8 @@ full_join(x, y, by = "id")
 
 ### Semi Join
 
+> All rows from `x` where there are matching values in `y`, keeping just columns from `x`.
+
 ```{r semi-join}
 source("R/semi_join.R")
 ```
@@ -132,6 +144,8 @@ semi_join(x, y, by = "id")
 ```
 
 ### Anti Join
+
+> All rows from `x` where there are not matching values in `y`, keeping just columns from `x`.
 
 ```{r anti-join}
 source("R/anti_join.R")

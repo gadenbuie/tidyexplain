@@ -8,7 +8,7 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
 
-  - Mutate Joins: [`inner_join()`](#inner-join),
+  - Mutating Joins: [`inner_join()`](#inner-join),
     [`left_join()`](#left-join), [`right_join()`](#right-join),
     [`full_join()`](#full-join)
 
@@ -20,7 +20,7 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
       - [Relational Data](#relational-data)
       - [gganimate](#gganimate)
 
-## Mutate Joins
+## Mutating Joins
 
 <img src="images/original-dfs.png" width="480px" />
 
@@ -43,6 +43,9 @@ y
 
 ### Inner Join
 
+> All rows from `x` where there are matching values in `y`, and all
+> columns from `x` and `y`.
+
 ![](images/inner-join.gif)
 
 ``` r
@@ -55,6 +58,9 @@ inner_join(x, y, by = "id")
 ```
 
 ### Left Join
+
+> All rows from `x`, and all columns from `x` and `y`. Rows in `x` with
+> no match in `y` will have `NA` values in the new columns.
 
 ![](images/left-join.gif)
 
@@ -69,6 +75,9 @@ left_join(x, y, by = "id")
 ```
 
 ### Left Join (Extra Rows in y)
+
+> … If there are multiple matches between `x` and `y`, all combinations
+> of the matches are returned.
 
 ![](images/left-join-extra.gif)
 
@@ -93,6 +102,9 @@ left_join(x, y_extra, by = "id")
 
 ### Right Join
 
+> All rows from y, and all columns from `x` and `y`. Rows in `y` with no
+> match in `x` will have `NA` values in the new columns.
+
 ![](images/right-join.gif)
 
 ``` r
@@ -106,6 +118,9 @@ right_join(x, y, by = "id")
 ```
 
 ### Full Join
+
+> All rows and all columns from both `x` and `y`. Where there are not
+> matching values, returns `NA` for the one missing.
 
 ![](images/full-join.gif)
 
@@ -124,6 +139,9 @@ full_join(x, y, by = "id")
 
 ### Semi Join
 
+> All rows from `x` where there are matching values in `y`, keeping just
+> columns from `x`.
+
 ![](images/semi-join.gif)
 
 ``` r
@@ -136,6 +154,9 @@ semi_join(x, y, by = "id")
 ```
 
 ### Anti Join
+
+> All rows from `x` where there are not matching values in `y`, keeping
+> just columns from `x`.
 
 ![](images/anti-join.gif)
 
