@@ -7,7 +7,7 @@ joined_df <- semi_join(x, y, "id") %>%
 extra_blocks <- inner_join(x, y, "id") %>%
   select(id) %>%
   proc_data("y") %>%
-  mutate(frame = 2)
+  mutate(frame = 2, .x = .x + 1)
 
 sj <- initial_dfs %>%
   bind_rows(joined_df, extra_blocks) %>%
