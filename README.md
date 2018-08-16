@@ -21,9 +21,21 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
       - [Relational Data](#relational-data)
       - [gganimate](#gganimate)
 
+Please feel free to use these images for teaching or learning about
+action verbs from the [tidyverse](https://tidyverse.org). You can
+directly download the [original animations](images/) or static images in
+[svg](images/svg/) or [png](images/png/) formats, or you can use the
+[scripts](R/) to recreate the images locally.
+
+Currently, the animations cover the [dplyr two-table
+verbs](https://dplyr.tidyverse.org/articles/two-table.html) and I’d like
+to expand the animations to include more verbs from the tidyverse.
+[Suggestions are
+welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
+
 ## Mutating Joins
 
-<img src="images/original-dfs.png" width="480px" />
+<img src="images/static/png/original-dfs.png" width="480px" />
 
 ``` r
 x
