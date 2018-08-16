@@ -24,8 +24,8 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
 Please feel free to use these images for teaching or learning about
 action verbs from the [tidyverse](https://tidyverse.org). You can
 directly download the [original animations](images/) or static images in
-[svg](images/svg/) or [png](images/png/) formats, or you can use the
-[scripts](R/) to recreate the images locally.
+[svg](images/static/svg/) or [png](images/static/png/) formats, or you
+can use the [scripts](R/) to recreate the images locally.
 
 Currently, the animations cover the [dplyr two-table
 verbs](https://dplyr.tidyverse.org/articles/two-table.html) and I’d like
