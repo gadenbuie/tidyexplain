@@ -35,4 +35,18 @@ animate_plot <- function(x) {
     exit_fade() +
     ease_aes("sine-in-out")
 }
+
+save_static_plot <- function(g, filename, formats = c("png", "svg")) {
+  filenames <- formats %>%
+    purrr::set_names() %>%
+    purrr::map_chr(static_plot_filename, x = filename) %>%
+    purrr::iwalk(
+      ~ ggsave(filename = .x, plot = g, dev = .y)
+    )
+}
+
+static_plot_filename <- function(x, ext) {
+  here::here("images", "static", ext, paste0(x, ".", ext))
+}
+
 options(tidy_verb_anim.functions_loaded = TRUE)

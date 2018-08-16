@@ -61,9 +61,10 @@ g_input <- proc_data(y_extra) %>%
   annotate("text", label = "↑ duplicate keys in y", x = 4.5, y = -4.75,
            family = "Fira Sans", color = "grey45")
 
-ggsave(g_input, file = here::here("images", "left-join-extra-input.png"))
+save_static_plot(g_input, "left-join-extra-input")
 
-left_join(x, y_extra, by = "id") %>%
+lj_g <- left_join(x, y_extra, by = "id") %>%
   proc_data() %>%
-  plot_data("left_join(x, y)") %>%
-  ggsave(file = here::here("images", "left-join-extra.png"))
+  plot_data("left_join(x, y)")
+
+save_static_plot(lj_g, "left-join-extra")

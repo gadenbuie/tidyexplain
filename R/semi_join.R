@@ -17,5 +17,9 @@ sj <- initial_dfs %>%
 sj <- animate(sj)
 anim_save(here::here("images", "semi-join.gif"), sj)
 
-plot_data(joined_df, "semi_join(x, y)") %>%
-  ggsave(file = here::here("images", "semi-join.png"))
+# Static Images
+sj_g <- semi_join(x, y, "id") %>%
+  proc_data() %>%
+  plot_data("semi_join(x, y)")
+
+save_static_plot(sj_g, "semi-join")

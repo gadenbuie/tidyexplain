@@ -21,7 +21,8 @@ fj <- initial_dfs %>%
 fj <- animate(fj)
 anim_save(here::here("images", "full-join.gif"), fj)
 
-full_join(x, y, "id") %>%
+fj_g <- full_join(x, y, "id") %>%
   proc_data() %>%
-  plot_data("full_join(x, y)") %>%
-  ggsave(file = here::here("images", "full-join.png"))
+  plot_data("full_join(x, y)")
+
+save_static_plot(fj_g, "full-join")
