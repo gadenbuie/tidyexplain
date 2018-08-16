@@ -18,3 +18,8 @@ ij <- initial_dfs %>%
 
 ij <- animate(ij)
 anim_save(here::here("images", "inner-join.gif"), ij)
+
+inner_join(x, y, by = "id") %>%
+  proc_data() %>%
+  plot_data("inner_join(x, y)") %>%
+  ggsave(file = here::here("images", "inner-join.png"))

@@ -18,3 +18,6 @@ lj <- initial_dfs %>%
 
 lj <- animate(lj)
 anim_save(here::here("images", "left-join.gif"), lj)
+
+plot_data(joined_dfs, "left_join(x, y)") %>%
+  ggsave(file = here::here("images", "left-join.png"))

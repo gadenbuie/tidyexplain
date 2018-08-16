@@ -44,3 +44,26 @@ lj_extra <- anim_df %>%
 
 lj_extra <- animate(lj_extra)
 anim_save(here::here("images", "left-join-extra.gif"), lj_extra)
+
+## Save static images
+df_names <- data_frame(
+  .x = c(1.5, 4.5), .y = 0.25,
+  value = c("x", "y"),
+  size = 12,
+  color = "black"
+)
+
+g_input <- proc_data(y_extra) %>%
+  mutate(.x = .x + 3) %>%
+  bind_rows(proc_data(x)) %>%
+  plot_data() +
+  geom_text(data = df_names, family = "Fira Mono", size = 24) +
+  annotate("text", label = "↑ duplicate keys in y", x = 4.5, y = -4.75,
+           family = "Fira Sans", color = "grey45")
+
+ggsave(g_input, file = here::here("images", "left-join-extra-input.png"))
+
+left_join(x, y_extra, by = "id") %>%
+  proc_data() %>%
+  plot_data("left_join(x, y)") %>%
+  ggsave(file = here::here("images", "left-join-extra.png"))

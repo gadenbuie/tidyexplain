@@ -33,3 +33,8 @@ aj <- initial_dfs %>%
 
 aj <- animate(aj)
 anim_save(here::here("images", "anti-join.gif"), aj)
+
+anti_join(x, y, by = "id") %>%
+  proc_data() %>%
+  plot_data("anti_join(x, y)") %>%
+  ggsave(file = here::here("images", "anti-join.png"))
