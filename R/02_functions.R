@@ -15,6 +15,20 @@ proc_data <- function(x, .id = "x") {
     )
 }
 
+proc_data2 <- function(x, .id = "x") {
+  colors <- scales::brewer_pal(type = "qual", "Set1")(max(x$id))
+  x %>%
+    mutate(.y = -row_number()) %>%
+    mutate(color = colors[id]) %>%
+    tidyr::gather("label", "value", -.y, -color) %>%
+    mutate(value = as.character(value)) %>%
+    group_by(.y) %>%
+    mutate(
+      .x = 1:n(),
+      .id = .id,
+    )
+}
+
 plot_data <- function(x, title = "") {
   ggplot(x) +
     aes(.x, .y, fill = color, label = value) +
