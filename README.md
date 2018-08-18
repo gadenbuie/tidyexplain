@@ -16,6 +16,9 @@ Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
   - Filtering Joins: [`semi_join()`](#semi-join),
     [`anti_join()`](#anti-join)
 
+  - Set Operations: [`union()`](#union), [`union_all()`](#union-all),
+    [`intersect()`](#intersect), [`setdiff()`](#setdiff)
+
   - Learn more about
     
       - [Relational Data](#relational-data)
@@ -179,6 +182,91 @@ anti_join(x, y, by = "id")
 #>      id x    
 #>   <int> <chr>
 #> 1     3 x3
+```
+
+## Set Operations
+
+<img src="images/static/png/original-dfs-so.png" width="480px" />
+
+``` r
+x
+#> # A tibble: 3 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y1   
+#> 2 x1    y2   
+#> 3 x2    y1
+y 
+#> # A tibble: 2 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y1   
+#> 2 x2    y2
+```
+
+### Union
+
+> All unique rows from `x` and `y`.
+
+![](images/union.gif)
+
+``` r
+union(x, y)
+#> # A tibble: 4 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y1   
+#> 2 x1    y2   
+#> 3 x2    y2   
+#> 4 x2    y1
+```
+
+### Union All
+
+> All rows from `x` and `y`, keeping duplicates.
+
+![](images/union_all.gif)
+
+``` r
+union_all(x, y)
+#> # A tibble: 5 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y1   
+#> 2 x1    y2   
+#> 3 x2    y1   
+#> 4 x1    y1   
+#> 5 x2    y2
+```
+
+### Intersection
+
+> Common rows in both `x` and `y`, keeping just unique rows.
+
+![](images/intersect.gif)
+
+``` r
+intersect(x, y)
+#> # A tibble: 1 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y1
+```
+
+### Set Difference
+
+> All rows from `x` which are not also rows in `y`, keeping just unique
+> rows.
+
+![](images/setdiff.gif)
+
+``` r
+setdiff(x, y)
+#> # A tibble: 2 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 x1    y2   
+#> 2 x2    y1
 ```
 
 ## Learn More

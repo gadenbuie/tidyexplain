@@ -6,7 +6,7 @@ union_df <-
     proc_data2(union_df, "x"),
     proc_data2(union_df, "y")
   ) %>%
-  filter(.id != "y" | (.id == "y" & .y == -4)) %>%
+  filter((.id != "y" & .y == -3) |  (.id == "y" )) %>%
   mutate(frame = 2, .x = .x + 2)
 
 u <-
