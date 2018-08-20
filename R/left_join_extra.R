@@ -1,4 +1,4 @@
-source(here::here("R/00_base.R"))
+source(here::here("R/00_base_join.R"))
 
 y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
 
@@ -65,6 +65,7 @@ save_static_plot(g_input, "left-join-extra-input")
 
 lj_g <- left_join(x, y_extra, by = "id") %>%
   proc_data() %>%
-  plot_data("left_join(x, y)")
+  mutate(.x = .x + 1) %>%
+  plot_data_join("left_join(x, y)", ylims = ylim(-4.5, -0.5))
 
 save_static_plot(lj_g, "left-join-extra")

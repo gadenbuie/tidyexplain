@@ -3,9 +3,6 @@
 # * garrickadenbuie.com
 # * MIT License: https://opensource.org/licenses/MIT
 
-# Note: I used Fira Sans and Fira Mono fonts.
-#       Use search and replace to use a different font if Fira is not available.
-
 library(tidyverse)
 library(gganimate)
 
@@ -19,6 +16,11 @@ if (!getOption("tidy_verb_anim.functions_loaded", FALSE)) {
 
 if (!dir.exists(here::here("images"))) dir.create(here::here("images"))
 
+plot_data_join <- function(x, title = "", xlims = xlim(0.5, 5.5), ylims = ylim(-3.5, -0.5)) {
+  plot_data(x, title) +
+    xlims + ylims
+}
+
 # Data ----
 x <- data_frame(
   id = 1:3,
@@ -30,6 +32,6 @@ y <- data_frame(
   y = paste0("y", (1:4)[-3])
 )
 
-initial_dfs <- proc_data(x, "x") %>%
+initial_join_dfs <- proc_data(x, "x") %>%
   bind_rows(mutate(proc_data(y, "y"), .x = .x + 3)) %>%
   mutate(frame = 1)
