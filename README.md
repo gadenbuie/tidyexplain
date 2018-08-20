@@ -9,7 +9,8 @@ contributed by [Tyler Grant
 Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
-[![CC0](https://img.shields.io/badge/license-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![CC0](https://img.shields.io/badge/license_\(images\)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![MIT](https://img.shields.io/badge/license_\(code\)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
   - Mutating Joins: [`inner_join()`](#inner-join),
     [`left_join()`](#left-join), [`right_join()`](#right-join),
