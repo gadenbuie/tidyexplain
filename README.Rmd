@@ -13,10 +13,6 @@ knitr::opts_chunk$set(
   message = FALSE,
   cache = TRUE
 )
-png_path <- file.path("images", "static", "png")
-svg_path <- file.path("images", "static", "svg")
-if (!dir.exists(png_path)) dir.create(png_path, recursive = TRUE)
-if (!dir.exists(svg_path)) dir.create(svg_path, recursive = TRUE)
 ```
 
 [gganimate]: https://github.com/thomasp85/gganimate#README

@@ -14,7 +14,7 @@ if (!getOption("tidy_verb_anim.functions_loaded", FALSE)) {
   source(here::here("R", "02_functions.R"))
 }
 
-if (!dir.exists(here::here("images"))) dir.create(here::here("images"))
+source(here::here("R", "03_check-folders.R"))
 
 plot_data_join <- function(x, title = "", xlims = xlim(0.5, 5.5), ylims = ylim(-3.5, -0.5)) {
   plot_data(x, title) +
