@@ -13,7 +13,7 @@ ua <- bind_rows(
 
 ua <- animate(ua)
 
-anim_save(here::here("images", "union_all.gif"), ua)
+anim_save(here::here("images", "union-all.gif"), ua)
 
 ua_g <- union_all(x, y) %>%
   proc_data_set() %>%

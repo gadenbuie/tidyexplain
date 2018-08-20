@@ -41,6 +41,7 @@ colorize_row_id <- function(df, n_colors, key_col = "id") {
 
 plot_data <- function(x, title = "") {
   if (!"alpha" %in% colnames(x)) x$alpha <- 1
+  if (!".width" %in% colnames(x)) x$`.width` <- 1
   ggplot(x) +
     aes(.x, .y, fill = color, label = value) +
     geom_tile(aes(width = .width, alpha = alpha), color = "white", size = 3) +
@@ -54,9 +55,9 @@ plot_data <- function(x, title = "") {
     guides(fill = FALSE)
 }
 
-animate_plot <- function(x) {
+animate_plot <- function(x, transition_length = 2, state_length = 1) {
   x +
-    transition_states(frame, transition_length = 2, state_length = 1) +
+    transition_states(frame, transition_length, state_length) +
     enter_fade() +
     exit_fade() +
     ease_aes("sine-in-out")
