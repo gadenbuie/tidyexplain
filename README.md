@@ -4,7 +4,9 @@
 # Tidy Animated Verbs
 
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
-[garrickadenbuie.com](https://www.garrickadenbuie.com)
+[garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations
+contributed by [Tyler Grant
+Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
 [![CC0](https://img.shields.io/badge/license-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
@@ -186,22 +188,22 @@ anti_join(x, y, by = "id")
 
 ## Set Operations
 
-<img src="images/static/png/original-dfs-so.png" width="480px" />
+<img src="images/static/png/original-dfs-set-ops.png" width="480px" />
 
 ``` r
 x
 #> # A tibble: 3 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y1   
-#> 2 x1    y2   
-#> 3 x2    y1
+#> 1 1     a    
+#> 2 1     b    
+#> 3 2     a
 y 
 #> # A tibble: 2 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y1   
-#> 2 x2    y2
+#> 1 1     a    
+#> 2 2     b
 ```
 
 ### Union
@@ -215,28 +217,41 @@ union(x, y)
 #> # A tibble: 4 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y1   
-#> 2 x1    y2   
-#> 3 x2    y2   
-#> 4 x2    y1
+#> 1 2     b    
+#> 2 2     a    
+#> 3 1     b    
+#> 4 1     a
+```
+
+![](images/union-rev.gif)
+
+``` r
+union(y, x)
+#> # A tibble: 4 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 2     a    
+#> 2 1     b    
+#> 3 2     b    
+#> 4 1     a
 ```
 
 ### Union All
 
 > All rows from `x` and `y`, keeping duplicates.
 
-![](images/union_all.gif)
+![](images/union-all.gif)
 
 ``` r
 union_all(x, y)
 #> # A tibble: 5 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y1   
-#> 2 x1    y2   
-#> 3 x2    y1   
-#> 4 x1    y1   
-#> 5 x2    y2
+#> 1 1     a    
+#> 2 1     b    
+#> 3 2     a    
+#> 4 1     a    
+#> 5 2     b
 ```
 
 ### Intersection
@@ -250,7 +265,7 @@ intersect(x, y)
 #> # A tibble: 1 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y1
+#> 1 1     a
 ```
 
 ### Set Difference
@@ -265,8 +280,18 @@ setdiff(x, y)
 #> # A tibble: 2 x 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 x1    y2   
-#> 2 x2    y1
+#> 1 1     b    
+#> 2 2     a
+```
+
+![](images/setdiff-rev.gif)
+
+``` r
+setdiff(y, x)
+#> # A tibble: 1 x 2
+#>   x     y    
+#>   <chr> <chr>
+#> 1 2     b
 ```
 
 ## Learn More
