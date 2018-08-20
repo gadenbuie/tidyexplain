@@ -1,28 +1,23 @@
-source(here::here("R/03_base2.R"))
+source(here::here("R/00_base_set.R"))
 
-ua_df <- union_all(x,y) # %>% arrange(id)
-ua_df <-
-  bind_rows(
-    proc_data2(ua_df, "x"),
-    proc_data2(ua_df, "y")
-  ) %>%
- filter(!(.id == "x" & .y %in% c(-4,-5) ) & !(.id == "y" & .y %in% c(-1,-2,-3))) %>%
-  mutate(frame = 2, .x = .x + 2)
-
-ua <-
-  initial_dfs %>%
-  bind_rows(ua_df) %>%
+ua <- bind_rows(
+  initial_set_dfs,
+  initial_set_dfs %>% mutate(frame = 2, .y = ifelse(.id == "y", .y - 3, .y)), # fly y down
+  proc_data_set(x, "ux") %>% mutate(frame = 3, .x = .x + 1.5),                # merge
+  proc_data_set(y, "uy") %>% mutate(frame = 3, .x = .x + 1.5, .y = .y - 3),   # un-merge
+  initial_set_dfs %>% mutate(frame = 4, .y = ifelse(.id == "y", .y - 3, .y))  # fly y up
+) %>%
   arrange(desc(frame)) %>%
-  filter(!(label %in% c("id","id2"))) %>%
-  plot_data("union_all(x, y)") %>%
-  animate_plot()
+  plot_data_set("union_all(x, y)", ylims = ylim(-5.5, -0.5)) +
+  transition_states(frame, 1, c(1, 0, 1, 0))
 
 ua <- animate(ua)
-ua
+
 anim_save(here::here("images", "union_all.gif"), ua)
 
-ua_g <- union_all(x, y) %>% # %>% arrange(id)
-  proc_data2() %>%  filter(label != "id") %>%
-  plot_data("union_all(x, y)")
+ua_g <- union_all(x, y) %>%
+  proc_data_set() %>%
+  mutate(.x = .x + 1.5) %>%
+  plot_data_set("union_all(x, y)", ylims = ylim(-5.5, -0.5))
 
-save_static_plot(ua_g, "union_all")
+save_static_plot(ua_g, "union-all")

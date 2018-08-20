@@ -1,49 +1,102 @@
-source(here::here("R/03_base2.R"))
+source(here::here("R/00_base_set.R"))
 
-step2 <- initial_dfs %>%
-  filter(.id == "x" | (.id == "y" & .y == -1)) %>%
+# ---- setdiff(x, y) ----
+
+# Dim elements unique to y
+setd_step2 <- initial_set_dfs %>%
   mutate(
     frame = 2,
-    .x = ifelse(.id == "y", .x - 4, .x),
-    .x = .x + 2
+    alpha = case_when(
+      .y == -1 ~ 0.55,
+      .id == "y" ~ 0.15,
+      TRUE ~ 1
+    )
   )
 
-step3 <- step2 %>%
-  filter(.y != -1) %>%
-  ungroup() %>%
-  mutate(frame = 3, .y = .y+1)
+# Merge, dim overlapping elements
+setd_step3 <- initial_set_dfs %>%
+  filter(!(.id == "y" & .y == -2)) %>%
+  mutate(
+    frame = 3,
+    alpha = ifelse(.y == -1, 0.25, 1),
+    .x = ifelse(.id == "y", .x - 3, .x),
+    .x = .x + 1.5
+  )
 
-sd_df <- setdiff(x,y)
-step4 <-
-  bind_rows(
-    proc_data2(sd_df, "x"),
-    proc_data2(sd_df, "y")
-  ) %>%
-  filter(.id == "x") %>%
-  mutate(frame = 4, .x = .x + 2)
+# Result of setdiff
+setd_step4 <- setdiff(x, y) %>%
+  proc_data_set("xy") %>%
+  mutate(frame = 4, .x = .x + 1.5)
 
-sd <-
-  initial_dfs %>%
-  bind_rows(step2, step3, step4) %>%
-  arrange(desc(frame)) %>%
-  filter(label != "id") %>%
-  mutate(alpha = case_when(
-    frame == 2 & .y == -1 ~ 0.25,
-    TRUE ~ 1
-  )) %>%
-  {
-    plot_data(., "setdiff(x, y)") +
-      aes(alpha = alpha) +
-      scale_alpha_identity()
-  } %>%
+setd <- bind_rows(
+  initial_set_dfs,
+  setd_step2,
+  setd_step3,
+  setd_step4
+) %>%
+  mutate(alpha = ifelse(is.na(alpha), 1, alpha)) %>%
+  arrange(frame, desc(.y), desc(.id)) %>%
+  plot_data_set(., "setdiff(x, y)") %>%
   animate_plot()
 
-sd <- animate(sd)
+setd <- animate(setd)
 
-anim_save(here::here("images", "setdiff.gif"), sd)
+anim_save(here::here("images", "setdiff.gif"), setd)
 
-sd_g <- setdiff(x, y) %>%
-  proc_data2() %>% filter(label != "id") %>%
-  plot_data("setdiff(x, y)")
+setd_g <- setdiff(x, y) %>%
+  proc_data_set() %>%
+  mutate(.x = .x + 1.5) %>%
+  plot_data_set("setdiff(x, y)")
 
-save_static_plot(sd_g, "setdiff")
+save_static_plot(setd_g, "setdiff")
+
+
+# ---- setdiff(y, x) ----
+
+# Dim elements unique to x
+setd2_step2 <- initial_set_dfs %>%
+  mutate(
+    frame = 2,
+    alpha = case_when(
+      .y == -1 ~ 0.55,
+      .id == "x" ~ 0.15,
+      TRUE ~ 1
+    )
+  )
+
+# Merge, dim overlapping elements
+setd2_step3 <- initial_set_dfs %>%
+  filter(!(.id == "x" & .y <= -2)) %>%
+  mutate(
+    frame = 3,
+    alpha = ifelse(.y == -1, 0.25, 1),
+    .x = ifelse(.id == "y", .x - 3, .x),
+    .x = .x + 1.5
+  )
+
+# Result of setdiff
+setd2_step4 <- setdiff(y, x) %>%
+  proc_data_set("xy") %>%
+  mutate(frame = 4, .x = .x + 1.5)
+
+setd2 <- bind_rows(
+  initial_set_dfs,
+  setd2_step2,
+  setd2_step3,
+  setd2_step4
+) %>%
+  mutate(alpha = ifelse(is.na(alpha), 1, alpha)) %>%
+  arrange(frame, desc(.y), .id) %>%
+  plot_data_set(., "setdiff(y, x)") %>%
+  animate_plot()
+
+setd2 <- animate(setd2)
+
+anim_save(here::here("images", "setdiff-rev.gif"), setd2)
+
+setd2_g <- setdiff(x, y) %>%
+  proc_data_set() %>%
+  mutate(.x = .x + 1.5) %>%
+  plot_data_set("setdiff(y, x)")
+
+save_static_plot(setd2_g, "setdiff-rev")

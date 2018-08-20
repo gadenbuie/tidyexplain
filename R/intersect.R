@@ -1,28 +1,28 @@
-source(here::here("R/03_base2.R"))
+source(here::here("R/00_base_set.R"))
 
-is_df <- intersect(x,y)
-step2 <-
+ins_df <- intersect(x,y)
+ins_step2 <-
   bind_rows(
-    proc_data2(is_df, "x"),
-    proc_data2(is_df, "y")
+    proc_data_set(ins_df, "x"),
+    proc_data_set(ins_df, "y")
   ) %>%
   filter(.y == -1) %>%
-  mutate(frame = 2, .x = .x + 2)
+  mutate(frame = 2, .x = .x + 1.5)
 
-is <-
-  initial_dfs %>%
-  bind_rows(step2) %>%
+ins <-
+  initial_set_dfs %>%
+  bind_rows(ins_step2) %>%
   arrange(desc(frame)) %>%
-  filter(!(label == "id")) %>%
-  plot_data("intersect(x, y)") %>%
+  plot_data_set("intersect(x, y)") %>%
   animate_plot()
 
-is <- animate(is)
+ins <- animate(ins)
 
-anim_save(here::here("images", "intersect.gif"), is)
+anim_save(here::here("images", "intersect.gif"), ins)
 
-is_g <- intersect(x, y) %>%
-  proc_data2() %>%  filter(label != "id") %>%
-  plot_data("intersect(x, y)")
+ins_g <- intersect(x, y) %>%
+  proc_data_set() %>%
+  mutate(.x = .x + 1.5) %>%
+  plot_data_set("intersect(x, y)")
 
-save_static_plot(is_g, "intersect")
+save_static_plot(ins_g, "intersect")

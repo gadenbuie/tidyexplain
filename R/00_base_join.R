@@ -3,9 +3,6 @@
 # * garrickadenbuie.com
 # * MIT License: https://opensource.org/licenses/MIT
 
-# Note: I used Fira Sans and Fira Mono fonts.
-#       Use search and replace to use a different font if Fira is not available.
-
 library(tidyverse)
 library(gganimate)
 
@@ -20,20 +17,16 @@ if (!getOption("tidy_verb_anim.functions_loaded", FALSE)) {
 if (!dir.exists(here::here("images"))) dir.create(here::here("images"))
 
 # Data ----
-
-x <- tibble::tribble(
-  ~id,   ~x,    ~y,
-  1,  "x1",  "y1",
-  2,  "x1",  "y2",
-  3,  "x2",  "y1"
+x <- data_frame(
+  id = 1:3,
+  x = paste0("x", 1:3)
 )
 
-y <- tibble::tribble(
-  ~id, ~x, ~y,
-  1,  "x1",  "y1",
-  4,  "x2",  "y2"
+y <- data_frame(
+  id = (1:4)[-3],
+  y = paste0("y", (1:4)[-3])
 )
 
-initial_dfs <- proc_data2(x, "x") %>%
-  bind_rows(mutate(proc_data2(y, "y"), .x = .x + 4)) %>%
+initial_dfs <- proc_data(x, "x") %>%
+  bind_rows(mutate(proc_data(y, "y"), .x = .x + 3)) %>%
   mutate(frame = 1)
