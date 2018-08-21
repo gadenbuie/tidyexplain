@@ -22,6 +22,8 @@ Smith](https://github.com/TylerGrantSmith).
   - Set Operations: [`union()`](#union), [`union_all()`](#union-all),
     [`intersect()`](#intersect), [`setdiff()`](#setdiff)
 
+  - Tidy Data: [`spread()` and `gather()`](#spread-and-gather)
+
   - Learn more about
     
       - [Relational Data](#relational-data)
@@ -293,6 +295,43 @@ setdiff(y, x)
 #>   x     y    
 #>   <chr> <chr>
 #> 1 2     b
+```
+
+## Tidy Data
+
+![](images/static/png/original-dfs-tidy.png)
+
+### Spread and Gather
+
+`spread(data, key, value)`
+
+> Spread a key-value pair across multiple columns.
+
+`gather(data, key = "key", value = "value", ...)`
+
+> Gather takes multiple columns and collapses into key-value pairs,
+> duplicating all other columns as needed. You use `gather()` when you
+> notice that you have columns that are not variables.
+
+![](images/tidyr-spread-gather.gif)
+
+``` r
+gather(wide, key, val, x:z)
+#> # A tibble: 6 x 3
+#>      id key   val  
+#>   <int> <chr> <chr>
+#> 1     1 x     a    
+#> 2     2 x     b    
+#> 3     1 y     c    
+#> 4     2 y     d    
+#> 5     1 z     e    
+#> 6     2 z     f
+spread(long, key, val)
+#> # A tibble: 2 x 4
+#>      id x     y     z    
+#>   <int> <chr> <chr> <chr>
+#> 1     1 a     c     e    
+#> 2     2 b     d     f
 ```
 
 ## Learn More

@@ -33,6 +33,9 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
 - Filtering Joins: [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
 - Set Operations: [`union()`](#union), [`union_all()`](#union-all), [`intersect()`](#intersect), [`setdiff()`](#setdiff)
+
+- Tidy Data: [`spread()` and `gather()`](#spread-and-gather)
+
 - Learn more about
     - [Relational Data](#relational-data)
     - [gganimate](#gganimate)
@@ -270,6 +273,45 @@ setdiff(x, y)
 
 ```{r echo=TRUE}
 setdiff(y, x)
+```
+
+## Tidy Data
+
+```{r tidyr-wide-long}
+source("R/tidyr_spread_gather.R")
+
+tidy_plots <- list()
+tidy_plots$wide <- bind_rows(sg_wide, sg_wide_labels)
+tidy_plots$long <- bind_rows(sg_long, sg_long_labels)
+
+tidy_plots <- map(tidy_plots, ~ mutate(., 
+  .text_color = ifelse(grepl("id|key|val", value), "black", "white"),
+  .text_size  = ifelse(grepl("id|key|val", value), 6, 10)
+)) %>% 
+  imap(~ plot_data(.x, .y))
+
+tidy_plots$wide <- tidy_plots$wide + ylim(-6.5, 0.5)
+
+save_static_plot(cowplot::plot_grid(plotlist = tidy_plots, axis = "t"), "original-dfs-tidy")
+```
+
+![](images/static/png/original-dfs-tidy.png)
+
+### Spread and Gather
+
+`spread(data, key, value)`
+
+> Spread a key-value pair across multiple columns.
+
+`gather(data, key = "key", value = "value", ...)`
+
+> Gather takes multiple columns and collapses into key-value pairs, duplicating all other columns as needed. You use `gather()` when you notice that you have columns that are not variables.
+
+![](images/tidyr-spread-gather.gif)
+
+```{r echo=TRUE}
+gather(wide, key, val, x:z)
+spread(long, key, val)
 ```
 
 ## Learn More
