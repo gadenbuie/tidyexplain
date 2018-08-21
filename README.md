@@ -28,8 +28,13 @@ Smith](https://github.com/TylerGrantSmith).
 
   - Learn more about
     
+      - [Using the animations and images](#usage)
       - [Relational Data](#relational-data)
       - [gganimate](#gganimate)
+
+## Background
+
+### Usage
 
 Please feel free to use these images for teaching or learning about
 action verbs from the [tidyverse](https://tidyverse.org). You can
@@ -42,6 +47,28 @@ verbs](https://dplyr.tidyverse.org/articles/two-table.html) and I’d like
 to expand the animations to include more verbs from the tidyverse.
 [Suggestions are
 welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
+
+### Relational Data
+
+The [Relational Data](http://r4ds.had.co.nz/relation-data.html) chapter
+of the [R for Data Science](http://r4ds.had.co.nz/) book by Garrett
+Grolemund and Hadley Wickham is an excellent resource for learning more
+about relational data.
+
+The [dplyr two-table verbs
+vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
+Bryan’s [Cheatsheet for dplyr join
+functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
+great resources.
+
+### gganimate
+
+The animations were made possible by the newly re-written
+[gganimate](https://github.com/thomasp85/gganimate#README) package by
+[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
+Robinson](https://github.com/dgrtwo)). The [package
+readme](https://github.com/thomasp85/gganimate#README) provides an
+excellent (and quick) introduction to gganimte.
 
 ## Mutating Joins
 
@@ -354,27 +381,3 @@ spread(long, key, val)
 #> 1     1 a     c     e    
 #> 2     2 b     d     f
 ```
-
-## Learn More
-
-### Relational Data
-
-The [Relational Data](http://r4ds.had.co.nz/relation-data.html) chapter
-of the [R for Data Science](http://r4ds.had.co.nz/) book by Garrett
-Grolemund and Hadley Wickham is an excellent resource for learning more
-about relational data.
-
-The [dplyr two-table verbs
-vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
-Bryan’s [Cheatsheet for dplyr join
-functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
-great resources.
-
-### gganimate
-
-The animations were made possible by the newly re-written
-[gganimate](https://github.com/thomasp85/gganimate#README) package by
-[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
-Robinson](https://github.com/dgrtwo)). The [package
-readme](https://github.com/thomasp85/gganimate#README) provides an
-excellent (and quick) introduction to gganimte.
