@@ -39,15 +39,49 @@ colorize_row_id <- function(df, n_colors, key_col = "id") {
   df
 }
 
+colorize_wide_tidyr <- function(df, n_colors, key_col = "id") {
+  n_colors <- n_colors + length(setdiff(unique(df$label), key_col))
+  colors <- scales::brewer_pal(type = "qual", "Set1")(n_colors)
+
+  df$value_int <- as.integer(gsub("[a-zA-Z]", "0", df$value))
+  max_id_color <- max(df$value_int)
+
+  df %>%
+    bind_rows(
+      filter(df, .y == "-1") %>% mutate(.y = 0)
+    ) %>%
+    mutate(
+      idcp = max_id_color - 1L,
+      idc = case_when(
+        label == "id" ~ value_int,
+        TRUE ~ map_int(label, ~which(. == unique(label))) + idcp
+      )
+    ) %>%
+    select(-idcp, -value_int) %>%
+    mutate(
+      idc   = ifelse(.y == 0 & label == "id", 100, idc),
+      value = ifelse(.y == 0, label, value),
+      .id   = ifelse(.y == 0, "n", .id),
+      color = colors[idc],
+    ) %>%
+    filter(!is.na(color)) %>%
+    mutate(alpha = ifelse(label != "id" & .y < 0, 0.6, 1.0)) %>%
+    select(-idc)
+}
+
 plot_data <- function(x, title = "") {
   if (!"alpha" %in% colnames(x)) x$alpha <- 1
   if (!".width" %in% colnames(x)) x$`.width` <- 1
+  if (!".text_color" %in% colnames(x)) x$`.text_color` <- "white"
+  if (!".text_size" %in% colnames(x)) x$`.text_size` <- 12
   ggplot(x) +
     aes(.x, .y, fill = color, label = value) +
     geom_tile(aes(width = .width, alpha = alpha), color = "white", size = 3) +
-    geom_text(aes(x = .x), hjust = 0.5, size = 12, family = "Fira Sans", color = "white") +
+    geom_text(aes(x = .x, color = .text_color, size = .text_size), hjust = 0.5, family = "Fira Sans") +
     scale_fill_identity() +
     scale_alpha_identity() +
+    scale_color_identity() +
+    scale_size_identity() +
     coord_equal() +
     ggtitle(title) +
     theme_void() +
