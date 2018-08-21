@@ -12,17 +12,19 @@ Smith](https://github.com/TylerGrantSmith).
 [![CC0](https://img.shields.io/badge/license_\(images\)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_\(code\)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-  - Mutating Joins: [`inner_join()`](#inner-join),
-    [`left_join()`](#left-join), [`right_join()`](#right-join),
-    [`full_join()`](#full-join)
+  - [**Mutating Joins**](#mutating-joins) —
+    [`inner_join()`](#inner-join), [`left_join()`](#left-join),
+    [`right_join()`](#right-join), [`full_join()`](#full-join)
 
-  - Filtering Joins: [`semi_join()`](#semi-join),
-    [`anti_join()`](#anti-join)
+  - [**Filtering Joins**](#filtering-joins) —
+    [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
-  - Set Operations: [`union()`](#union), [`union_all()`](#union-all),
-    [`intersect()`](#intersect), [`setdiff()`](#setdiff)
+  - [**Set Operations**](#set-operations) — [`union()`](#union),
+    [`union_all()`](#union-all), [`intersect()`](#intersect),
+    [`setdiff()`](#setdiff)
 
-  - Tidy Data: [`spread()` and `gather()`](#spread-and-gather)
+  - [**Tidy Data**](#tidy-data) — [`spread()` and
+    `gather()`](#spread-and-gather)
 
   - Learn more about
     
@@ -300,6 +302,25 @@ setdiff(y, x)
 ## Tidy Data
 
 ![](images/static/png/original-dfs-tidy.png)
+
+``` r
+wide
+#> # A tibble: 2 x 4
+#>      id x     y     z    
+#>   <int> <chr> <chr> <chr>
+#> 1     1 a     c     e    
+#> 2     2 b     d     f
+long
+#> # A tibble: 6 x 3
+#>      id key   val  
+#>   <int> <chr> <chr>
+#> 1     1 x     a    
+#> 2     2 x     b    
+#> 3     1 y     c    
+#> 4     2 y     d    
+#> 5     1 z     e    
+#> 6     2 z     f
+```
 
 ### Spread and Gather
 

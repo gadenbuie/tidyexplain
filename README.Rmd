@@ -27,14 +27,14 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
 [![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_(code)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-- Mutating Joins: [`inner_join()`](#inner-join), [`left_join()`](#left-join),
+- [**Mutating Joins**](#mutating-joins) — [`inner_join()`](#inner-join), [`left_join()`](#left-join),
   [`right_join()`](#right-join), [`full_join()`](#full-join)
   
-- Filtering Joins: [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
+- [**Filtering Joins**](#filtering-joins) — [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
-- Set Operations: [`union()`](#union), [`union_all()`](#union-all), [`intersect()`](#intersect), [`setdiff()`](#setdiff)
+- [**Set Operations**](#set-operations) — [`union()`](#union), [`union_all()`](#union-all), [`intersect()`](#intersect), [`setdiff()`](#setdiff)
 
-- Tidy Data: [`spread()` and `gather()`](#spread-and-gather)
+- [**Tidy Data**](#tidy-data) — [`spread()` and `gather()`](#spread-and-gather)
 
 - Learn more about
     - [Relational Data](#relational-data)
@@ -296,6 +296,11 @@ save_static_plot(cowplot::plot_grid(plotlist = tidy_plots, axis = "t"), "origina
 ```
 
 ![](images/static/png/original-dfs-tidy.png)
+
+```{r echo=TRUE}
+wide
+long
+```
 
 ### Spread and Gather
 
