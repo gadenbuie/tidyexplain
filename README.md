@@ -50,10 +50,10 @@ welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
 ### Relational Data
 
-The [Relational Data](http://r4ds.had.co.nz/relation-data.html) chapter
-of the [R for Data Science](http://r4ds.had.co.nz/) book by Garrett
-Grolemund and Hadley Wickham is an excellent resource for learning more
-about relational data.
+The [Relational Data](http://r4ds.had.co.nz/relational-data.html)
+chapter of the [R for Data Science](http://r4ds.had.co.nz/) book by
+Garrett Grolemund and Hadley Wickham is an excellent resource for
+learning more about relational data.
 
 The [dplyr two-table verbs
 vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
@@ -71,6 +71,12 @@ readme](https://github.com/thomasp85/gganimate#README) provides an
 excellent (and quick) introduction to gganimte.
 
 ## Mutating Joins
+
+> A mutating join allows you to combine variables from two tables. It
+> first matches observations by their keys, then copies across variables
+> from one table to the other.  
+> [R for Data Science: Mutating
+> joins](http://r4ds.had.co.nz/relational-data.html#mutating-joins)
 
 <img src="images/static/png/original-dfs.png" width="480px" />
 
@@ -187,6 +193,13 @@ full_join(x, y, by = "id")
 
 ## Filtering Joins
 
+> Filtering joins match observations in the same way as mutating joins,
+> but affect the observations, not the variables. … Semi-joins are
+> useful for matching filtered summary tables back to the original rows.
+> … Anti-joins are useful for diagnosing join mismatches.  
+> [R for Data Science: Filtering
+> Joins](http://r4ds.had.co.nz/relational-data.html#filtering-joins)
+
 ### Semi Join
 
 > All rows from `x` where there are matching values in `y`, keeping just
@@ -219,6 +232,14 @@ anti_join(x, y, by = "id")
 ```
 
 ## Set Operations
+
+> Set operations are occasionally useful when you want to break a single
+> complex filter into simpler pieces. All these operations work with a
+> complete row, comparing the values of every variable. These expect the
+> x and y inputs to have the same variables, and treat the observations
+> like sets.  
+> [R for Data Science: Set
+> operations](http://r4ds.had.co.nz/relational-data.html#set-operations)
 
 <img src="images/static/png/original-dfs-set-ops.png" width="480px" />
 
@@ -328,6 +349,18 @@ setdiff(y, x)
 
 ## Tidy Data
 
+[Tidy data](http://r4ds.had.co.nz/tidy-data.html#tidy-data-1) follows
+the following three rules:
+
+1.  Each variable has its own column.
+2.  Each observation has its own row.
+3.  Each value has its own cell.
+
+Many of the tools in the [tidyverse](https://tidyverse.org) expect data
+to be formatted as a tidy dataset and the
+[tidyr](https://tidyr.tidyverse.org) package provides functions to help
+you organize your data into tidy data.
+
 ![](images/static/png/original-dfs-tidy.png)
 
 ``` r
@@ -353,13 +386,15 @@ long
 
 `spread(data, key, value)`
 
-> Spread a key-value pair across multiple columns.
+> Spread a key-value pair across multiple columns. Use it when an a
+> column contains observations from multiple variables.
 
 `gather(data, key = "key", value = "value", ...)`
 
 > Gather takes multiple columns and collapses into key-value pairs,
 > duplicating all other columns as needed. You use `gather()` when you
-> notice that you have columns that are not variables.
+> notice that your column names are not names of variables, but *values*
+> of a variable.
 
 ![](images/tidyr-spread-gather.gif)
 
