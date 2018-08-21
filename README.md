@@ -12,22 +12,29 @@ Smith](https://github.com/TylerGrantSmith).
 [![CC0](https://img.shields.io/badge/license_\(images\)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_\(code\)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-  - Mutating Joins: [`inner_join()`](#inner-join),
-    [`left_join()`](#left-join), [`right_join()`](#right-join),
-    [`full_join()`](#full-join)
+  - [**Mutating Joins**](#mutating-joins) —
+    [`inner_join()`](#inner-join), [`left_join()`](#left-join),
+    [`right_join()`](#right-join), [`full_join()`](#full-join)
 
-  - Filtering Joins: [`semi_join()`](#semi-join),
-    [`anti_join()`](#anti-join)
+  - [**Filtering Joins**](#filtering-joins) —
+    [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
-  - Set Operations: [`union()`](#union), [`union_all()`](#union-all),
-    [`intersect()`](#intersect), [`setdiff()`](#setdiff)
+  - [**Set Operations**](#set-operations) — [`union()`](#union),
+    [`union_all()`](#union-all), [`intersect()`](#intersect),
+    [`setdiff()`](#setdiff)
 
-  - Tidy Data: [`spread()` and `gather()`](#spread-and-gather)
+  - [**Tidy Data**](#tidy-data) — [`spread()` and
+    `gather()`](#spread-and-gather)
 
   - Learn more about
     
+      - [Using the animations and images](#usage)
       - [Relational Data](#relational-data)
       - [gganimate](#gganimate)
+
+## Background
+
+### Usage
 
 Please feel free to use these images for teaching or learning about
 action verbs from the [tidyverse](https://tidyverse.org). You can
@@ -41,7 +48,35 @@ to expand the animations to include more verbs from the tidyverse.
 [Suggestions are
 welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
+### Relational Data
+
+The [Relational Data](http://r4ds.had.co.nz/relational-data.html)
+chapter of the [R for Data Science](http://r4ds.had.co.nz/) book by
+Garrett Grolemund and Hadley Wickham is an excellent resource for
+learning more about relational data.
+
+The [dplyr two-table verbs
+vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
+Bryan’s [Cheatsheet for dplyr join
+functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
+great resources.
+
+### gganimate
+
+The animations were made possible by the newly re-written
+[gganimate](https://github.com/thomasp85/gganimate#README) package by
+[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
+Robinson](https://github.com/dgrtwo)). The [package
+readme](https://github.com/thomasp85/gganimate#README) provides an
+excellent (and quick) introduction to gganimte.
+
 ## Mutating Joins
+
+> A mutating join allows you to combine variables from two tables. It
+> first matches observations by their keys, then copies across variables
+> from one table to the other.  
+> [R for Data Science: Mutating
+> joins](http://r4ds.had.co.nz/relational-data.html#mutating-joins)
 
 <img src="images/static/png/original-dfs.png" width="480px" />
 
@@ -158,6 +193,13 @@ full_join(x, y, by = "id")
 
 ## Filtering Joins
 
+> Filtering joins match observations in the same way as mutating joins,
+> but affect the observations, not the variables. … Semi-joins are
+> useful for matching filtered summary tables back to the original rows.
+> … Anti-joins are useful for diagnosing join mismatches.  
+> [R for Data Science: Filtering
+> Joins](http://r4ds.had.co.nz/relational-data.html#filtering-joins)
+
 ### Semi Join
 
 > All rows from `x` where there are matching values in `y`, keeping just
@@ -190,6 +232,14 @@ anti_join(x, y, by = "id")
 ```
 
 ## Set Operations
+
+> Set operations are occasionally useful when you want to break a single
+> complex filter into simpler pieces. All these operations work with a
+> complete row, comparing the values of every variable. These expect the
+> x and y inputs to have the same variables, and treat the observations
+> like sets.  
+> [R for Data Science: Set
+> operations](http://r4ds.had.co.nz/relational-data.html#set-operations)
 
 <img src="images/static/png/original-dfs-set-ops.png" width="480px" />
 
@@ -299,19 +349,52 @@ setdiff(y, x)
 
 ## Tidy Data
 
+[Tidy data](http://r4ds.had.co.nz/tidy-data.html#tidy-data-1) follows
+the following three rules:
+
+1.  Each variable has its own column.
+2.  Each observation has its own row.
+3.  Each value has its own cell.
+
+Many of the tools in the [tidyverse](https://tidyverse.org) expect data
+to be formatted as a tidy dataset and the
+[tidyr](https://tidyr.tidyverse.org) package provides functions to help
+you organize your data into tidy data.
+
 ![](images/static/png/original-dfs-tidy.png)
+
+``` r
+wide
+#> # A tibble: 2 x 4
+#>      id x     y     z    
+#>   <int> <chr> <chr> <chr>
+#> 1     1 a     c     e    
+#> 2     2 b     d     f
+long
+#> # A tibble: 6 x 3
+#>      id key   val  
+#>   <int> <chr> <chr>
+#> 1     1 x     a    
+#> 2     2 x     b    
+#> 3     1 y     c    
+#> 4     2 y     d    
+#> 5     1 z     e    
+#> 6     2 z     f
+```
 
 ### Spread and Gather
 
 `spread(data, key, value)`
 
-> Spread a key-value pair across multiple columns.
+> Spread a key-value pair across multiple columns. Use it when an a
+> column contains observations from multiple variables.
 
 `gather(data, key = "key", value = "value", ...)`
 
 > Gather takes multiple columns and collapses into key-value pairs,
 > duplicating all other columns as needed. You use `gather()` when you
-> notice that you have columns that are not variables.
+> notice that your column names are not names of variables, but *values*
+> of a variable.
 
 ![](images/tidyr-spread-gather.gif)
 
@@ -333,27 +416,3 @@ spread(long, key, val)
 #> 1     1 a     c     e    
 #> 2     2 b     d     f
 ```
-
-## Learn More
-
-### Relational Data
-
-The [Relational Data](http://r4ds.had.co.nz/relation-data.html) chapter
-of the [R for Data Science](http://r4ds.had.co.nz/) book by Garrett
-Grolemund and Hadley Wickham is an excellent resource for learning more
-about relational data.
-
-The [dplyr two-table verbs
-vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
-Bryan’s [Cheatsheet for dplyr join
-functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
-great resources.
-
-### gganimate
-
-The animations were made possible by the newly re-written
-[gganimate](https://github.com/thomasp85/gganimate#README) package by
-[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
-Robinson](https://github.com/dgrtwo)). The [package
-readme](https://github.com/thomasp85/gganimate#README) provides an
-excellent (and quick) introduction to gganimte.
