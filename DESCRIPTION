@@ -9,8 +9,10 @@ Description: This package allows to visualise the verbs of dplyr and tidyr
 License: CC0-1.0
 Depends: tidyverse,
     gganimate (>= 0.9.9.9999)
+Imports: scales
 RoxygenNote: 6.1.0
 Suggests: 
-    knitr
+    knitr,
+    viridis
 VignetteBuilder: knitr
 Encoding: UTF-8
