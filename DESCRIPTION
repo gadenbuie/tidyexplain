@@ -3,7 +3,10 @@ Type: Package
 Title: Animate Tidy Verbs
 Version: 0.1
 Date: 2018-08-19
-Author: Name
+Authors@R: c(
+    person("Aden-Buie", "Garrick", , "g.adenbuie@gmail.com", c("aut", "cre")),
+    person("Zimmermann", "David", , "david_j_zimmermann@hotmail.com", "aut")
+)
 Maintainer: Name <email@email.com>
 Description: This package allows to visualise the verbs of dplyr and tidyr
 License: CC0-1.0
