@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' NULL
-preprocess_data <- function(x, y, by, fill = TRUE, ...) {
+process_join <- function(x, y, by, fill = TRUE, ...) {
 
   #' test for
   #' a <- c("unique", "mult", "mult", "also unique")
@@ -34,8 +34,8 @@ preprocess_data <- function(x, y, by, fill = TRUE, ...) {
   ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
                       y %>% dplyr::select(.id, .id_long))
 
-  x_ <- process_data(x, ids, by, fill = fill, ...)
-  y_ <- process_data(y, ids, by, fill = fill, ...) %>%
+  x_ <- process_data_join(x, ids, by, fill = fill, ...)
+  y_ <- process_data_join(y, ids, by, fill = fill, ...) %>%
     mutate(.x = .x + ncol(x) - 1)
 
   return(list(x = x_, y = y_))
@@ -56,7 +56,7 @@ preprocess_data <- function(x, y, by, fill = TRUE, ...) {
 #'
 #' @examples
 #' NULL
-process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
+process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
   if (is.na(side)) side <- deparse(substitute(x))
 
   x_names <- names(x) %>% str_subset("^[^\\.]")
@@ -101,7 +101,7 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
     }
   }
 
-  res <- add_color(x, rev(ids$.id), by, ...)
+  res <- add_color_join(x, rev(ids$.id), by, ...)
   return(res)
 }
 
@@ -122,7 +122,7 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
 #'
 #' @examples
 #' NULL
-add_color <- function(x, ids, by,
+add_color_join <- function(x, ids, by,
                       color_header = "#737373", color_other = "#d0d0d0",
                       color_missing = "#ffffff",
                       color_fun = scales::brewer_pal(type = "qual", "Set1"),

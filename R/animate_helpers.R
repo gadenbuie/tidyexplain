@@ -34,12 +34,12 @@ animate_set <- function(x, y, type, export = "gif", ...) {
   }
 
   if (type == "union_all") {
-    ll <- preprocess_data(x, y, by = names(x), fill = FALSE, ...)
+    ll <- process_join(x, y, by = names(x), fill = FALSE, ...)
     ll <- lapply(ll, function(a)
       a %>% mutate(.id_long = paste(.id_long, .side, sep = "-"))
     )
   } else {
-    ll <- preprocess_data(x, y, by = names(x), ...)
+    ll <- process_join(x, y, by = names(x), ...)
   }
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
@@ -96,7 +96,7 @@ animate_join <- function(x, y, by, type, export = "gif", ...) {
     y <- dplyr::distinct(y)
   }
 
-  ll <- preprocess_data(x, y, by, ...)
+  ll <- process_join(x, y, by, ...)
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 
