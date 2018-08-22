@@ -37,14 +37,23 @@ static_plot <- function(d, title = "",
                       text_size = 7, title_size = 25, ...) {
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
-  d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))
+  if (!".textcolor" %in% names(d))
+    d <- d %>% mutate(.textcolor = set_text_color(.color))
+
+  if (".col" %in% names(d)) {
+    d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))
+  } else {
+    # tidyr
+    d <- d %>% mutate(.item_id = .id_long)
+  }
 
   ggplot(d, aes(x = .x, group = .item_id, y = .y, fill = .color, alpha = .alpha)) +
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
-    geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val), color = "white",
+    geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val, color = .textcolor),
               family = text_family, size = text_size) +
     scale_fill_identity() +
+    scale_color_identity() +
     scale_alpha_identity() +
     labs(title = title) +
     theme_void() +

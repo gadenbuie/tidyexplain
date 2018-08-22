@@ -6,7 +6,8 @@
 \usage{
 add_color(x, ids, by, color_header = "#737373",
   color_other = "#d0d0d0", color_missing = "#ffffff",
-  color_fun = scales::brewer_pal(type = "qual", "Set1"), ...)
+  color_fun = scales::brewer_pal(type = "qual", "Set1"),
+  text_color = NA, ...)
 }
 \arguments{
 \item{x}{a processed data_frame}
@@ -22,6 +23,9 @@ add_color(x, ids, by, color_header = "#737373",
 \item{color_missing}{color for missing values}
 
 \item{color_fun}{the function to generate the colors}
+
+\item{text_color}{the color for the text inside the tiles,
+defaults to white/black depending on tile color}
 
 \item{...}{}
 }

@@ -114,6 +114,8 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
 #' @param color_other color for "inactive" values
 #' @param color_missing color for missing values
 #' @param color_fun the function to generate the colors
+#' @param text_color the color for the text inside the tiles,
+#'         defaults to white/black depending on tile color
 #' @param ...
 #'
 #' @return the processed data_frame with a new column .color
@@ -123,7 +125,8 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
 add_color <- function(x, ids, by,
                       color_header = "#737373", color_other = "#d0d0d0",
                       color_missing = "#ffffff",
-                      color_fun = scales::brewer_pal(type = "qual", "Set1"), ...) {
+                      color_fun = scales::brewer_pal(type = "qual", "Set1"),
+                      text_color = NA, ...) {
   colors <- c(color_header, color_fun(length(ids)))
   names(colors) <- c(".header", ids)
 
@@ -134,6 +137,13 @@ add_color <- function(x, ids, by,
                       ifelse(.col %in% by,
                              colors[.id],
                              color_other)),
-      .color = ifelse(.id == ".header", color_header, .color))
+      .color = ifelse(.id == ".header", color_header, .color),
+      .textcolor = text_color)
+
+  if (is.na(text_color))
+    res <- res %>% mutate(.textcolor = set_text_color(.color))
+
   return(res)
 }
+
+set_text_color <- function(a) ifelse(mean(col2rgb(a)) > 127, "black", "white")
