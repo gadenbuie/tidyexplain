@@ -94,7 +94,7 @@ inner_join(x, y, by = "id")
 > All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns.
 
 ```{r left-join, echo=T}
-animate_inner_join(x, y, by = "id")
+animate_left_join(x, y, by = "id")
 ```
 
 
@@ -106,16 +106,14 @@ left_join(x, y, by = "id")
 
 > ... If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
 
-```{r left-join-extra}
-# Not yet working
-# source("R/left_join_extra.R")
+```{r left-join-extra, echo=T}
 y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
+y_extra # has multiple rows with the key from `x`
+
+animate_left_join(x, y_extra, by = "id")
 ```
 
-![](images/left-join-extra.gif)
-
 ```{r echo=TRUE}
-y_extra # has multiple rows with the key from `x`
 left_join(x, y_extra, by = "id")
 ```
 
@@ -164,7 +162,7 @@ semi_join(x, y, by = "id")
 
 > All rows from `x` where there are not matching values in `y`, keeping just columns from `x`.
 
-```{r anti-join}
+```{r anti-join, echo=T}
 animate_anti_join(x, y, by = "id")
 ```
 
@@ -203,7 +201,7 @@ y
 
 > All unique rows from `x` and `y`.
 
-```{r union, export=T}
+```{r union, echo=T}
 animate_union(x, y)
 ```
 

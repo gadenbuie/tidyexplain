@@ -55,10 +55,12 @@ base_plot <- function(d, title = "", ...) {
   }
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
-  ggplot(d, aes(x = .x, group = .id_long, y = .y, fill = .color, alpha = .alpha)) +
+  d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))
+
+  ggplot(d, aes(x = .x, group = .item_id, y = .y, fill = .color, alpha = .alpha)) +
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
-    geom_text(data = d %>% filter(!is.na(val)), aes(label = val), color = "white",
+    geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val), color = "white",
               family = text_family, size = text_size) +
     scale_fill_identity() +
     scale_alpha_identity() +

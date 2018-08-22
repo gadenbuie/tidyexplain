@@ -110,7 +110,7 @@ inner_join(x, y, by = "id")
 > no match in `y` will have `NA` values in the new columns.
 
 ``` r
-animate_inner_join(x, y, by = "id")
+animate_left_join(x, y, by = "id")
 ```
 
 ![](README_files/figure-gfm/left-join-1.gif)<!-- -->
@@ -130,9 +130,8 @@ left_join(x, y, by = "id")
 > … If there are multiple matches between `x` and `y`, all combinations
 > of the matches are returned.
 
-![](images/left-join-extra.gif)
-
 ``` r
+y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 #> # A tibble: 4 x 2
 #>      id y    
@@ -141,6 +140,13 @@ y_extra # has multiple rows with the key from `x`
 #> 2     2 y2   
 #> 3     4 y4   
 #> 4     2 y5
+
+animate_left_join(x, y_extra, by = "id")
+```
+
+![](README_files/figure-gfm/left-join-extra-1.gif)<!-- -->
+
+``` r
 left_join(x, y_extra, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
@@ -221,6 +227,10 @@ semi_join(x, y, by = "id")
 > All rows from `x` where there are not matching values in `y`, keeping
 > just columns from `x`.
 
+``` r
+animate_anti_join(x, y, by = "id")
+```
+
 ![](README_files/figure-gfm/anti-join-1.gif)<!-- -->
 
 ``` r
@@ -272,6 +282,10 @@ y
 ### Union
 
 > All unique rows from `x` and `y`.
+
+``` r
+animate_union(x, y)
+```
 
 ![](README_files/figure-gfm/union-1.gif)<!-- -->
 

@@ -28,7 +28,19 @@ animate_set <- function(x, y, type, export = "gif", ...) {
                    deparse(substitute(x)),
                    deparse(substitute(y)))
 
-  ll <- preprocess_data(x, y, by = names(x))
+  if (type %in% c("union", "intersect", "setdiff")) {
+    x <- dplyr::distinct(x)
+    y <- dplyr::distinct(y)
+  }
+
+  if (type == "union_all") {
+    ll <- preprocess_data(x, y, by = names(x), fill = FALSE)
+    ll <- lapply(ll, function(a)
+      a %>% mutate(.id_long = paste(.id_long, .side, sep = "-"))
+    )
+  } else {
+    ll <- preprocess_data(x, y, by = names(x))
+  }
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 
@@ -69,10 +81,20 @@ animate_join <- function(x, y, by, type, export = "gif", ...) {
   if (!export %in% c("gif", "first", "last"))
     stop("export must be either gif, first, or last")
 
-  title <- sprintf(paste0(type, "(%s, %s, by = c(\"%s\"))"),
+  by_args <- ifelse(length(by) == 1,
+                    sprintf("\"%s\"", by),
+                    sprintf("c(\"%s\")", paste(by, collapse = "\", \""))
+                    )
+
+  title <- sprintf(paste0(type, "(%s, %s, by = %s)"),
                    deparse(substitute(x)),
                    deparse(substitute(y)),
-                   paste(by, collapse = "\", \""))
+                   by_args)
+
+  if (type %in% c("semi_join", "anti_join")) {
+    # for semi and anti_joins, there is no adding of multiple rows
+    y <- dplyr::distinct(y)
+  }
 
   ll <- preprocess_data(x, y, by)
 

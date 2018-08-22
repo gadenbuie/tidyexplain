@@ -4,31 +4,38 @@
 #' @param x a left dataset
 #' @param y a right dataset
 #' @param by a by argument for joins / set operations
+#' @param fill if missing ids should be filled
 #'
 #' @return a preprocessed dataset
 #'
 #' @examples
 #' NULL
-preprocess_data <- function(x, y, by) {
+preprocess_data <- function(x, y, by, fill = TRUE) {
 
-  xvars <- names(x) %>% str_subset("^[^\\.]")
-  yvars <- names(y) %>% str_subset("^[^\\.]")
+  #' test for
+  #' a <- c("unique", "mult", "mult", "also unique")
+  #' add_duplicate_number(a)
+  add_duplicate_number <- function(a) {
+    data_frame(v = a) %>%
+      group_by(v) %>%
+      mutate(id = paste(v, 1:n(), sep = "-")) %>%
+      pull(id)
+  }
 
   x <- x %>%
     unite(one_of(by), col = ".id", remove = FALSE) %>%
-    unite(one_of(xvars), col = ".id_long", remove = FALSE)
+    mutate(.id_long = add_duplicate_number(.id))
 
   y <- y %>%
-    unite(one_of(by), col = ".id", remove = FALSE) %>%
-    unite(one_of(yvars), col = ".id_long", remove = FALSE)
+    unite(one_of(by), col = ".id", remove = FALSE)  %>%
+    mutate(.id_long = add_duplicate_number(.id))
 
-  ids <- unique(c(x$.id, y$.id))
+  ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
+                      y %>% dplyr::select(.id, .id_long))
 
-  x_ <- process_data(x, ids, by) %>%
-    mutate(.id_long = paste(.id_long, .side, .r, sep = "_"))
-  y_ <- process_data(y, ids, by) %>%
-    mutate(.x = .x + ncol(x),
-           .id_long = paste(.id_long, .side, .r, sep = "_"))
+  x_ <- process_data(x, ids, by, fill = fill)
+  y_ <- process_data(y, ids, by, fill = fill) %>%
+    mutate(.x = .x + ncol(x) - 1)
 
   return(list(x = x_, y = y_))
 }
@@ -37,16 +44,17 @@ preprocess_data <- function(x, y, by) {
 #' Processes the data
 #'
 #' @param x a preprocessed dataset
-#' @param ids a vector of ids
+#' @param ids a data_frame of ids (.id and .id_long)
 #' @param by a vector of by-arguments
 #' @param width the width of the tiles
 #' @param side the side (x or y, lhs or rhs, etc)
+#' @param fill if missing ids should be filled
 #'
 #' @return a data_frame including all necessary information
 #'
 #' @examples
 #' NULL
-process_data <- function(x, ids, by, width = 1, side = NA) {
+process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE) {
   if (is.na(side)) side <- deparse(substitute(x))
 
   x_names <- names(x) %>% str_subset("^[^\\.]")
@@ -57,17 +65,42 @@ process_data <- function(x, ids, by, width = 1, side = NA) {
 
   x <- x %>%
     mutate(.r = row_number()) %>%
-    gather_(key = "col", value = "val", names(x) %>% str_subset("^[^.]")) %>%
-    mutate(.x = x_keys[col],
+    gather_(key = ".col", value = ".val", names(x) %>% str_subset("^[^.]")) %>%
+    mutate(.x = x_keys[.col],
            .y = -.r) %>%
     bind_rows(data_frame(.id = ".header",
                          .id_long = paste(".header", x_names, sep = "_"),
-                         .r = 0, col = x_names, val = x_names,
+                         .r = 0,
+                         .col = x_names,
+                         .val = x_names,
                          .x = x_keys, .y = 0), .) %>%
     mutate(.width = width,
            .side = side)
 
-  add_color(x, ids, by)
+  # if there are multiple values in the ids (-2, -3 etc) but they are not present
+  # in x, because it is in the second/other dataset, add these values here
+  id_long <- ids$.id_long
+  mis_ids <- id_long[!id_long %in% x$.id_long]
+  # if the missing value is a -1, that means the missing value comes not from
+  # missing dublicate ids
+  mis_ids <- str_subset(mis_ids, "[^-1]$")
+  if (length(mis_ids) > 0 && fill) {
+    mis_ids_short <- str_replace(mis_ids, "-[0-9]+$", "")
+
+    # insert the missing ids at the right place
+    for (i in mis_ids_short) {
+      irow <- (1:nrow(x))[x$.id == i]
+      irow <- irow[1]
+      x <- bind_rows(
+        x %>% slice(1:irow),
+        x %>% filter(.id %in% mis_ids_short) %>% mutate(.id_long = mis_ids),
+        x %>% slice((irow + 1):nrow(x))
+      )
+    }
+  }
+
+  res <- add_color(x, ids$.id, by)
+  return(res)
 }
 
 #' Adds Color to a processed data_frame
@@ -87,7 +120,8 @@ add_color <- function(x, ids, by, color_header = "#bdbdbd", color_other = "#d0d0
   colors <- c(color_header, scales::brewer_pal(type = "qual", "Set1")(length(ids)))
   names(colors) <- c(".header", ids)
 
-  x %>%
-    mutate(.color = ifelse(is.na(val), color_missing, colors[.id]),
-           .color = ifelse(col %in% by, .color, color_other))
+  res <- x %>%
+    mutate(.color = ifelse(is.na(.val), color_missing, colors[.id]),
+           .color = ifelse(.col %in% by, .color, color_other))
+  return(res)
 }

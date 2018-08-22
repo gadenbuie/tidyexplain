@@ -4,7 +4,7 @@
 \alias{preprocess_data}
 \title{Preprocess data}
 \usage{
-preprocess_data(x, y, by)
+preprocess_data(x, y, by, fill = FALSE)
 }
 \arguments{
 \item{x}{a left dataset}
@@ -12,6 +12,8 @@ preprocess_data(x, y, by)
 \item{y}{a right dataset}
 
 \item{by}{a by argument for joins / set operations}
+
+\item{fill}{if missing ids should be filled}
 }
 \value{
 a preprocessed dataset
@@ -21,4 +23,7 @@ Preprocess data
 }
 \examples{
 NULL
+test for
+a <- c("unique", "mult", "mult", "also unique")
+add_duplicate_number(a)
 }

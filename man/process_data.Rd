@@ -4,18 +4,20 @@
 \alias{process_data}
 \title{Processes the data}
 \usage{
-process_data(x, ids, by, width = 1, side = NA)
+process_data(x, ids, by, width = 1, side = NA, fill = TRUE)
 }
 \arguments{
 \item{x}{a preprocessed dataset}
 
-\item{ids}{a vector of ids}
+\item{ids}{a data_frame of ids (.id and .id_long)}
 
 \item{by}{a vector of by-arguments}
 
 \item{width}{the width of the tiles}
 
 \item{side}{the side (x or y, lhs or rhs, etc)}
+
+\item{fill}{if missing ids should be filled}
 }
 \value{
 a data_frame including all necessary information
