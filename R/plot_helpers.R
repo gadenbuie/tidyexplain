@@ -43,15 +43,26 @@ base_plot <- function(d, title = "", ...) {
     title_family <- "Fira Mono"
   }
 
+  if ("title_size" %in% names(dots)) {
+    title_size <- dots$title_size
+  } else {
+    title_size <- 20
+  }
+  if ("text_size" %in% names(dots)) {
+    text_size <- dots$text_size
+  } else {
+    text_size <- 10
+  }
+
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   ggplot(d, aes(x = .x, group = .id_long, y = .y, fill = .color, alpha = .alpha)) +
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
     geom_text(data = d %>% filter(!is.na(val)), aes(label = val), color = "white",
-              family = text_family, size = 10) +
+              family = text_family, size = text_size) +
     scale_fill_identity() +
     scale_alpha_identity() +
     labs(title = title) +
     theme_void() +
-    theme(plot.title = element_text(family = title_family, hjust = 0.5, size = 20))
+    theme(plot.title = element_text(family = title_family, hjust = 0.5, size = title_size))
 }
