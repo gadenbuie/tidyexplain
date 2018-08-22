@@ -7,7 +7,7 @@
 #' @param y the y dataset
 #' @param export the export type, either gif, first or last. The latter two
 #'              export ggplots of the first/last state of the join
-#' @param ... further argument passed to base_plot
+#' @param ... further argument passed to static_plot
 #'
 #' @return either a gif or a ggplot
 #'

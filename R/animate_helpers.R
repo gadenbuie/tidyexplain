@@ -5,7 +5,7 @@
 #' @param y right dataset
 #' @param type type of the set, i.e., intersect, setdiff, etc.
 #' @param export if the function exports a gif, the first, or last picture
-#' @param ... further arguments passed to base_plot or to add_color
+#' @param ... further arguments passed to static_plot or to add_color
 #'
 #'
 #' @name animate_set_function
@@ -65,7 +65,7 @@ animate_set <- function(x, y, type, export = "gif", ...) {
 #' @param by by arguments for the join
 #' @param type type of the join, i.e., left_join, right_join, etc.
 #' @param export if the function exports a gif, the first, or last picture
-#' @param ... further arguments passed to base_plot or to add_color
+#' @param ... further arguments passed to static_plot or to add_color
 #'
 #' @return either a gif or a ggplot
 #'

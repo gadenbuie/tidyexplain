@@ -8,7 +8,7 @@
 #' @param by the by arguments for the join
 #' @param export the export type, either gif, first or last. The latter two
 #'              export ggplots of the first/last state of the join
-#' @param ... further arguments passed to base_plot
+#' @param ... further arguments passed to static_plot
 #'
 #' @return either a gif or a ggplot
 #'

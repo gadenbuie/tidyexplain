@@ -3,7 +3,7 @@
 #'
 #' @param d a preprocessed dataset
 #' @param title the plot title
-#' @param ... further arguments passed to base_plot
+#' @param ... further arguments passed to static_plot
 #'
 #' @return a gif
 #'

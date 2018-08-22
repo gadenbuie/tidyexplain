@@ -24,7 +24,7 @@ animate_setdiff(x, y, export = "gif", ...)
 \item{export}{the export type, either gif, first or last. The latter two
 export ggplots of the first/last state of the join}
 
-\item{...}{further argument passed to base_plot}
+\item{...}{further argument passed to static_plot}
 }
 \value{
 either a gif or a ggplot

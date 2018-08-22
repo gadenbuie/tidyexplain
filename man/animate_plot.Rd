@@ -11,7 +11,7 @@ animate_plot(d, title = "", ...)
 
 \item{title}{the plot title}
 
-\item{...}{further arguments passed to base_plot}
+\item{...}{further arguments passed to static_plot}
 }
 \value{
 a gif
