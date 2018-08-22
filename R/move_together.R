@@ -47,7 +47,7 @@ move_together <- function(lhs, rhs, type) {
     col_combiner <- dplyr::left_join
     row_combiner <- dplyr::semi_join
   } else if (type == "anti_join") {
-    col_combiner <- dplyr::semi_join
+    col_combiner <- dplyr::left_join
     row_combiner <- dplyr::anti_join
   } else if (type == "union") {
     col_combiner <- dplyr::full_join
