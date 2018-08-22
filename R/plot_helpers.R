@@ -48,10 +48,10 @@ base_plot <- function(d, title = "", ...) {
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
     geom_text(data = d %>% filter(!is.na(val)), aes(label = val), color = "white",
-              family = text_family, size = 20, fontface = "bold") +
+              family = text_family, size = 12, fontface = "bold") +
     scale_fill_identity() +
     scale_alpha_identity() +
     labs(title = title) +
     theme_void() +
-    theme(plot.title = element_text(family = title_family, hjust = 0.5, size = 30))
+    theme(plot.title = element_text(family = title_family, hjust = 0.5, size = 24))
 }

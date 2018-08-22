@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   cache = TRUE
 )
+library(tidyAnimatedVerbs)
 ```
 
 [gganimate]: https://github.com/thomasp85/gganimate#README
@@ -44,24 +45,31 @@ You can directly download the [original animations](images/) or static images in
 Currently, the animations cover the [dplyr two-table verbs][dplyr-two-table] and I'd like to expand the animations to include more verbs from the tidyverse.
 [Suggestions are welcome!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
-## Mutating Joins
+## Installing
 
-```{r intial-dfs}
-source("R/00_base_join.R")
-df_names <- data_frame(
-  .x = c(1.5, 4.5), .y = 0.25,
-  value = c("x", "y"),
-  size = 12,
-  color = "black"
-)
-
-g <- plot_data(initial_join_dfs) +
-  geom_text(data = df_names, family = "Fira Mono", size = 24)
-
-save_static_plot(g, "original-dfs")
+The library can be installed with
+```{r, echo=T,eval=F}
+# install.package("devtools")
+devtools::install_github("gadenbuie/tidy-animated-verbs")
 ```
 
-<img src="images/static/png/original-dfs.png" width="480px" />
+## Mutating Joins
+
+```{r intial-dfs, echo=T}
+library(tidyAnimatedVerbs)
+x <- data_frame(
+  id = 1:3,
+  x = paste0("x", 1:3)
+)
+
+y <- data_frame(
+  id = (1:4)[-3],
+  y = paste0("y", (1:4)[-3])
+)
+
+animate_full_join(x, y, by = c("id"), export = "first")
+```
+
 
 ```{r echo=TRUE}
 x
@@ -72,11 +80,10 @@ y
 
 > All rows from `x` where there are matching values in `y`, and all columns from `x` and `y`.
 
-```{r inner-join}
-source("R/inner_join.R")
+```{r inner-join, echo=T}
+animate_inner_join(x, y, by = "id")
 ```
 
-![](images/inner-join.gif)
 
 ```{r echo=TRUE}
 inner_join(x, y, by = "id")
@@ -86,11 +93,10 @@ inner_join(x, y, by = "id")
 
 > All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns.
 
-```{r left-join}
-source("R/left_join.R")
+```{r left-join, echo=T}
+animate_inner_join(x, y, by = "id")
 ```
 
-![](images/left-join.gif)
 
 ```{r echo=TRUE}
 left_join(x, y, by = "id")
@@ -101,7 +107,9 @@ left_join(x, y, by = "id")
 > ... If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
 
 ```{r left-join-extra}
-source("R/left_join_extra.R")
+# Not yet working
+# source("R/left_join_extra.R")
+y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
 ```
 
 ![](images/left-join-extra.gif)
@@ -115,11 +123,10 @@ left_join(x, y_extra, by = "id")
 
 > All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns.
 
-```{r right-join}
-source("R/right_join.R")
+```{r right-join, echo = T}
+animate_right_join(x, y, by = "id")
 ```
 
-![](images/right-join.gif)
 
 ```{r echo=TRUE}
 right_join(x, y, by = "id")
@@ -129,11 +136,10 @@ right_join(x, y, by = "id")
 
 > All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing.
 
-```{r full-join}
-source("R/full_join.R")
+```{r full-join, echo=T}
+animate_full_join(x, y, by = "id")
 ```
 
-![](images/full-join.gif)
 
 ```{r echo=TRUE}
 full_join(x, y, by = "id")
@@ -145,11 +151,10 @@ full_join(x, y, by = "id")
 
 > All rows from `x` where there are matching values in `y`, keeping just columns from `x`.
 
-```{r semi-join}
-source("R/semi_join.R")
+```{r semi-join, echo=T}
+animate_semi_join(x, y, by = "id")
 ```
 
-![](images/semi-join.gif)
 
 ```{r echo=TRUE}
 semi_join(x, y, by = "id")
@@ -160,10 +165,9 @@ semi_join(x, y, by = "id")
 > All rows from `x` where there are not matching values in `y`, keeping just columns from `x`.
 
 ```{r anti-join}
-source("R/anti_join.R")
+animate_anti_join(x, y, by = "id")
 ```
 
-![](images/anti-join.gif)
 
 ```{r echo=TRUE}
 anti_join(x, y, by = "id")
@@ -171,27 +175,24 @@ anti_join(x, y, by = "id")
 
 ## Set Operations
 
-```{r intial-dfs-so}
-source("R/00_base_set.R")
-df_names <- data_frame(
-  .x = c(2.5, 5.5), .y = 0.25,
-  value = c("x", "y"),
-  size = 12,
-  color = "black"
+```{r intial-dfs-so, echo=T}
+
+x <- tibble::tribble(
+  ~x,    ~y,
+  "1",  "a",
+  "1",  "b",
+  "2",  "a"
 )
 
-g <- plot_data_set(initial_set_dfs, "", NULL, NULL) +
-  geom_text(data = df_names, family = "Fira Mono", size = 24)
+y <- tibble::tribble(
+  ~x, ~y,
+  "1",  "a",
+  "2",  "b"
+)
 
-save_static_plot(g, "original-dfs-set-ops")
+animate_union(x, y, export = "first")
 ```
 
-```{r remove-set-ops-ids}
-x <- x %>% select(-id)
-y <- y %>% select(-id)
-```
-
-<img src="images/static/png/original-dfs-set-ops.png" width="480px" />
 
 ```{r echo=TRUE}
 x
@@ -202,20 +203,20 @@ y
 
 > All unique rows from `x` and `y`.
 
-```{r union}
-source("R/union.R")
-<<remove-set-ops-ids>>
+```{r union, export=T}
+animate_union(x, y)
 ```
 
-![](images/union.gif)
 
 ```{r echo=TRUE}
 union(x, y)
 ```
 
-![](images/union-rev.gif)
+
 
 ```{r echo=TRUE}
+animate_union(y, x)
+
 union(y, x)
 ```
 
@@ -223,12 +224,10 @@ union(y, x)
 
 > All rows from `x` and `y`, keeping duplicates.
 
-```{r union-all}
-source("R/union_all.R")
-<<remove-set-ops-ids>>
+```{r union-all, echo=T}
+animate_union_all(x, y)
 ```
 
-![](images/union-all.gif)
 
 
 ```{r echo=TRUE}
@@ -240,12 +239,10 @@ union_all(x, y)
 
 > Common rows in both `x` and `y`, keeping just unique rows.
 
-```{r intersect}
-source("R/intersect.R")
-<<remove-set-ops-ids>>
+```{r intersect, echo=T}
+animate_intersect(x, y)
 ```
 
-![](images/intersect.gif)
 
 ```{r echo=TRUE}
 intersect(x, y)
@@ -255,20 +252,19 @@ intersect(x, y)
 
 > All rows from `x` which are not also rows in `y`, keeping just unique rows.
 
-```{r setdiff}
-source("R/setdiff.R")
-<<remove-set-ops-ids>>
+```{r setdiff, echo=T}
+animate_setdiff(x, y)
 ```
 
-![](images/setdiff.gif)
 
 ```{r echo=TRUE}
 setdiff(x, y)
 ```
 
-![](images/setdiff-rev.gif)
 
 ```{r echo=TRUE}
+animate_setdiff(y, x)
+
 setdiff(y, x)
 ```
 

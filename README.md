@@ -39,9 +39,33 @@ to expand the animations to include more verbs from the tidyverse.
 [Suggestions are
 welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
+## Installing
+
+The library can be installed with
+
+``` r
+# install.package("devtools")
+devtools::install_github("gadenbuie/tidy-animated-verbs")
+```
+
 ## Mutating Joins
 
-<img src="images/static/png/original-dfs.png" width="480px" />
+``` r
+library(tidyAnimatedVerbs)
+x <- data_frame(
+  id = 1:3,
+  x = paste0("x", 1:3)
+)
+
+y <- data_frame(
+  id = (1:4)[-3],
+  y = paste0("y", (1:4)[-3])
+)
+
+animate_full_join(x, y, by = c("id"), export = "first")
+```
+
+![](README_files/figure-gfm/intial-dfs-1.png)<!-- -->
 
 ``` r
 x
@@ -65,7 +89,11 @@ y
 > All rows from `x` where there are matching values in `y`, and all
 > columns from `x` and `y`.
 
-![](images/inner-join.gif)
+``` r
+animate_inner_join(x, y, by = "id")
+```
+
+![](README_files/figure-gfm/inner-join-1.gif)<!-- -->
 
 ``` r
 inner_join(x, y, by = "id")
@@ -81,7 +109,11 @@ inner_join(x, y, by = "id")
 > All rows from `x`, and all columns from `x` and `y`. Rows in `x` with
 > no match in `y` will have `NA` values in the new columns.
 
-![](images/left-join.gif)
+``` r
+animate_inner_join(x, y, by = "id")
+```
+
+![](README_files/figure-gfm/left-join-1.gif)<!-- -->
 
 ``` r
 left_join(x, y, by = "id")
@@ -124,7 +156,11 @@ left_join(x, y_extra, by = "id")
 > All rows from y, and all columns from `x` and `y`. Rows in `y` with no
 > match in `x` will have `NA` values in the new columns.
 
-![](images/right-join.gif)
+``` r
+animate_right_join(x, y, by = "id")
+```
+
+![](README_files/figure-gfm/right-join-1.gif)<!-- -->
 
 ``` r
 right_join(x, y, by = "id")
@@ -141,7 +177,11 @@ right_join(x, y, by = "id")
 > All rows and all columns from both `x` and `y`. Where there are not
 > matching values, returns `NA` for the one missing.
 
-![](images/full-join.gif)
+``` r
+animate_full_join(x, y, by = "id")
+```
+
+![](README_files/figure-gfm/full-join-1.gif)<!-- -->
 
 ``` r
 full_join(x, y, by = "id")
@@ -161,7 +201,11 @@ full_join(x, y, by = "id")
 > All rows from `x` where there are matching values in `y`, keeping just
 > columns from `x`.
 
-![](images/semi-join.gif)
+``` r
+animate_semi_join(x, y, by = "id")
+```
+
+![](README_files/figure-gfm/semi-join-1.gif)<!-- -->
 
 ``` r
 semi_join(x, y, by = "id")
@@ -177,7 +221,7 @@ semi_join(x, y, by = "id")
 > All rows from `x` where there are not matching values in `y`, keeping
 > just columns from `x`.
 
-![](images/anti-join.gif)
+![](README_files/figure-gfm/anti-join-1.gif)<!-- -->
 
 ``` r
 anti_join(x, y, by = "id")
@@ -189,7 +233,25 @@ anti_join(x, y, by = "id")
 
 ## Set Operations
 
-<img src="images/static/png/original-dfs-set-ops.png" width="480px" />
+``` r
+
+x <- tibble::tribble(
+  ~x,    ~y,
+  "1",  "a",
+  "1",  "b",
+  "2",  "a"
+)
+
+y <- tibble::tribble(
+  ~x, ~y,
+  "1",  "a",
+  "2",  "b"
+)
+
+animate_union(x, y, export = "first")
+```
+
+![](README_files/figure-gfm/intial-dfs-so-1.png)<!-- -->
 
 ``` r
 x
@@ -211,7 +273,7 @@ y
 
 > All unique rows from `x` and `y`.
 
-![](images/union.gif)
+![](README_files/figure-gfm/union-1.gif)<!-- -->
 
 ``` r
 union(x, y)
@@ -224,9 +286,14 @@ union(x, y)
 #> 4 1     a
 ```
 
-![](images/union-rev.gif)
+``` r
+animate_union(y, x)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.gif)<!-- -->
 
 ``` r
+
 union(y, x)
 #> # A tibble: 4 x 2
 #>   x     y    
@@ -241,7 +308,11 @@ union(y, x)
 
 > All rows from `x` and `y`, keeping duplicates.
 
-![](images/union-all.gif)
+``` r
+animate_union_all(x, y)
+```
+
+![](README_files/figure-gfm/union-all-1.gif)<!-- -->
 
 ``` r
 union_all(x, y)
@@ -259,7 +330,11 @@ union_all(x, y)
 
 > Common rows in both `x` and `y`, keeping just unique rows.
 
-![](images/intersect.gif)
+``` r
+animate_intersect(x, y)
+```
+
+![](README_files/figure-gfm/intersect-1.gif)<!-- -->
 
 ``` r
 intersect(x, y)
@@ -274,7 +349,11 @@ intersect(x, y)
 > All rows from `x` which are not also rows in `y`, keeping just unique
 > rows.
 
-![](images/setdiff.gif)
+``` r
+animate_setdiff(x, y)
+```
+
+![](README_files/figure-gfm/setdiff-1.gif)<!-- -->
 
 ``` r
 setdiff(x, y)
@@ -285,9 +364,14 @@ setdiff(x, y)
 #> 2 2     a
 ```
 
-![](images/setdiff-rev.gif)
+``` r
+animate_setdiff(y, x)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-16-1.gif)<!-- -->
 
 ``` r
+
 setdiff(y, x)
 #> # A tibble: 1 x 2
 #>   x     y    
