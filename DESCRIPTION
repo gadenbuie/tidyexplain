@@ -1,0 +1,16 @@
+Package: tidyAnimatedVerbs
+Type: Package
+Title: Animate Tidy Verbs
+Version: 0.1
+Date: 2018-08-19
+Author: Name
+Maintainer: Name <email@email.com>
+Description: This package allows to visualise the verbs of dplyr and tidyr
+License: CC0-1.0
+Depends: tidyverse,
+    gganimate (>= 0.9.9.9999)
+RoxygenNote: 6.1.0
+Suggests: 
+    knitr
+VignetteBuilder: knitr
+Encoding: UTF-8
