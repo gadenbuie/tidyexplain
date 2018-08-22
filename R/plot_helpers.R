@@ -10,7 +10,7 @@
 #' @examples
 #' NULL
 animate_plot <- function(d, title = "", ...) {
-  base_plot(d, title, ...) +
+  static_plot(d, title, ...) +
     transition_states(.frame, 2, 1) +
     enter_fade() +
     exit_fade() +
@@ -18,41 +18,23 @@ animate_plot <- function(d, title = "", ...) {
 }
 
 
-#' Prints the tiles for a processed dataset
+#' Prints the tiles for a processed dataset statically
 #'
 #' @param d a processed dataset
 #' @param title the title of the plot
+#' @param text_family the font for the text
+#' @param title_family the font for the title
+#' @param text_size the size of the text
+#' @param title_size the size of the title
 #' @param ... further arguments
 #'
 #' @return a ggplot
 #'
 #' @examples
 #' NULL
-base_plot <- function(d, title = "", ...) {
-  dots <- list(...)
-
-  if ("text_family" %in% names(dots)) {
-    text_family <- dots$text_family
-  } else {
-    text_family <- "Fira Sans"
-  }
-
-  if ("title_family" %in% names(dots)) {
-    title_family <- dots$title_family
-  } else {
-    title_family <- "Fira Mono"
-  }
-
-  if ("title_size" %in% names(dots)) {
-    title_size <- dots$title_size
-  } else {
-    title_size <- 20
-  }
-  if ("text_size" %in% names(dots)) {
-    text_size <- dots$text_size
-  } else {
-    text_size <- 10
-  }
+static_plot <- function(d, title = "",
+                      text_family = "Fira Sans", title_family = "Fira Mono",
+                      text_size = 7, title_size = 25, ...) {
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))

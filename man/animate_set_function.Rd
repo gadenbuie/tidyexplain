@@ -16,7 +16,7 @@ animate_set(x, y, type, export = "gif", ...)
 
 \item{export}{if the function exports a gif, the first, or last picture}
 
-\item{...}{further arguments passed to base_plot}
+\item{...}{further arguments passed to base_plot or to add_color}
 }
 \value{
 either a gif or a ggplot

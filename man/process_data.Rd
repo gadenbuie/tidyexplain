@@ -4,7 +4,7 @@
 \alias{process_data}
 \title{Processes the data}
 \usage{
-process_data(x, ids, by, width = 1, side = NA, fill = TRUE)
+process_data(x, ids, by, width = 1, side = NA, fill = TRUE, ...)
 }
 \arguments{
 \item{x}{a preprocessed dataset}
@@ -18,6 +18,8 @@ process_data(x, ids, by, width = 1, side = NA, fill = TRUE)
 \item{side}{the side (x or y, lhs or rhs, etc)}
 
 \item{fill}{if missing ids should be filled}
+
+\item{...}{further arguments passed to add_color}
 }
 \value{
 a data_frame including all necessary information

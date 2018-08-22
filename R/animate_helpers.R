@@ -5,7 +5,7 @@
 #' @param y right dataset
 #' @param type type of the set, i.e., intersect, setdiff, etc.
 #' @param export if the function exports a gif, the first, or last picture
-#' @param ... further arguments passed to base_plot
+#' @param ... further arguments passed to base_plot or to add_color
 #'
 #'
 #' @name animate_set_function
@@ -34,12 +34,12 @@ animate_set <- function(x, y, type, export = "gif", ...) {
   }
 
   if (type == "union_all") {
-    ll <- preprocess_data(x, y, by = names(x), fill = FALSE)
+    ll <- preprocess_data(x, y, by = names(x), fill = FALSE, ...)
     ll <- lapply(ll, function(a)
       a %>% mutate(.id_long = paste(.id_long, .side, sep = "-"))
     )
   } else {
-    ll <- preprocess_data(x, y, by = names(x))
+    ll <- preprocess_data(x, y, by = names(x), ...)
   }
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
@@ -52,9 +52,9 @@ animate_set <- function(x, y, type, export = "gif", ...) {
     animate_plot(all, title, ...) %>% animate()
   } else if (export == "first") {
     title <- ""
-    base_plot(step0, title, ...)
+    static_plot(step0, title, ...)
   } else if (export == "last") {
-    base_plot(step1, title, ...)
+    static_plot(step1, title, ...)
   }
 }
 
@@ -65,7 +65,7 @@ animate_set <- function(x, y, type, export = "gif", ...) {
 #' @param by by arguments for the join
 #' @param type type of the join, i.e., left_join, right_join, etc.
 #' @param export if the function exports a gif, the first, or last picture
-#' @param ... further arguments passed to base_plot
+#' @param ... further arguments passed to base_plot or to add_color
 #'
 #' @return either a gif or a ggplot
 #'
@@ -96,7 +96,7 @@ animate_join <- function(x, y, by, type, export = "gif", ...) {
     y <- dplyr::distinct(y)
   }
 
-  ll <- preprocess_data(x, y, by)
+  ll <- preprocess_data(x, y, by, ...)
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 
@@ -108,9 +108,9 @@ animate_join <- function(x, y, by, type, export = "gif", ...) {
     animate_plot(all, title, ...) %>% animate()
   } else if (export == "first") {
     title <- ""
-    base_plot(step0, title, ...)
+    static_plot(step0, title, ...)
   } else if (export == "last") {
-    base_plot(step1, title, ...)
+    static_plot(step1, title, ...)
   }
 }
 

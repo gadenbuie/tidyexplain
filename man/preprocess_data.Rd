@@ -4,7 +4,7 @@
 \alias{preprocess_data}
 \title{Preprocess data}
 \usage{
-preprocess_data(x, y, by, fill = FALSE)
+preprocess_data(x, y, by, fill = TRUE, ...)
 }
 \arguments{
 \item{x}{a left dataset}
@@ -14,6 +14,8 @@ preprocess_data(x, y, by, fill = FALSE)
 \item{by}{a by argument for joins / set operations}
 
 \item{fill}{if missing ids should be filled}
+
+\item{...}{further arguments passed to add_color}
 }
 \value{
 a preprocessed dataset

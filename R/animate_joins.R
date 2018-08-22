@@ -41,7 +41,16 @@
 #'   animate_left_join(x, y, by = "id")
 #'   animate_right_join(x, y, by = "id")
 #'   animate_semi_join(x, y, by = "id")
-#'   animate_anti_join(x, y, by = "id")#'
+#'   animate_anti_join(x, y, by = "id")
+#'
+#'   # further arguments can be passed to all animate_* functions
+#'   animate_full_join(
+#'     x, y, by = "id", export = "last",
+#'     text_size = 5, title_size = 25,
+#'     color_header = "black",
+#'     color_other = "lightblue",
+#'     color_fun = viridis::viridis
+#'   )
 #' }
 #'
 #' # Save the results

@@ -35,18 +35,15 @@ dynamic as a gif.
 }
 \examples{
 x <- data_frame(
-  id = 1:3,
-  x = paste0("x", 1:3)
+  x = c(1, 1, 2),
+  y = c("a", "b", "a")
 )
 y <- data_frame(
-  id = (1:4)[-3],
-  y = paste0("y", (1:4)[-3])
+  x = c(1, 2),
+  y = c("a", "b")
 )
 
-animate_union(x, y, by = "id", export = "first")
-animate_union(x, y, by = "id", export = "last")
-
-# Animate the first or last state of the join
+# Animate the first or last state of the set
 animate_union(x, y, export = "first")
 animate_union(x, y, export = "last")
 
@@ -57,10 +54,19 @@ animate_union(x, y, export = "last")
 
 # different options include
 \donttest{
-  animate_union(x, y, by = "id")
-  animate_union_all(x, y, by = "id")
-  animate_intersect(x, y, by = "id")
-  animate_setdiff(x, y, by = "id")
+  animate_union(x, y)
+  animate_union_all(x, y)
+  animate_intersect(x, y)
+  animate_setdiff(x, y)
+
+  # further arguments can be passed to all animate_* functions
+  animate_union(
+    x, y,
+    text_size = 5, title_size = 25,
+    color_header = "black",
+    color_other = "lightblue",
+    color_fun = viridis::viridis
+  )
 }
 
 # Save the results

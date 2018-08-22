@@ -5,12 +5,13 @@
 #' @param y a right dataset
 #' @param by a by argument for joins / set operations
 #' @param fill if missing ids should be filled
+#' @param ... further arguments passed to add_color
 #'
 #' @return a preprocessed dataset
 #'
 #' @examples
 #' NULL
-preprocess_data <- function(x, y, by, fill = TRUE) {
+preprocess_data <- function(x, y, by, fill = TRUE, ...) {
 
   #' test for
   #' a <- c("unique", "mult", "mult", "also unique")
@@ -33,8 +34,8 @@ preprocess_data <- function(x, y, by, fill = TRUE) {
   ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
                       y %>% dplyr::select(.id, .id_long))
 
-  x_ <- process_data(x, ids, by, fill = fill)
-  y_ <- process_data(y, ids, by, fill = fill) %>%
+  x_ <- process_data(x, ids, by, fill = fill, ...)
+  y_ <- process_data(y, ids, by, fill = fill, ...) %>%
     mutate(.x = .x + ncol(x) - 1)
 
   return(list(x = x_, y = y_))
@@ -49,12 +50,13 @@ preprocess_data <- function(x, y, by, fill = TRUE) {
 #' @param width the width of the tiles
 #' @param side the side (x or y, lhs or rhs, etc)
 #' @param fill if missing ids should be filled
+#' @param ... further arguments passed to add_color
 #'
 #' @return a data_frame including all necessary information
 #'
 #' @examples
 #' NULL
-process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE) {
+process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
   if (is.na(side)) side <- deparse(substitute(x))
 
   x_names <- names(x) %>% str_subset("^[^\\.]")
@@ -99,7 +101,7 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE) {
     }
   }
 
-  res <- add_color(x, ids$.id, by)
+  res <- add_color(x, rev(ids$.id), by, ...)
   return(res)
 }
 
@@ -111,17 +113,27 @@ process_data <- function(x, ids, by, width = 1, side = NA, fill = TRUE) {
 #' @param color_header color for the header
 #' @param color_other color for "inactive" values
 #' @param color_missing color for missing values
+#' @param color_fun the function to generate the colors
+#' @param ...
 #'
 #' @return the processed data_frame with a new column .color
 #'
 #' @examples
 #' NULL
-add_color <- function(x, ids, by, color_header = "#bdbdbd", color_other = "#d0d0d0", color_missing = "#ffffff") {
-  colors <- c(color_header, scales::brewer_pal(type = "qual", "Set1")(length(ids)))
+add_color <- function(x, ids, by,
+                      color_header = "#737373", color_other = "#d0d0d0",
+                      color_missing = "#ffffff",
+                      color_fun = scales::brewer_pal(type = "qual", "Set1"), ...) {
+  colors <- c(color_header, color_fun(length(ids)))
   names(colors) <- c(".header", ids)
 
   res <- x %>%
-    mutate(.color = ifelse(is.na(.val), color_missing, colors[.id]),
-           .color = ifelse(.col %in% by, .color, color_other))
+    mutate(
+      .color = ifelse(is.na(.val),
+                      color_missing,
+                      ifelse(.col %in% by,
+                             colors[.id],
+                             color_other)),
+      .color = ifelse(.id == ".header", color_header, .color))
   return(res)
 }
