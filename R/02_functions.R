@@ -71,12 +71,11 @@ colorize_wide_tidyr <- function(df, n_colors, key_col = "id") {
 
 plot_data <- function(x, title = "") {
   if (!"alpha" %in% colnames(x)) x$alpha <- 1
-  if (!".width" %in% colnames(x)) x$`.width` <- 1
   if (!".text_color" %in% colnames(x)) x$`.text_color` <- "white"
   if (!".text_size" %in% colnames(x)) x$`.text_size` <- 12
   ggplot(x) +
     aes(.x, .y, fill = color, label = value) +
-    geom_tile(aes(width = .width, alpha = alpha), color = "white", size = 3) +
+    geom_tile(aes(alpha = alpha), width = 0.9, height = 0.9) +
     geom_text(aes(x = .x, color = .text_color, size = .text_size), hjust = 0.5, family = "Fira Sans") +
     scale_fill_identity() +
     scale_alpha_identity() +
