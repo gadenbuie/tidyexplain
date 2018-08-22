@@ -28,11 +28,14 @@ move_together <- function(lhs, rhs, type) {
   x_ids <- x_ids %>% filter(!str_detect(.id_long, "^\\.header"))
   y_ids <- y_ids %>% filter(!str_detect(.id_long, "^\\.header"))
 
+  # assign two combiner functions depending on the type
+  # one for combining the columns (col_combiner)
+  # one for combining the rows (row_combiner)
   if (type == "full_join") {
     col_combiner <- dplyr::full_join
     row_combiner <- dplyr::full_join
   } else if (type == "inner_join") {
-    col_combiner <- dplyr::inner_join
+    col_combiner <- dplyr::full_join
     row_combiner <- dplyr::inner_join
   } else if (type == "left_join") {
     col_combiner <- dplyr::full_join
