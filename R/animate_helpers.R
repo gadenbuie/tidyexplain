@@ -7,6 +7,8 @@
 #' @param export if the function exports a gif, the first, or last picture
 #' @param ... further arguments passed to base_plot
 #'
+#'
+#' @name animate_set_function
 #' @return either a gif or a ggplot
 #'
 #' @examples
@@ -30,13 +32,14 @@ animate_set <- function(x, y, type, export = "gif", ...) {
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 
-  step1 <- tidyAnimatedVerbs:::combine(ll$x, ll$y, type) %>% mutate(.frame = 1)
+  step1 <- move_together(ll$x, ll$y, type) %>% mutate(.frame = 1)
 
   all <- bind_rows(step0, step1)
 
   if (export == "gif") {
     animate_plot(all, title, ...) %>% animate()
   } else if (export == "first") {
+    title <- ""
     base_plot(step0, title, ...)
   } else if (export == "last") {
     base_plot(step1, title, ...)
@@ -54,6 +57,7 @@ animate_set <- function(x, y, type, export = "gif", ...) {
 #'
 #' @return either a gif or a ggplot
 #'
+#' @name animate_join_function
 #' @examples
 #' NULL
 animate_join <- function(x, y, by, type, export = "gif", ...) {
@@ -74,14 +78,14 @@ animate_join <- function(x, y, by, type, export = "gif", ...) {
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 
-  step1 <- tidyAnimatedVerbs:::combine(ll$x, ll$y, type) %>% mutate(.frame = 1)
+  step1 <- move_together(ll$x, ll$y, type) %>% mutate(.frame = 1)
 
   all <- bind_rows(step0, step1)
-
 
   if (export == "gif") {
     animate_plot(all, title, ...) %>% animate()
   } else if (export == "first") {
+    title <- ""
     base_plot(step0, title, ...)
   } else if (export == "last") {
     base_plot(step1, title, ...)

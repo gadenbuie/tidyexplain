@@ -7,11 +7,10 @@
 #'             joins or sets
 #'
 #' @return  processed dataset of the combined values
-#' @export
 #'
 #' @examples
 #' NULL
-combine <- function(lhs, rhs, type) {
+move_together <- function(lhs, rhs, type) {
 
   all_ids <- bind_rows(lhs, rhs) %>% distinct(.id)
 
