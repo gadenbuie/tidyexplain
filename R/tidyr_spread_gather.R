@@ -82,7 +82,6 @@ sg_static <-
          theme(plot.subtitle = element_text(family = "Fira Sans", size = 14, color = "grey50", hjust = 0.5, margin = margin(25)))
   )
 
-save_static_plot(cowplot::plot_grid(plotlist = sg_static, axis = 't'), "tidyr-spread-gather")
 save_static_plot(sg_static[[1]], "tidyr-spread")
 save_static_plot(sg_static[[2]], "tidyr-gather")
 
