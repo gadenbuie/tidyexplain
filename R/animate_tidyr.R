@@ -38,6 +38,8 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
   # ids <- ""
   # what happens if ids := -year or ids := x:y
 
+  # the case that ... contains two -arguments. i.e., -year, -region
+  ids <- ids[2, ]
   ids <- ids[!ids %in% c(key, value)]
   ids <- ids[ids != "-"]
 

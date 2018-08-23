@@ -178,7 +178,7 @@ process_long <- function(x, ids, key, value, ...) {
   key_values <- x %>% pull(key) %>% unique()
 
   type_dict <- c(rep("id", length(ids)), rep("key", length(key)), rep("value", length(value)))
-  names(type_dict) <-  c(rep(ids, length(ids)), rep(key, length(key)), rep(value, length(value)))
+  names(type_dict) <-  c(ids, key, value)
 
   x_dict <- 1:nc
   names(x_dict) <- xn
