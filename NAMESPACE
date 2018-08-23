@@ -2,11 +2,13 @@
 
 export(animate_anti_join)
 export(animate_full_join)
+export(animate_gather)
 export(animate_inner_join)
 export(animate_intersect)
 export(animate_left_join)
 export(animate_right_join)
 export(animate_semi_join)
 export(animate_setdiff)
+export(animate_spread)
 export(animate_union)
 export(animate_union_all)

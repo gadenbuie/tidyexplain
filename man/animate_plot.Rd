@@ -4,12 +4,17 @@
 \alias{animate_plot}
 \title{Animates a plot}
 \usage{
-animate_plot(d, title = "", ...)
+animate_plot(d, title = "", transition_length = 2, state_length = 1,
+  ...)
 }
 \arguments{
 \item{d}{a preprocessed dataset}
 
 \item{title}{the plot title}
+
+\item{transition_length}{see transition_states}
+
+\item{state_length}{see transition_states}
 
 \item{...}{further arguments passed to static_plot}
 }

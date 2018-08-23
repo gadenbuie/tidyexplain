@@ -1,17 +1,22 @@
 
+
+set_text_color <- function(a) ifelse(apply(col2rgb(a), 2, mean) > 127, "black", "white")
+
 #' Animates a plot
 #'
 #' @param d a preprocessed dataset
 #' @param title the plot title
+#' @param transition_length see transition_states
+#' @param state_length see transition_states
 #' @param ... further arguments passed to static_plot
 #'
 #' @return a gif
 #'
 #' @examples
 #' NULL
-animate_plot <- function(d, title = "", ...) {
+animate_plot <- function(d, title = "", transition_length = 2, state_length = 1, ...) {
   static_plot(d, title, ...) +
-    transition_states(.frame, 2, 1) +
+    transition_states(.frame, transition_length, state_length) +
     enter_fade() +
     exit_fade() +
     ease_aes("sine-in-out")
@@ -33,18 +38,18 @@ animate_plot <- function(d, title = "", ...) {
 #' @examples
 #' NULL
 static_plot <- function(d, title = "",
-                      text_family = "Fira Sans", title_family = "Fira Mono",
-                      text_size = 7, title_size = 25, ...) {
+                        text_family = "Fira Sans", title_family = "Fira Mono",
+                        text_size = 7, title_size = 25, ...) {
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   if (!".textcolor" %in% names(d))
     d <- d %>% mutate(.textcolor = set_text_color(.color))
 
-  if (".col" %in% names(d)) {
+  if (".id_long" %in% names(d)) {
     d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))
   } else {
     # tidyr
-    d <- d %>% mutate(.item_id = .id_long)
+    d <- d %>% mutate(.item_id = .id)
   }
 
   ggplot(d, aes(x = .x, group = .item_id, y = .y, fill = .color, alpha = .alpha)) +
@@ -59,3 +64,4 @@ static_plot <- function(d, title = "",
     theme_void() +
     theme(plot.title = element_text(family = title_family, hjust = 0.5, size = title_size))
 }
+

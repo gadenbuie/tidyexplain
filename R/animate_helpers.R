@@ -70,6 +70,7 @@ animate_set <- function(x, y, type, export = "gif", ...) {
 #' @return either a gif or a ggplot
 #'
 #' @name animate_join_function
+#'
 #' @examples
 #' NULL
 animate_join <- function(x, y, by, type, export = "gif", ...) {

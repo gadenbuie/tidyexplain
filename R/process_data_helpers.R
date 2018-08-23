@@ -146,4 +146,3 @@ add_color_join <- function(x, ids, by,
   return(res)
 }
 
-set_text_color <- function(a) ifelse(mean(col2rgb(a)) > 127, "black", "white")

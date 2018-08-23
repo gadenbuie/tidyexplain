@@ -22,10 +22,13 @@ Smith](https://github.com/TylerGrantSmith).
   - Set Operations: [`union()`](#union), [`union_all()`](#union-all),
     [`intersect()`](#intersect), [`setdiff()`](#setdiff)
 
+  - Tidyr Operations: [`gather()`](#gather), [`spread()`](#spread)
+
   - Learn more about
-    
-      - [Relational Data](#relational-data)
-      - [gganimate](#gganimate)
+
+  - [Relational Data](#relational-data)
+
+  - [gganimate](#gganimate)
 
 Please feel free to use these images for teaching or learning about
 action verbs from the [tidyverse](https://tidyverse.org). You can
@@ -391,6 +394,68 @@ setdiff(y, x)
 #>   x     y    
 #>   <chr> <chr>
 #> 1 2     b
+```
+
+## Tidy Data and `gather()`, `spread()` functionality
+
+``` r
+long <- data_frame(
+  year = c(2010, 2011, 2010, 2011, 2010, 2011),
+  person = c("Alice", "Alice", "Bob", "Bob", "Charlie", "Charlie"),
+  sales = c(105, 110, 100, 97, 90, 95)
+)
+wide <- data_frame(
+  year = 2010:2011, 
+  Alice = c(105, 110), 
+  Bob = c(100, 97), 
+  Charlie = c(90, 95)
+)
+```
+
+### Gather
+
+> Gather takes multiple columns and collapses into key-value pairs,
+> duplicating all other columns as needed. You use gather() when you
+> notice that your column names are not names of variables, but values
+> of a variable.
+
+``` r
+animate_gather(wide, key = "person", value = "sales", -year)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-1.gif)<!-- -->
+
+``` r
+gather(wide, key = "person", value = "sales", -year)
+#> # A tibble: 6 x 3
+#>    year person  sales
+#>   <int> <chr>   <dbl>
+#> 1  2010 Alice     105
+#> 2  2011 Alice     110
+#> 3  2010 Bob       100
+#> 4  2011 Bob        97
+#> 5  2010 Charlie    90
+#> 6  2011 Charlie    95
+```
+
+### Spread
+
+> Spread a key-value pair across multiple columns. Use it when an a
+> column contains observations from multiple variables.
+
+``` r
+animate_spread(long, key = "person", value = "sales")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-20-1.gif)<!-- -->
+
+``` r
+spread(long, key = "person", value = "sales")
+#> # A tibble: 2 x 4
+#>    year Alice   Bob Charlie
+#>   <dbl> <dbl> <dbl>   <dbl>
+#> 1  2010   105   100      90
+#> 2  2011   110    97      95
 ```
 
 ## Learn More

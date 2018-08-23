@@ -14,6 +14,7 @@
 #' @seealso \code{\link[dplyr]{setops}}
 #'
 #' @name animate_set
+#'
 #' @examples
 #' x <- data_frame(
 #'   x = c(1, 1, 2),
