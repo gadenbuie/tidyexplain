@@ -273,6 +273,10 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
     frame_labels <- c(sequence[["operation"]], sequence[["reverse_operation"]])
 
     title_string <- "{ifelse(transitioning, previous_state, ifelse(grepl('gather', next_state), 'Wide', 'Long'))}"
+
+    tl <- 2
+    sl <- 1
+
   } else {
     xshift <- 2
 
@@ -323,6 +327,8 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
     )
     title_string <- "{gsub('\\\\) [a-zA-Z]+$', ')', previous_state)}"
 
+    tl <- length(unique(anim_df$.frame)) * 2
+    sl <- 1
   }
 
   frame_levels <- anim_df$.frame %>% unique()
@@ -333,7 +339,7 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
                            labels = frame_labels))
 
   if (export == "gif") {
-    animate_plot(anim_df, title = title_string) #...
+    animate_plot(anim_df, title = title_string, transition_length = tl, state_length = sl) #...
   } else if (export == "first") {
     static_plot(state_start) #....
   } else if (export == "last") {

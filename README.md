@@ -247,18 +247,13 @@ anti_join(x, y, by = "id")
 ## Set Operations
 
 ``` r
-
-x <- tibble::tribble(
-  ~x,    ~y,
-  "1",  "a",
-  "1",  "b",
-  "2",  "a"
+x <- data_frame(
+  x = c(1, 1, 2),
+  y = c("a", "b", "a")
 )
-
-y <- tibble::tribble(
-  ~x, ~y,
-  "1",  "a",
-  "2",  "b"
+y <- data_frame(
+  x = c(1, 2),
+  y = c("a", "b")
 )
 
 animate_union(x, y, export = "first")
@@ -269,17 +264,17 @@ animate_union(x, y, export = "first")
 ``` r
 x
 #> # A tibble: 3 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 1     b    
-#> 3 2     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     1 b    
+#> 3     2 a
 y 
 #> # A tibble: 2 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 2     b
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     2 b
 ```
 
 ### Union
@@ -295,12 +290,12 @@ animate_union(x, y)
 ``` r
 union(x, y)
 #> # A tibble: 4 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     b    
-#> 2 2     a    
-#> 3 1     b    
-#> 4 1     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 b    
+#> 2     2 a    
+#> 3     1 b    
+#> 4     1 a
 ```
 
 ``` r
@@ -313,12 +308,12 @@ animate_union(y, x)
 
 union(y, x)
 #> # A tibble: 4 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     a    
-#> 2 1     b    
-#> 3 2     b    
-#> 4 1     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 a    
+#> 2     1 b    
+#> 3     2 b    
+#> 4     1 a
 ```
 
 ### Union All
@@ -334,13 +329,13 @@ animate_union_all(x, y)
 ``` r
 union_all(x, y)
 #> # A tibble: 5 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 1     b    
-#> 3 2     a    
-#> 4 1     a    
-#> 5 2     b
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     1 b    
+#> 3     2 a    
+#> 4     1 a    
+#> 5     2 b
 ```
 
 ### Intersection
@@ -356,9 +351,9 @@ animate_intersect(x, y)
 ``` r
 intersect(x, y)
 #> # A tibble: 1 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a
 ```
 
 ### Set Difference
@@ -375,10 +370,10 @@ animate_setdiff(x, y)
 ``` r
 setdiff(x, y)
 #> # A tibble: 2 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     b    
-#> 2 2     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 b    
+#> 2     2 a
 ```
 
 ``` r
@@ -391,12 +386,24 @@ animate_setdiff(y, x)
 
 setdiff(y, x)
 #> # A tibble: 1 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     b
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 b
 ```
 
 ## Tidy Data and `gather()`, `spread()` functionality
+
+[Tidy data](http://r4ds.had.co.nz/tidy-data.html#tidy-data-1) follows
+the following three rules:
+
+1.  Each variable has its own column.
+2.  Each observation has its own row.
+3.  Each value has its own cell.
+
+Many of the tools in the [tidyverse](https://tidyverse.org) expect data
+to be formatted as a tidy dataset and the
+[tidyr](https://tidyr.tidyverse.org) package provides functions to help
+you organize your data into tidy data.
 
 ``` r
 long <- data_frame(
