@@ -52,7 +52,7 @@ static_plot <- function(d, title = "",
     d <- d %>% mutate(.item_id = .id)
   }
 
-  ggplot(d, aes(x = .x, group = .item_id, y = .y, fill = .color, alpha = .alpha)) +
+  ggplot(d, aes(x = .x, y = .y, fill = .color, alpha = .alpha, group = .item_id)) +
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
     geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val, color = .textcolor),

@@ -20,7 +20,7 @@
 #'   Bob = c(100, 97),
 #'   Charlie = c(90, 95)
 #' )
-#' animate_gather(wide, "key", "value", -year, export = "first")
+#' animate_gather(wide, "person", "sales", -year, export = "first")
 #' animate_gather(wide, "person", "sales", -year, export = "last")
 #'
 #' \donttest{

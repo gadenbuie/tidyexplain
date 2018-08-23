@@ -53,9 +53,7 @@ add_color_tidyr <- function(x, key_values,
   color_dict <- color_fun(3)
   names(color_dict) <- c("id", "key", "value")
 
-  x %>% mutate(.color = ifelse(.id_map == ".header" & !.val %in% key_values,
-                               color_header,
-                               color_dict[.type]))
+  x %>% mutate(.color = color_dict[.type])
 }
 
 #' Processes a wide dataframe and converts it into a dataset that can be plotted
@@ -99,38 +97,52 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
            .type = ifelse(.col %in% ids, "id", "value"),
            .val = as.character(.val),
            .x = rep(1:nc, each = nr),
-           .y = -rep(1:nr, nc))
+           .y = -rep(1:nr, nc),
+           .header = F)
 
-  # the .key_map == ids need to be redirected to the key-values and multiplied
-  ids_key_map <- tidyr::crossing(.key_map = key_values, .col = ids)
+  # make sure that we have one id value per key
+  tmp <- x %>% filter(.key_map %in% ids)
   x <- bind_rows(
-    x %>% filter(!.key_map %in% ids),
-    x %>% filter(.key_map %in% ids) %>% select(-.key_map) %>% left_join(ids_key_map, by = ".col")
+    left_join(tmp %>% select(-.key_map),
+              tmp %>% select(.id_map) %>% crossing(.key_map = key_values),
+              by = ".id_map"),
+    x %>% filter(!.key_map %in% ids)
   )
 
-  # due to the untidiness of the wide-data, we need to treat the keys in th header
-  # specially
-  key_mapper <- tidyr::crossing(id_values %>% select(.id_map),
-                                .key_map = key_values) %>%
-    mutate(.id_map = as.character(.id_map))
+  # add header:
+  crosser <- crossing(.id_map = as.character(id_values$.id_map),
+                      .key_map = key_values)
+  key_header <- data_frame(
+    .key_map = key_values,
+    .r = 0,
+    .col = key_values,
+    .val = key_values,
+    .type = "key",
+    .x = length(ids) + 1:length(key_values),
+    .y = 0,
+    .header = TRUE) %>%
+    left_join(crosser, by = ".key_map")
 
-  key_frame <- data_frame(.r = 0, .col = key_values,
-                          .val = key_values, .x = 1:length(key_values) + length(ids),
-                          .y = 0, .type = "key", .key_map = key_values) %>%
-    left_join(key_mapper, by = ".key_map")
+  id_header <- left_join(
+    data_frame(.id_map = ids,
+               .r = 0,
+               .col = ids,
+               .val = ids,
+               .type = "id",
+               .x = 1:length(ids),
+               .y = 0,
+               .header = TRUE),
+    crossing(.id_map = ids, .key_map = key_values),
+    by = ".id_map"
+  )
 
-  # add headers
-  x <- x %>% bind_rows(
-    data_frame(.id_map = ".header", .r = 0, .col = ids, .val = ids,
-               .x = 1:length(ids), .y = 0, .type = "id", .key_map = key_values),
-    key_frame,
-    .
-  ) %>%
-    unite(.id_map, .key_map, .val, col = ".id", remove = F)
+  x <- bind_rows(id_header, key_header, x)
 
-  x %>% add_color_tidyr(key_values = key_values) %>%
-    mutate(.alpha = ifelse(.id_map == ".header", 1, 0.6))
+  x <- x %>% unite(.key_map, .id_map, .val, col = ".id", remove = F)
 
+  x %>%
+    add_color_tidyr(key_values = key_values) %>%
+    mutate(.alpha = ifelse(.header == TRUE, 1, 0.6))
 }
 
 #' Processes a long dataframe and converts it into a dataset that can be plotted
@@ -157,6 +169,8 @@ process_long <- function(x, ids, key, value, ...) {
 
   nr <- nrow(x)
   nc <- ncol(x)
+  xn <- names(x)
+
   x <- x %>% mutate(.r = row_number()) %>%
     unite(ids, col = ".id_map", remove = F) %>%
     unite(key, col = ".key_map", remove = F)
@@ -166,30 +180,55 @@ process_long <- function(x, ids, key, value, ...) {
   type_dict <- c(rep("id", length(ids)), rep("key", length(key)), rep("value", length(value)))
   names(type_dict) <-  c(rep(ids, length(ids)), rep(key, length(key)), rep(value, length(value)))
 
+  x_dict <- 1:nc
+  names(x_dict) <- xn
+
   x <- x %>%
     gather(key = ".col", value = ".val", names(x) %>% str_subset("^[^\\.]")) %>%
     mutate(
-      .x = rep(1:nc, each = nr),
+      .x = x_dict[.col],
       .y = -rep(1:nr, nc),
       .type = type_dict[.col],
-      .val = as.character(.val)
-    ) %>%
-    bind_rows(
-      tidyr::crossing(.id_map = ".header", .r = 0, .col = ids, .val = ids,
-                      .x = 1:length(ids), .y = 0, .type = "id",
-                      .key_map = key_values),
-      data_frame(.id_map = ".header", .r = 0, .col = key, .val = key,
-                 .x = 1 + 1:length(key), .y = 0, .type = "key",
-                 .key_map = key_values),
-      data_frame(.id_map = ".header", .r = 0, .col = value, .val = value,
-                 .x = 1 + length(key) + 1:length(value), .y = 0, .type = "value",
-                 .key_map = "value"),
-      .
-    ) %>%
-    unite(.id_map, .key_map, .val, col = ".id", remove = F)
+      .val = as.character(.val),
+      .header = FALSE
+    )
+
+  # add headers:
+
+  id_headers <- crossing(.id_map = ids, # x$.id_map %>% unique()
+                         .key_map = key_values,
+                         ) %>%
+    mutate(
+      .r = 0,
+      .col = "id",
+      .val = .id_map,
+      .x = x_dict[.val],
+      .y = 0,
+      .type = "id",
+      .header = TRUE
+  )
+
+  x <- x %>%
+    add_row(
+      .before = T,
+      .id_map = c(rep("key", length(key)), rep("value", length(value))),
+      .key_map = c(rep("key", length(key)), rep("value", length(value))),
+      .r = 0,
+      .col = c(rep("key", length(key)), rep("value", length(value))),
+      .val = c(key, value),
+      .x = length(ids) + 1:length(c(key, value)),
+      .y = 0,
+      .type = c(rep("key", length(key)), rep("value", length(value))),
+      .header = TRUE
+    )
+
+  x <- bind_rows(id_headers, x)
+
+  x <- x %>%
+    unite(.key_map, .id_map, .val, col = ".id", remove = F)
 
   x %>% add_color_tidyr(key_values = key_values) %>%
-    mutate(.alpha = ifelse(.id_map == ".header", 1, 0.6))
+    mutate(.alpha = ifelse(.header == TRUE, 1, 0.6))
 }
 
 #' Animates a gather or spread function
@@ -225,34 +264,50 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
   # transformations: for each key-variable: respective ids "fly in", keys fly in and ids fly in (all in one step for one key. i.e., Alice)
 
   # how much is the rhs to the left of lhs?
-  xshift <- 2
 
-  state_start <- lhs %>% mutate(.frame = 0)
-  step_0 <- lhs %>% mutate(.frame = 1)
-  state_end <- rhs %>% mutate(.frame = length(key_values) + 2, .x = .x + max(lhs$.x) + xshift)
+  if (!detailed) {
+    anim_df <- bind_rows(
+      lhs %>% mutate(.frame = 0),
+      rhs %>% mutate(.frame = 1)
+    )
+    frame_labels <- c(sequence[["operation"]], sequence[["reverse_operation"]])
 
-  if (detailed) {
-    # take one instance of the first headers
-    start_headers <- lhs %>% filter(.id_map == ".header" & !.val %in% key_values) %>%
-      group_by(.col, .val) %>% slice(1) %>% ungroup()
-    end_headers <- state_end %>% filter(.id_map == ".header")
+    title_string <- "{ifelse(transitioning, previous_state, ifelse(grepl('gather', next_state), 'Wide', 'Long'))}"
+  } else {
+    xshift <- 2
 
+    rhs <- rhs %>% mutate(.x = .x + max(lhs$.x) + xshift)
+    # the header rows
+    header_start <- lhs %>% filter(.header == TRUE, !.key_map %in% key_values)
+    header_end <- rhs %>% filter(.header == TRUE)
+
+    state_start <- lhs %>% mutate(.frame = 0)
+    state_end <- rhs %>% mutate(.frame = length(key_values) + 2)
+
+    step_0 <- lhs %>% mutate(.frame = 1)
     # for each unique key-value move the respective entries
-    keys_to_shift <- lhs %>% filter(.key_map %in% key_values)
+    keys_remaining <- lhs %>% filter(.key_map %in% key_values)
     keys_shifted <- lhs[0, ]
     key_steps <- lhs[0, ]
-    i <- 1
-    for (keyval in key_values) {
-      i <- i + 1
-      keys_shifted <- bind_rows(keys_shifted, filter(state_end, .key_map == keyval))
+    f <- 1
+    ids_remaining <- lhs %>% filter(.type == "id" & .header == FALSE)
 
-      keys_to_shift <- keys_to_shift %>% filter(.key_map != keyval)
+    for (keyval in key_values) {
+      f <- f + 1
+      move_rhs <- rhs %>% filter(.key_map == keyval)
+
+      keys_remaining <- keys_remaining %>% filter(.key_map != keyval)
+
       if (keyval == key_values[length(key_values)]) {
-        # in the last round, we dont want to save the start headers
-        start_headers <- NULL
+        header_start <- NULL
       }
-      round_n <- bind_rows(end_headers, start_headers,
-                           keys_shifted, keys_to_shift) %>% mutate(.frame = i)
+      hd <- header_end %>% filter(.key_map == keyval |
+                                    (.type %in% c("key", "value") &
+                                       .col %in% c("key", "value")))
+      keys_shifted <- bind_rows(keys_shifted, move_rhs)
+      round_n <- bind_rows(header_start, hd,
+                           keys_remaining, keys_shifted) %>%
+        mutate(.frame = f)
 
       key_steps <- bind_rows(key_steps, round_n)
     }
@@ -268,14 +323,6 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
     )
     title_string <- "{gsub('\\\\) [a-zA-Z]+$', ')', previous_state)}"
 
-  } else {
-    anim_df <- bind_rows(state_start, state_end)
-
-    frame_labels <- c(
-      sequence[["operation"]],
-      sequence[["reverse_operation"]]
-    )
-    title_string <- "{ifelse(transitioning, previous_state, ifelse(grepl('gather', next_state), 'Wide', 'Long'))}"
   }
 
   frame_levels <- anim_df$.frame %>% unique()

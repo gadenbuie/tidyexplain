@@ -5,7 +5,7 @@
 \title{Adds color to processed tidy data}
 \usage{
 add_color_tidyr(x, key_values, color_fun = scales::brewer_pal(type =
-  "qual", "Set1"), color_header = "darkgray")
+  "qual", "Set1"), color_header = "#737373", color_id = "#d0d0d0")
 }
 \arguments{
 \item{x}{a processed data-frame as outputted by process_long or process_wide}

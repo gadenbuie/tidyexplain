@@ -4,7 +4,7 @@
 \alias{process_long}
 \title{Processes a long dataframe and converts it into a dataset that can be plotted}
 \usage{
-process_long(x, ids, key, value, color_id = "lightgray", ...)
+process_long(x, ids, key, value, ...)
 }
 \arguments{
 \item{x}{a long data frame}
@@ -12,8 +12,6 @@ process_long(x, ids, key, value, color_id = "lightgray", ...)
 \item{ids}{a vector of id-variables that are already in the tidy-format}
 
 \item{key}{a vector of key-variables}
-
-\item{color_id}{the color for the id-body}
 
 \item{...}{}
 }
