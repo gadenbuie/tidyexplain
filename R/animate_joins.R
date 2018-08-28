@@ -1,4 +1,4 @@
-#' Animates a join operations
+#' Animates a join operation
 #'
 #' Functions to visualise the join operations either static as a ggplot, or
 #' dynamic as a gif.

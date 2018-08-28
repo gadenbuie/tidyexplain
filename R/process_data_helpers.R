@@ -59,15 +59,15 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
 process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
   if (is.na(side)) side <- deparse(substitute(x))
 
-  x_names <- names(x) %>% str_subset("^[^\\.]")
+  x_names <- names(x)[grepl("^[^\\.]", names(x))]
   x_keys <- 1:length(x_names)
   names(x_keys) <- x_names
 
-  special_vars <- names(x) %>% str_subset("^\\.")
+  special_vars <- names(x)[grepl("^\\.", names(x))]
 
   x <- x %>%
     mutate(.r = row_number()) %>%
-    gather_(key = ".col", value = ".val", names(x) %>% str_subset("^[^.]")) %>%
+    gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
     mutate(.x = x_keys[.col],
            .y = -.r) %>%
     bind_rows(data_frame(.id = ".header",
@@ -85,9 +85,9 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
   mis_ids <- id_long[!id_long %in% x$.id_long]
   # if the missing value is a -1, that means the missing value comes not from
   # missing dublicate ids
-  mis_ids <- str_subset(mis_ids, "[^-1]$")
+  mis_ids <- mis_ids[grepl("[^-1]$", mis_ids)]
   if (length(mis_ids) > 0 && fill) {
-    mis_ids_short <- str_replace(mis_ids, "-[0-9]+$", "")
+    mis_ids_short <- gsub("-[0-9]+$", "", mis_ids)
 
     # insert the missing ids at the right place
     for (i in mis_ids_short) {

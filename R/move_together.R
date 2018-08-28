@@ -15,18 +15,18 @@ move_together <- function(lhs, rhs, type) {
   all <- bind_rows(lhs, rhs)
 
   # separate column and row-filter (ids)
-  x_cols <- lhs %>% distinct(.col)
-  y_cols <- rhs %>% distinct(.col)
+  x_cols <- distinct(lhs, .col)
+  y_cols <- distinct(rhs, .col)
 
   # separate header columns from ids and treat them as columns
-  x_ids <- lhs %>% distinct(.id, .id_long)
-  y_ids <- rhs %>% distinct(.id, .id_long)
+  x_ids <- distinct(lhs, .id, .id_long)
+  y_ids <- distinct(rhs, .id, .id_long)
 
-  x_headers <- x_ids %>% filter(str_detect(.id_long, "^\\.header"))
-  y_headers <- y_ids %>% filter(str_detect(.id_long, "^\\.header"))
+  x_headers <- filter(x_ids, grepl("^\\.header", .id_long))
+  y_headers <- filter(y_ids, grepl("^\\.header", .id_long))
 
-  x_ids <- x_ids %>% filter(!str_detect(.id_long, "^\\.header"))
-  y_ids <- y_ids %>% filter(!str_detect(.id_long, "^\\.header"))
+  x_ids <- x_ids %>% filter(!grepl("^\\.header", .id_long))
+  y_ids <- y_ids %>% filter(!grepl("^\\.header", .id_long))
 
   # assign two combiner functions depending on the type
   # one for combining the columns (col_combiner)
@@ -61,6 +61,12 @@ move_together <- function(lhs, rhs, type) {
   } else if (type == "setdiff") {
     col_combiner <- dplyr::full_join
     row_combiner <- dplyr::anti_join
+  } else if (type == "bind_rows") {
+    col_combiner <- dplyr::full_join
+    row_combiner <- dplyr::bind_rows
+  } else if (type == "bind_cols") {
+    col_combiner <- dplyr::full_join
+    row_combiner <- dplyr::left_join
   } else {
     stop("Unknown func")
   }
@@ -76,10 +82,10 @@ move_together <- function(lhs, rhs, type) {
   mid <- (2 + length(unique(lhs$.col)) + length(unique(rhs$.col))) / 2
   xvals <- 1:nrow(take_cols)
   xvals <- xvals - mean(xvals) + mid
-  names(xvals) <- take_cols %>% pull(.col)
+  names(xvals) <- pull(take_cols, .col)
 
-  yvals <- cumsum(ifelse(str_detect(take_ids$.id_long, "^\\.header"), 0, -1))
-  names(yvals) <- take_ids %>% pull(.id_long)
+  yvals <- cumsum(ifelse(grepl("^\\.header", take_ids$.id_long), 0, -1))
+  names(yvals) <- pull(take_ids, .id_long)
 
   take_vals <- semi_join(all, take %>% select(".id", ".col"),
                          by = c(".id", ".col")) %>%

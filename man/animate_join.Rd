@@ -8,7 +8,7 @@
 \alias{animate_right_join}
 \alias{animate_semi_join}
 \alias{animate_anti_join}
-\title{Animates a join operations}
+\title{Animates a join operation}
 \usage{
 animate_full_join(x, y, by, export = "gif", ...)
 

@@ -33,7 +33,7 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
   rhs <- tidyr::gather(w, !!key, !!value, ...)
 
   # construct the title sequence
-  lname <- deparse(substitute(w))
+  wname <- deparse(substitute(w))
   ids <- get_quos_names(...)
   # ids <- ""
   # what happens if ids := -year or ids := x:y
@@ -49,12 +49,12 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
     current_state = "Wide",
     final_state = "Long",
     operation = sprintf("gather(%s, %s, %s%s)",
-                        lname,
+                        wname,
                         dput_parser(key),
                         dput_parser(value),
                         id_string),
     reverse_operation = sprintf("spread(%s, %s, %s)",
-                                "long_df",
+                                "long",
                                 dput_parser(key),
                                 dput_parser(value))
   )
@@ -112,11 +112,11 @@ animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ...) 
     current_state = "Long",
     final_state = "Wide",
     operation = sprintf("spread(%s, %s, %s)",
-                        "long_df",
+                        lname,
                         dput_parser(key),
                         dput_parser(value)),
     reverse_operation = sprintf("gather(%s, %s, %s%s)",
-                                lname,
+                                "wide",
                                 dput_parser(key),
                                 dput_parser(value),
                                 id_string)

@@ -39,7 +39,7 @@ animate_plot <- function(d, title = "", transition_length = 2, state_length = 1,
 #' NULL
 static_plot <- function(d, title = "",
                         text_family = "Fira Sans", title_family = "Fira Mono",
-                        text_size = 7, title_size = 25, ...) {
+                        text_size = 5, title_size = 17, ...) {
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   if (!".textcolor" %in% names(d))

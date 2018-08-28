@@ -92,7 +92,7 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
     unite(one_of(ids), col = ".id_map", remove = F)
 
   x <- x %>%
-    gather(key = ".col", value = ".val", names(x) %>% str_subset("^[^\\.]")) %>%
+    gather(key = ".col", value = ".val", names(x)[grepl("^[^\\.]", names(x))]) %>%
     mutate(.key_map = .col,
            .type = ifelse(.col %in% ids, "id", "value"),
            .val = as.character(.val),
@@ -184,7 +184,7 @@ process_long <- function(x, ids, key, value, ...) {
   names(x_dict) <- xn
 
   x <- x %>%
-    gather(key = ".col", value = ".val", names(x) %>% str_subset("^[^\\.]")) %>%
+    gather(key = ".col", value = ".val", names(x)[grepl("^[^\\.]", names(x))]) %>%
     mutate(
       .x = x_dict[.col],
       .y = -rep(1:nr, nc),
@@ -339,7 +339,7 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
                            labels = frame_labels))
 
   if (export == "gif") {
-    animate_plot(anim_df, title = title_string, transition_length = tl, state_length = sl) #...
+    animate_plot(anim_df, title = title_string, transition_length = tl, state_length = sl) #, ...)
   } else if (export == "first") {
     static_plot(state_start) #....
   } else if (export == "last") {
