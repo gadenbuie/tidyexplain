@@ -64,7 +64,7 @@ add_color_tidyr <- function(x, key_values,
 #' @param color_id the color for the id-body
 #' @param ...
 #'
-#' @return
+#' @return TODO
 #'
 #' @examples
 #' wide <- data_frame(
@@ -152,7 +152,7 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
 #' @param key a vector of key-variables
 #' @param ...
 #'
-#' @return
+#' @return TODO
 #'
 #' @examples
 #' long <- data_frame(

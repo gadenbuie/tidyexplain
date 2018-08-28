@@ -18,7 +18,7 @@ process_wide(x, ids, key, color_id = "lightgray", ...)
 \item{...}{}
 }
 \value{
-
+TODO
 }
 \description{
 Processes a wide dataframe and converts it into a dataset that can be plotted
