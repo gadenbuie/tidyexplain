@@ -430,6 +430,7 @@ wide <- data_frame(
 > of a variable.
 
 ``` r
+set_font_size(4.5, 15)
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 

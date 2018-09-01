@@ -46,8 +46,8 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
   id_string <- paste0(", ", paste(sprintf("-%s", ids), collapse = ", "))
 
   sequence <- c(
-    current_state = "Wide",
-    final_state = "Long",
+    current_state = "wide",
+    final_state = "long",
     operation = sprintf("gather(%s, %s, %s%s)",
                         wname,
                         dput_parser(key),
@@ -109,8 +109,8 @@ animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ...) 
   id_string <- paste0(", ", paste(sprintf("-%s", ids), collapse = ", "))
 
   sequence <- c(
-    current_state = "Long",
-    final_state = "Wide",
+    current_state = "long",
+    final_state = "wide",
     operation = sprintf("spread(%s, %s, %s)",
                         lname,
                         dput_parser(key),

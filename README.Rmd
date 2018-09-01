@@ -306,6 +306,7 @@ wide <- data_frame(
 > Gather takes multiple columns and collapses into key-value pairs, duplicating all other columns as needed. You use gather() when you notice that your column names are not names of variables, but values of a variable.
 
 ```{r gather}
+set_font_size(4.5, 15)
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 
