@@ -1,6 +1,6 @@
 Type: Package
-Package: tidyverbs
-Title: Animate the Verbs of the Tidyverse
+Package: tidyexplain
+Title: Animated Explanations of Tidyverse Verbs
 Version: 0.0.1.9000
 Date: 2018-08-27
 Authors@R: 
@@ -15,7 +15,8 @@ Authors@R:
       person(given = "Tyler Grant",
              family = "Smith",
              role = "ctb"))
-Description: Animate the verbs of the tidyverse.
+Description: Animated explanations of the verbs in the tidyverse
+    using gganimate and ggplot2.
 License: MIT + file LICENSE
 Depends: 
     gganimate (>= 0.9.9.9999),
@@ -29,8 +30,8 @@ Imports:
 Suggests: 
     knitr,
     roxygen2,
-    viridis,
-    testthat
+    testthat,
+    viridis
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
