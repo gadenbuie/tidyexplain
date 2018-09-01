@@ -66,11 +66,11 @@ animate_join <- function(
   export = c("gif", "first", "last"),
   ...
 ) {
-  type <- match.arg(type)
+  type   <- match.arg(type)
   export <- match.arg(export)
   x_name <- get_input_text(x)
   y_name <- get_input_text(y)
-  data <- make_named_data(x, y)
+  data   <- make_named_data(x, y)
 
   by_args <- if (length(by) == 1) sprintf("\"%s\"", by) else
     sprintf("c(\"%s\")", paste(by, collapse = "\", \""))
