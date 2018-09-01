@@ -93,7 +93,7 @@ move_together <- function(lhs, rhs, type) {
            .x = xvals[.col],
            .y = yvals[.id_long])
 
-  res <- bind_rows(
+  bind_rows(
     # take,
     take_vals,
     # fade in place:
@@ -102,5 +102,4 @@ move_together <- function(lhs, rhs, type) {
     all %>% filter(.id_long %in% take_ids$.id_long & !.col %in% take_cols$.col) %>%
       mutate(.alpha = 0)
   )
-  return(res)
 }

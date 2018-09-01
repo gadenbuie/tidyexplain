@@ -38,7 +38,7 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
   y_ <- process_data_join(y, ids, by, fill = fill, ...) %>%
     mutate(.x = .x + ncol(x) - 1)
 
-  return(list(x = x_, y = y_))
+  list(x = x_, y = y_)
 }
 
 
@@ -102,8 +102,7 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
     }
   }
 
-  res <- add_color_join(x, rev(ids$.id), by, ...)
-  return(res)
+  add_color_join(x, rev(ids$.id), by, ...)
 }
 
 #' Adds Color to a processed data_frame
