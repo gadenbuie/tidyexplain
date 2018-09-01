@@ -142,7 +142,7 @@ add_color_join <- function(x, ids, by,
       .textcolor = text_color)
 
   if (is.na(text_color))
-    res <- res %>% mutate(.textcolor = set_text_color(.color))
+    res <- res %>% mutate(.textcolor = choose_text_color(.color))
 
   return(res)
 }

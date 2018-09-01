@@ -45,7 +45,7 @@ static_plot <- function(
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   if (!".textcolor" %in% names(d))
-    d <- d %>% mutate(.textcolor = set_text_color(.color))
+    d <- d %>% mutate(.textcolor = choose_text_color(.color))
 
   if (".id_long" %in% names(d)) {
     d <- d %>% mutate(.item_id = paste(.id_long, .col, sep = "-"))
