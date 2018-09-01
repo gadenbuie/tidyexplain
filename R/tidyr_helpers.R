@@ -12,8 +12,8 @@
 #' get_quos_names(-x)
 #' get_quos_names(x:y)
 get_quos_names <- function(...) {
-  q <- quos(...)
-  sapply(q, function(i) as.character(i[[2]]))
+  q <- rlang::quos(...)
+  purrr::map_chr(q, rlang::quo_name)
 }
 
 #' Parses a simple vector so that it looks like its input
