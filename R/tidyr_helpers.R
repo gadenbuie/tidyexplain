@@ -88,7 +88,7 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
   key_values <- names(x)
   key_values <- key_values[!key_values %in% ids]
 
-  id_values <- x %>% select(one_of(ids))
+  id_values <- x %>% select(dplyr::one_of(ids))
   id_values <- id_values %>% tidyr::gather(key = ".key_map", value = ".id_map")
 
   x <- x %>% mutate(.r = row_number()) %>%
