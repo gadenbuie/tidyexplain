@@ -26,7 +26,8 @@ Imports:
     magrittr,
     rlang (>= 0.1.2),
     scales,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests: 
     knitr,
     roxygen2,

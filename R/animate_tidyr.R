@@ -34,16 +34,10 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
 
   # construct the title sequence
   wname <- deparse(substitute(w))
-  ids <- get_quos_names(...)
-  # ids <- ""
-  # what happens if ids := -year or ids := x:y
+  tidyr_selection <- get_quos_names(...)
+  ids <- setdiff(colnames(w), tidyselect::vars_select(colnames(w), ...))
 
-  # the case that ... contains two -arguments. i.e., -year, -region
-  ids <- ids[2, ]
-  ids <- ids[!ids %in% c(key, value)]
-  ids <- ids[ids != "-"]
-
-  id_string <- paste0(", ", paste(sprintf("-%s", ids), collapse = ", "))
+  id_string <- paste0(", ", paste(sprintf("%s", tidyr_selection), collapse = ", "))
 
   sequence <- c(
     current_state = "wide",
