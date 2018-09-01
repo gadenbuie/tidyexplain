@@ -25,12 +25,15 @@ get_quos_names <- function(...) {
 #' @examples
 #' dput_parser("x")
 #' dput_parser(c("x", "y"))
-dput_parser <- function(x) {
-  ifelse(length(x) == 1,
-         sprintf("'%s'", x),
-         paste0("c(",
-                paste(sprintf("'%s'", x), collapse = ", "),
-                ")"))
+dput_parser <- function(x) UseMethod("dput_parser")
+
+dput_parser.character <- function(x) {
+  if (length(x) == 1) {
+    sprintf('"%s"', x)
+  } else {
+    x <- capture.output(dput(x))
+    paste(x, collapse = "")
+  }
 }
 
 #' Adds color to processed tidy data
