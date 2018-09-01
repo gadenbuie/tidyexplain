@@ -24,11 +24,11 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
   }
 
   x <- x %>%
-    unite(one_of(by), col = ".id", remove = FALSE) %>%
+    tidyr::unite(dplyr::one_of(by), col = ".id", remove = FALSE) %>%
     mutate(.id_long = add_duplicate_number(.id))
 
   y <- y %>%
-    unite(one_of(by), col = ".id", remove = FALSE)  %>%
+    tidyr::unite(dplyr::one_of(by), col = ".id", remove = FALSE)  %>%
     mutate(.id_long = add_duplicate_number(.id))
 
   ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
@@ -67,7 +67,8 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
 
   x <- x %>%
     mutate(.r = row_number()) %>%
-    gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
+    # TODO re-evaluate gather_ here
+    tidyr::gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
     mutate(.x = x_keys[.col],
            .y = -.r) %>%
     bind_rows(data_frame(.id = ".header",
