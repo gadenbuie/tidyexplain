@@ -5,7 +5,8 @@
 \title{Prints the tiles for a processed dataset statically}
 \usage{
 static_plot(d, title = "", text_family = "Fira Sans",
-  title_family = "Fira Mono", text_size = 5, title_size = 17, ...)
+  title_family = "Fira Mono", text_size = NULL, title_size = NULL,
+  ...)
 }
 \arguments{
 \item{d}{a processed dataset}

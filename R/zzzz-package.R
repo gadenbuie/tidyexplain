@@ -2,3 +2,5 @@
 #' @importFrom dplyr mutate select filter arrange bind_rows bind_cols group_by pull slice data_frame row_number
 #' @keywords internal
 "_PACKAGE"
+
+plot_settings <- new.env(parent = emptyenv())

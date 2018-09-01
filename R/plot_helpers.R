@@ -33,9 +33,15 @@ animate_plot <- function(d, title = "", transition_length = 2, state_length = 1,
 #'
 #' @examples
 #' NULL
-static_plot <- function(d, title = "",
-                        text_family = "Fira Sans", title_family = "Fira Mono",
-                        text_size = 5, title_size = 17, ...) {
+static_plot <- function(
+  d,
+  title = "",
+  text_family = "Fira Sans", title_family = "Fira Mono",
+  text_size = NULL, title_size = NULL,
+  ...
+) {
+  text_size <- get_text_size(text_size, default = 5)
+  title_size <- get_title_size(title_size, default = 17)
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   if (!".textcolor" %in% names(d))
@@ -59,5 +65,46 @@ static_plot <- function(d, title = "",
     labs(title = title) +
     theme_void() +
     theme(plot.title = element_text(family = title_family, hjust = 0.5, size = title_size))
+}
+
+#' Set Default Text Sizes for Animation Plots
+#'
+#' Sets the default text sizes for the animated and static plots produced by
+#' this package during the current session.
+#'
+#' @param text_size Font size of value labels inside the data frame squares
+#' @param title_size Font size of the function call or plot title
+#' @export
+set_font_size <- function(text_size = NULL, title_size = NULL) {
+  old <- list()
+  if (!is.null(text_size)) old$text_size <- set_text_size(text_size)
+  if (!is.null(title_size)) old$title_size <- set_title_size(title_size)
+  invisible(old)
+}
+
+set_text_size <- function(size) {
+  old <- plot_settings$text_size
+  plot_settings$text_size <- size
+  invisible(old)
+}
+
+set_title_size <- function(size) {
+  old <- plot_settings$title_size
+  plot_settings$title_size <- size
+  invisible(old)
+}
+
+get_text_size <- function(x = NULL, default = 5) {
+  if (!is.null(x)) return(x)
+  plot_settings$text_size %||%
+    getFromNamespace("theme_env", "ggplot2")$current$text$size %||%
+    default
+}
+
+get_title_size <- function(x = NULL, default = 17) {
+  if (!is.null(x)) return(x)
+  plot_settings$title_size %||%
+    getFromNamespace("theme_env", "ggplot2")$current$plot.title$size %||%
+    default
 }
 

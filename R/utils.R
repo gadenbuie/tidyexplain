@@ -1,3 +1,5 @@
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
 set_text_color <- function(x, black = "#000000", white = "#FFFFFF") {
   # x = color_hex
   color_rgb <- col2rgb(x)
