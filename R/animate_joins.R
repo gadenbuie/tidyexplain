@@ -68,19 +68,9 @@ animate_join <- function(
 ) {
   type <- match.arg(type)
   export <- match.arg(export)
-
-  if (rlang::is_quosure(x)) {
-    x_name <- rlang::quo_name(x)
-    x <- rlang::eval_tidy(x)
-  } else {
-    x_name <- rlang::quo_name(rlang::enquo(x))
-  }
-  if (rlang::is_quosure(y)) {
-    y_name <- rlang::quo_name(y)
-    y <- rlang::eval_tidy(y)
-  } else {
-    y_name <- rlang::quo_name(rlang::enquo(y))
-  }
+  x_name <- get_input_text(x)
+  y_name <- get_input_text(y)
+  data <- make_named_data(x, y)
 
   by_args <- if (length(by) == 1) sprintf("\"%s\"", by) else
     sprintf("c(\"%s\")", paste(by, collapse = "\", \""))
@@ -89,10 +79,10 @@ animate_join <- function(
 
   if (type %in% c("semi_join", "anti_join")) {
     # for semi and anti_joins, there is no adding of multiple rows
-    y <- dplyr::distinct(y)
+    data$y <- dplyr::distinct(data$y)
   }
 
-  ll <- process_join(x, y, by, ...)
+  ll <- process_join(data$x, data$y, by, ...)
 
   step0 <- bind_rows(ll$x, ll$y) %>% mutate(.frame = 0, .alpha = 1)
 

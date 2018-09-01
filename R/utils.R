@@ -13,3 +13,14 @@ choose_text_color <- function(x, black = "#000000", white = "#FFFFFF") {
   # threshold is supposed to be 0.179 but 1/3 seems to work better for our plots
   ifelse(lum > 1/3, black, white)
 }
+
+get_input_text <- function(x) {
+  if (!rlang::is_quosure(x)) x <- rlang::enquo(x)
+  rlang::quo_name(x)
+}
+
+make_named_data <- function(x, y, data_names = c("x", "y")) {
+  ll <- rlang::eval_tidy(rlang::quo(list(!!x, !!y)))
+  names(ll) <- data_names
+  ll
+}
