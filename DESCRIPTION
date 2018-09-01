@@ -29,7 +29,8 @@ Imports:
 Suggests: 
     knitr,
     roxygen2,
-    viridis
+    viridis,
+    testthat
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

@@ -1,7 +1,3 @@
-
-
-set_text_color <- function(a) ifelse(apply(col2rgb(a), 2, mean) > 127, "black", "white")
-
 #' Animates a plot
 #'
 #' @param d a preprocessed dataset
