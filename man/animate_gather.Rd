@@ -4,7 +4,8 @@
 \alias{animate_gather}
 \title{Animates the gather function}
 \usage{
-animate_gather(w, key, value, ..., export = "gif", detailed = TRUE)
+animate_gather(w, key, value, ..., export = "gif", detailed = TRUE,
+  anim_opts = anim_options())
 }
 \arguments{
 \item{w}{a data_frame in the wide format}
@@ -13,10 +14,11 @@ animate_gather(w, key, value, ..., export = "gif", detailed = TRUE)
 
 \item{value}{the value}
 
-\item{...}{further arguments passed to gather, static_plot, or animate_plot}
+\item{...}{further arguments passed to \code{\link[tidyr:gather]{tidyr::gather()}}, \code{\link[=process_wide]{process_wide()}},
+or \code{\link[=process_long]{process_long()}}}
 
 \item{export}{the export type, either gif, first or last. The latter two
-export ggplots of the first/last state of the gather function}
+export ggplots of the first/last state of the join}
 
 \item{detailed}{boolean value if the animation should show one step for each
 key value}

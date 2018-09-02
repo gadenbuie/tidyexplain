@@ -1,33 +1,85 @@
+#' Animation Options
+#'
+#' Helper function to set animation and plotting options to be passed to
+#' [animate_plot()] and [static_plot()].
+#'
+#' @param text_family Font family for the plot text
+#' @param title_family Font family for the plot title
+#' @param text_size Font size of the plot text
+#' @param title_size Font size of the plot title
+#' @param ease_default Default aes easing function. See [tweenr::display_ease]
+#'   for more options.
+#' @param ease_other Additional aes easing options, named with aesthetic to
+#'   which the easeing should be applied, consistent with [gganimate::ease_aes()].
+#' @param enter_exit Enter/exit fading functions applied to objects in the animation.
+#'   See [gganimate::enter_exit] for a complete list of options.
+#' @inheritParams gganimate::transition_states
+#' @export
+anim_options <- function(
+  transition_length = 2,
+  state_length = 1,
+  ease_default = "sine-in-out",
+  ease_other   = NULL,
+  enter_       = enter_fade(),
+  exit_        = exit_fade(),
+  text_family  = "Fira Sans",
+  title_family = "Fira Mono",
+  text_size    = NULL,
+  title_size   = NULL,
+  ...
+){
+  structure(
+    list(
+      transition_length = transition_length,
+      state_length = state_length,
+      ease_default = ease_default,
+      ease_other   = ease_other,
+      enter_       = enter_,
+      exit_        = exit_,
+      text_family  = text_family,
+      text_size    = text_size,
+      title_family = title_family,
+      title_size   = title_size,
+      ...
+    ),
+    class = "anim_opts"
+  )
+}
+
 #' Animates a plot
 #'
-#' @param d a preprocessed dataset
-#' @param title the plot title
-#' @param transition_length see transition_states
-#' @param state_length see transition_states
-#' @param ... further arguments passed to static_plot
-#'
-#' @return a gif
-#'
+#' @param d a processed dataset
+#' @param title the title of the plot
+#' @param anim_opts Animation options generated with [anim_options()]. Overrides
+#'   any options set in `...`.
+#' @return a `gganim` object
 #' @examples
 #' NULL
-animate_plot <- function(d, title = "", transition_length = 2, state_length = 1, ...) {
-  static_plot(d, title, ...) +
-    transition_states(.frame, transition_length, state_length) +
-    enter_fade() +
-    exit_fade() +
-    ease_aes("sine-in-out")
+animate_plot <- function(
+  d,
+  title = "",
+  ...,
+  anim_opts = anim_options(...)
+) {
+  ao <- anim_opts
+  ease_opts <- if (!is.null(ao$ease_other)) {
+    ao$ease_other$default <- ao$ease_default
+    ao$ease_other
+    } else list(default = ao$ease_default)
+  ao_ease_aes <- do.call(ease_aes, ease_opts)
+
+  static_plot(d, title, ao$text_family, ao$title_family, ao$text_size, ao$title_size) +
+    transition_states(.frame, ao$transition_length, ao$state_length) +
+    ao$enter_ +
+    ao$exit_ +
+    ao_ease_aes
 }
 
 
 #' Prints the tiles for a processed dataset statically
 #'
-#' @param d a processed dataset
-#' @param title the title of the plot
-#' @param text_family the font for the text
-#' @param title_family the font for the title
-#' @param text_size the size of the text
-#' @param title_size the size of the title
-#' @param ... further arguments
+#' @inheritParams animate_plot
+#' @inheritDotParams anim_options
 #'
 #' @return a ggplot
 #'
@@ -36,12 +88,12 @@ animate_plot <- function(d, title = "", transition_length = 2, state_length = 1,
 static_plot <- function(
   d,
   title = "",
-  text_family = "Fira Sans", title_family = "Fira Mono",
-  text_size = NULL, title_size = NULL,
-  ...
+  ...,
+  anim_opts = anim_options(...)
 ) {
-  text_size <- get_text_size(text_size, default = 5)
-  title_size <- get_title_size(title_size, default = 17)
+  ao <- anim_opts
+  text_size <- get_text_size(ao$text_size, default = 5)
+  title_size <- get_title_size(ao$title_size, default = 17)
 
   if (!".alpha" %in% names(d)) d <- d %>% mutate(.alpha = 1)
   if (!".textcolor" %in% names(d))
@@ -58,13 +110,13 @@ static_plot <- function(
     geom_tile(width = 0.9, height = 0.9) +
     coord_equal() +
     geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val, color = .textcolor),
-              family = text_family, size = text_size) +
+              family = ao$text_family, size = text_size) +
     scale_fill_identity() +
     scale_color_identity() +
     scale_alpha_identity() +
     labs(title = title) +
     theme_void() +
-    theme(plot.title = element_text(family = title_family, hjust = 0.5, size = title_size))
+    theme(plot.title = element_text(family = ao$title_family, hjust = 0.5, size = title_size))
 }
 
 #' Set Default Text Sizes for Animation Plots

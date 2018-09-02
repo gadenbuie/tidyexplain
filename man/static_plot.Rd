@@ -4,24 +4,31 @@
 \alias{static_plot}
 \title{Prints the tiles for a processed dataset statically}
 \usage{
-static_plot(d, title = "", text_family = "Fira Sans",
-  title_family = "Fira Mono", text_size = NULL, title_size = NULL,
-  ...)
+static_plot(d, title = "", ..., anim_opts = anim_options(...))
 }
 \arguments{
 \item{d}{a processed dataset}
 
 \item{title}{the title of the plot}
 
-\item{text_family}{the font for the text}
+\item{...}{Arguments passed on to \code{anim_options}
+\describe{
+  \item{text_family}{Font family for the plot text}
+  \item{title_family}{Font family for the plot title}
+  \item{text_size}{Font size of the plot text}
+  \item{title_size}{Font size of the plot title}
+  \item{ease_default}{Default aes easing function. See \link[tweenr:display_ease]{tweenr::display_ease}
+for more options.}
+  \item{ease_other}{Additional aes easing options, named with aesthetic to
+which the easeing should be applied, consistent with \code{\link[gganimate:ease_aes]{gganimate::ease_aes()}}.}
+  \item{transition_length}{The relative length of the transition. Will be
+recycled to match the number of states in the data}
+  \item{state_length}{The relative length of the pause at the states. Will be
+recycled to match the number of states in the data}
+}}
 
-\item{title_family}{the font for the title}
-
-\item{text_size}{the size of the text}
-
-\item{title_size}{the size of the title}
-
-\item{...}{further arguments}
+\item{anim_opts}{Animation options generated with \code{\link[=anim_options]{anim_options()}}. Overrides
+any options set in \code{...}.}
 }
 \value{
 a ggplot

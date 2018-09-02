@@ -253,7 +253,7 @@ process_long <- function(x, ids, key, value, ...) {
 #'
 #' @examples
 #' NULL
-gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...) {
+gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ..., anim_opts = anim_options()) {
   # lhs is the one state of the df
   # rhs is the target state
 
@@ -342,11 +342,11 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
                            labels = frame_labels))
 
   if (export == "gif") {
-    animate_plot(anim_df, title = title_string, transition_length = tl, state_length = sl) #, ...)
+    animate_plot(anim_df, title = title_string, anim_opts = anim_opts)
   } else if (export == "first") {
-    static_plot(state_start) #....
+    static_plot(state_start, anim_opts = anim_opts) #....
   } else if (export == "last") {
-    static_plot(state_end) #....
+    static_plot(state_end, anim_opts = anim_opts) #....
   }
 
   # open issues: ... doesnt work properly.
