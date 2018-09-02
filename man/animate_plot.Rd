@@ -4,22 +4,18 @@
 \alias{animate_plot}
 \title{Animates a plot}
 \usage{
-animate_plot(d, title = "", transition_length = 2, state_length = 1,
-  ...)
+animate_plot(d, title = "", ..., anim_opts = anim_options(...))
 }
 \arguments{
-\item{d}{a preprocessed dataset}
+\item{d}{a processed dataset}
 
-\item{title}{the plot title}
+\item{title}{the title of the plot}
 
-\item{transition_length}{see transition_states}
-
-\item{state_length}{see transition_states}
-
-\item{...}{further arguments passed to static_plot}
+\item{anim_opts}{Animation options generated with \code{\link[=anim_options]{anim_options()}}. Overrides
+any options set in \code{...}.}
 }
 \value{
-a gif
+a \code{gganim} object
 }
 \description{
 Animates a plot
