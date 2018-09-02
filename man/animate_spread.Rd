@@ -4,22 +4,23 @@
 \alias{animate_spread}
 \title{Animates the spread function}
 \usage{
-animate_spread(l, key, value, export = "gif", detailed = TRUE, ...)
+animate_spread(l, key, value, export = "gif", detailed = TRUE, ...,
+  anim_opts = anim_options())
 }
 \arguments{
 \item{l}{a data_frame in the long/tidy format}
 
 \item{key}{the key}
 
-\item{value}{the values}
+\item{value}{the value}
 
 \item{export}{the export type, either gif, first or last. The latter two
-export ggplots of the first/last state of the spread function}
+export ggplots of the first/last state of the join}
 
 \item{detailed}{boolean value if the animation should show one step for each
 key value}
 
-\item{...}{further arguments passed to static_plot}
+\item{...}{further arguments passed to \link{process_long} or \link{process_wide}}
 }
 \value{
 a ggplot or a gif
