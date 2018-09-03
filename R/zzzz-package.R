@@ -5,3 +5,16 @@
 "_PACKAGE"
 
 plot_settings <- new.env(parent = emptyenv())
+plot_settings$default <- list(
+  transition_length = 2,
+  state_length      = 1,
+  ease_default      = "sine-in-out",
+  ease_other        = NULL,
+  enter             = setNames(list(enter_fade()), "enter_fade()"),
+  exit              = setNames(list(exit_fade()), "exit_fade()"),
+  text_family       = "Fira Mono",
+  title_family      = "Fira Mono",
+  text_size         = 5,
+  title_size        = 17
+)
+

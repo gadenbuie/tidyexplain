@@ -13,20 +13,23 @@ static_plot(d, title = "", ..., anim_opts = anim_options(...))
 
 \item{...}{Arguments passed on to \code{anim_options}
 \describe{
-  \item{text_family}{Font family for the plot text}
-  \item{title_family}{Font family for the plot title}
-  \item{text_size}{Font size of the plot text}
-  \item{title_size}{Font size of the plot title}
+  \item{text_family}{Font family for the plot text, default is "Fira Mono". Use
+\code{\link[=set_font_size]{set_font_size()}} to set global default font sizes.}
+  \item{title_family}{Font family for the plot title, default is "Fira Mono".
+Use \code{\link[=set_font_size]{set_font_size()}} to set global default font sizes.}
+  \item{text_size}{Font size of the plot text, default is 5.}
+  \item{title_size}{Font size of the plot title, default is 17.}
   \item{ease_default}{Default aes easing function. See \code{\link[tweenr:display_ease]{tweenr::display_ease()}}
-for more options.}
+for more options. The tidyexplain default value is \code{sine-in-out}.}
   \item{ease_other}{Additional aes easing options, specified as a named list.
 List entries are named with the aesthetic to which the easeing should be
-applied, consistent with \code{\link[gganimate:ease_aes]{gganimate::ease_aes()}}.
-E.g. \code{list(color = "sine")}.}
+applied, consistent with \code{\link[gganimate:ease_aes]{gganimate::ease_aes()}}. E.g. \code{list(color = "sine")}.}
   \item{enter}{Enter fading function applied to objects in the animation. See
-\link[gganimate:enter_exit]{gganimate::enter_exit} for a complete list of options.}
+\link[gganimate:enter_exit]{gganimate::enter_exit} for a complete list of options. The tidyexplain
+default is \code{\link[gganimate:enter_fade]{gganimate::enter_fade()}}.}
   \item{exit}{Exit fading function applied to objects in the animation. See
-\link[gganimate:enter_exit]{gganimate::enter_exit} for a complete list of options.}
+\link[gganimate:enter_exit]{gganimate::enter_exit} for a complete list of options. The tidyexplain
+default is \code{\link[gganimate:exit_fade]{gganimate::exit_fade()}}.}
   \item{transition_length}{The relative length of the transition. Will be
 recycled to match the number of states in the data}
   \item{state_length}{The relative length of the pause at the states. Will be
