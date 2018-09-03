@@ -10,7 +10,7 @@ anim_options(transition_length = NULL, state_length = NULL,
   exit = NULL, text_family = NULL, title_family = NULL,
   text_size = NULL, title_size = NULL, ...)
 
-anim_options_set(anim_opts)
+anim_options_set(anim_opts = anim_options())
 }
 \arguments{
 \item{transition_length}{The relative length of the transition. Will be
