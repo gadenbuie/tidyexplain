@@ -12,6 +12,7 @@ test_that("setting and getting animation options works", {
   expect_equal(get_anim_opt(), anim_options(text_size = 5, title_size = 10))
   expect_error(get_anim_opt("text_size"))
   expect_equal(get_text_size(), get_anim_opt()$text_size)
+  expect_equal(get_title_size(), get_anim_opt()$title_size)
 
   anim_options_set(anim_options(2, 1))
   expect_equal(get_anim_opt("transition_length"), 2)
