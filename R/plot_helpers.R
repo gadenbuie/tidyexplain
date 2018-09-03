@@ -75,6 +75,20 @@ validate_anim_opts <- function(ao, quiet = FALSE, strict = getOption("tidyexplai
   invisible(ao)
 }
 
+merge.anim_opts <- function(ao_new, ao_base = anim_options()) {
+  ao_new <- remove_default_anim_opts(ao_new)
+  utils::modifyList(ao_base, ao_new, TRUE)
+}
+
+remove_default_anim_opts <- function(ao) {
+  ao_default <- anim_options()
+  same_names <- purrr::map2_lgl(ao, ao_default, ~ identical(names(.x), names(.y)))
+  same <- purrr::map2_lgl(ao, ao_default, ~ identical(.x, .y))
+  same[["enter"]] <- same_names[["enter"]]
+  same[["exit"]]  <- same_names[["exit"]]
+  ao[!same]
+}
+
 #' Animates a plot
 #'
 #' @param d a processed dataset
