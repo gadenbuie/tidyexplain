@@ -5,7 +5,7 @@
 \title{Animates the spread function}
 \usage{
 animate_spread(l, key, value, export = "gif", detailed = TRUE, ...,
-  anim_opts = anim_options())
+  anim_opts = NULL)
 }
 \arguments{
 \item{l}{a data_frame in the long/tidy format}
@@ -21,6 +21,8 @@ export ggplots of the first/last state of the join}
 key value}
 
 \item{...}{further arguments passed to \link{process_long} or \link{process_wide}}
+
+\item{anim_opts}{An \code{\link[=anim_options]{anim_options()}} options list.}
 }
 \value{
 a ggplot or a gif
