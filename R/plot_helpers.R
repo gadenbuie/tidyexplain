@@ -7,12 +7,16 @@
 #' @param title_family Font family for the plot title
 #' @param text_size Font size of the plot text
 #' @param title_size Font size of the plot title
-#' @param ease_default Default aes easing function. See [tweenr::display_ease]
+#' @param ease_default Default aes easing function. See [tweenr::display_ease()]
 #'   for more options.
-#' @param ease_other Additional aes easing options, named with aesthetic to
-#'   which the easeing should be applied, consistent with [gganimate::ease_aes()].
-#' @param enter_exit Enter/exit fading functions applied to objects in the animation.
-#'   See [gganimate::enter_exit] for a complete list of options.
+#' @param ease_other Additional aes easing options, specified as a named list.
+#'   List entries are named with the aesthetic to which the easeing should be
+#'   applied, consistent with [gganimate::ease_aes()].
+#'   E.g. `list(color = "sine")`.
+#' @param enter Enter fading function applied to objects in the animation. See
+#'   [gganimate::enter_exit] for a complete list of options.
+#' @param exit Exit fading function applied to objects in the animation. See
+#'   [gganimate::enter_exit] for a complete list of options.
 #' @inheritParams gganimate::transition_states
 #' @export
 anim_options <- function(
@@ -20,8 +24,8 @@ anim_options <- function(
   state_length = 1,
   ease_default = "sine-in-out",
   ease_other   = NULL,
-  enter_       = enter_fade(),
-  exit_        = exit_fade(),
+  enter        = enter_fade(),
+  exit         = exit_fade(),
   text_family  = "Fira Sans",
   title_family = "Fira Mono",
   text_size    = NULL,
@@ -34,8 +38,8 @@ anim_options <- function(
       state_length = state_length,
       ease_default = ease_default,
       ease_other   = ease_other,
-      enter_       = enter_,
-      exit_        = exit_,
+      enter        = enter,
+      exit         = exit,
       text_family  = text_family,
       text_size    = text_size,
       title_family = title_family,
