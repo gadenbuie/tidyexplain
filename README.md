@@ -56,12 +56,12 @@ library(tidyexplain)
 ## Mutating Joins
 
 ``` r
-x <- data_frame(
+x <- dplyr::data_frame(
   id = 1:3,
   x = paste0("x", 1:3)
 )
 
-y <- data_frame(
+y <- dplyr::data_frame(
   id = (1:4)[-3],
   y = paste0("y", (1:4)[-3])
 )
@@ -100,7 +100,7 @@ animate_inner_join(x, y, by = "id")
 ![](man/figures/tidyexplain-inner-join-1.gif)<!-- -->
 
 ``` r
-inner_join(x, y, by = "id")
+dplyr::inner_join(x, y, by = "id")
 #> # A tibble: 2 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -120,7 +120,7 @@ animate_left_join(x, y, by = "id")
 ![](man/figures/tidyexplain-left-join-1.gif)<!-- -->
 
 ``` r
-left_join(x, y, by = "id")
+dplyr::left_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -135,7 +135,7 @@ left_join(x, y, by = "id")
 > of the matches are returned.
 
 ``` r
-y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
+y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 #> # A tibble: 4 x 2
 #>      id y    
@@ -151,7 +151,7 @@ animate_left_join(x, y_extra, by = "id")
 ![](man/figures/tidyexplain-left-join-extra-1.gif)<!-- -->
 
 ``` r
-left_join(x, y_extra, by = "id")
+dplyr::left_join(x, y_extra, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <dbl> <chr> <chr>
@@ -173,7 +173,7 @@ animate_right_join(x, y, by = "id")
 ![](man/figures/tidyexplain-right-join-1.gif)<!-- -->
 
 ``` r
-right_join(x, y, by = "id")
+dplyr::right_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -194,7 +194,7 @@ animate_full_join(x, y, by = "id")
 ![](man/figures/tidyexplain-full-join-1.gif)<!-- -->
 
 ``` r
-full_join(x, y, by = "id")
+dplyr::full_join(x, y, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -218,7 +218,7 @@ animate_semi_join(x, y, by = "id")
 ![](man/figures/tidyexplain-semi-join-1.gif)<!-- -->
 
 ``` r
-semi_join(x, y, by = "id")
+dplyr::semi_join(x, y, by = "id")
 #> # A tibble: 2 x 2
 #>      id x    
 #>   <int> <chr>
@@ -238,7 +238,7 @@ animate_anti_join(x, y, by = "id")
 ![](man/figures/tidyexplain-anti-join-1.gif)<!-- -->
 
 ``` r
-anti_join(x, y, by = "id")
+dplyr::anti_join(x, y, by = "id")
 #> # A tibble: 1 x 2
 #>      id x    
 #>   <int> <chr>
@@ -248,11 +248,11 @@ anti_join(x, y, by = "id")
 ## Set Operations
 
 ``` r
-x <- data_frame(
+x <- dplyr::data_frame(
   x = c(1, 1, 2),
   y = c("a", "b", "a")
 )
-y <- data_frame(
+y <- dplyr::data_frame(
   x = c(1, 2),
   y = c("a", "b")
 )
@@ -289,7 +289,7 @@ animate_union(x, y)
 ![](man/figures/tidyexplain-union-1.gif)<!-- -->
 
 ``` r
-union(x, y)
+dplyr::union(x, y)
 #> # A tibble: 4 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -307,7 +307,7 @@ animate_union(y, x)
 
 ``` r
 
-union(y, x)
+dplyr::union(y, x)
 #> # A tibble: 4 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -328,7 +328,7 @@ animate_union_all(x, y)
 ![](man/figures/tidyexplain-union-all-1.gif)<!-- -->
 
 ``` r
-union_all(x, y)
+dplyr::union_all(x, y)
 #> # A tibble: 5 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -350,7 +350,7 @@ animate_intersect(x, y)
 ![](man/figures/tidyexplain-intersect-1.gif)<!-- -->
 
 ``` r
-intersect(x, y)
+dplyr::intersect(x, y)
 #> # A tibble: 1 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -369,7 +369,7 @@ animate_setdiff(x, y)
 ![](man/figures/tidyexplain-setdiff-1.gif)<!-- -->
 
 ``` r
-setdiff(x, y)
+dplyr::setdiff(x, y)
 #> # A tibble: 2 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -385,7 +385,7 @@ animate_setdiff(y, x)
 
 ``` r
 
-setdiff(y, x)
+dplyr::setdiff(y, x)
 #> # A tibble: 1 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -407,14 +407,12 @@ to be formatted as a tidy dataset and the
 you organize your data into tidy data.
 
 ``` r
-library(tidyr)
-
-long <- data_frame(
+long <- dplyr::data_frame(
   year = c(2010, 2011, 2010, 2011, 2010, 2011),
   person = c("Alice", "Alice", "Bob", "Bob", "Charlie", "Charlie"),
   sales = c(105, 110, 100, 97, 90, 95)
 )
-wide <- data_frame(
+wide <- dplyr::data_frame(
   year = 2010:2011, 
   Alice = c(105, 110), 
   Bob = c(100, 97), 
@@ -437,7 +435,7 @@ animate_gather(wide, key = "person", value = "sales", -year)
 ![](man/figures/tidyexplain-gather-1.gif)<!-- -->
 
 ``` r
-gather(wide, key = "person", value = "sales", -year)
+tidyr::gather(wide, key = "person", value = "sales", -year)
 #> # A tibble: 6 x 3
 #>    year person  sales
 #>   <int> <chr>   <dbl>
@@ -461,7 +459,7 @@ animate_spread(long, key = "person", value = "sales")
 ![](man/figures/tidyexplain-spread-1.gif)<!-- -->
 
 ``` r
-spread(long, key = "person", value = "sales")
+tidyr::spread(long, key = "person", value = "sales")
 #> # A tibble: 2 x 4
 #>    year Alice   Bob Charlie
 #>   <dbl> <dbl> <dbl>   <dbl>
