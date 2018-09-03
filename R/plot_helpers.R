@@ -50,6 +50,19 @@ anim_options <- function(
   )
 }
 
+validate_anim_opts <- function(ao, quiet = FALSE, strict = getOption("tidyexplain.strict_dots", FALSE)) {
+  if (!inherits(ao, "anim_opts")) {
+    rlang::warn("Use `anim_options()` to set `anim_opts`")
+  }
+  extra_names <- setdiff(names(ao), names(formals(anim_options)))
+  if (!quiet && length(extra_names)) {
+    extra_names <- paste0(sprintf("`%s`", extra_names), collapse = ", ")
+    msg <- paste("Unknown animation options will be ignored:", extra_names)
+    if (isTrue(strict)) rlang::abort(msg) else rlang::warn(msg)
+  }
+  invisible(ao)
+}
+
 #' Animates a plot
 #'
 #' @param d a processed dataset
@@ -65,17 +78,17 @@ animate_plot <- function(
   ...,
   anim_opts = anim_options(...)
 ) {
-  ao <- anim_opts
+  ao <- validate_anim_opts(anim_opts)
   ease_opts <- if (!is.null(ao$ease_other)) {
     ao$ease_other$default <- ao$ease_default
     ao$ease_other
     } else list(default = ao$ease_default)
   ao_ease_aes <- do.call(ease_aes, ease_opts)
 
-  static_plot(d, title, ao$text_family, ao$title_family, ao$text_size, ao$title_size) +
+  static_plot(d, title, anim_opts = ao) +
     transition_states(.frame, ao$transition_length, ao$state_length) +
-    ao$enter_ +
-    ao$exit_ +
+    ao$enter +
+    ao$exit +
     ao_ease_aes
 }
 
@@ -95,7 +108,7 @@ static_plot <- function(
   ...,
   anim_opts = anim_options(...)
 ) {
-  ao <- anim_opts
+  ao <- validate_anim_opts(anim_opts)
   text_size <- get_text_size(ao$text_size, default = 5)
   title_size <- get_title_size(ao$title_size, default = 17)
 
