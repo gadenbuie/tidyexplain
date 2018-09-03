@@ -5,7 +5,7 @@
 \title{Animates the gather function}
 \usage{
 animate_gather(w, key, value, ..., export = "gif", detailed = TRUE,
-  anim_opts = anim_options())
+  anim_opts = NULL)
 }
 \arguments{
 \item{w}{a data_frame in the wide format}
@@ -22,6 +22,8 @@ export ggplots of the first/last state of the join}
 
 \item{detailed}{boolean value if the animation should show one step for each
 key value}
+
+\item{anim_opts}{An \code{\link[=anim_options]{anim_options()}} options list.}
 }
 \value{
 a gif or a ggplot

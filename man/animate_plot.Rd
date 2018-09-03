@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_helpers.R
 \name{animate_plot}
 \alias{animate_plot}
-\title{Animates a plot}
+\title{Animation Options}
 \usage{
 animate_plot(d, title = "", ..., anim_opts = anim_options(...))
 }
@@ -18,7 +18,7 @@ any options set in \code{...}.}
 a \code{gganim} object
 }
 \description{
-Animates a plot
+Animation Options
 }
 \examples{
 NULL
