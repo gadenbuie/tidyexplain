@@ -52,6 +52,15 @@ anim_options <- function(
   )
 }
 
+print.anim_opts <- function(ao) {
+  aop <- ao
+  # Replace ggproto (enter/exit functions) with their names
+  aop$enter <- paste("ggproto:", names(ao$enter))
+  aop$exit  <- paste("ggproto:", names(ao$exit))
+  str(aop)
+  invisible(ao)
+}
+
 validate_anim_opts <- function(ao, quiet = FALSE, strict = getOption("tidyexplain.strict_dots", FALSE)) {
   if (!inherits(ao, "anim_opts")) {
     rlang::warn("Use `anim_options()` to set `anim_opts`")
