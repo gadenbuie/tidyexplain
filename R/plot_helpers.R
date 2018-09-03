@@ -32,14 +32,16 @@ anim_options <- function(
   title_size   = NULL,
   ...
 ){
+  enter_name <- rlang::quo_name(rlang::enquo(enter))
+  exit_name <- rlang::quo_name(rlang::enquo(exit))
   structure(
     list(
       transition_length = transition_length,
       state_length = state_length,
       ease_default = ease_default,
       ease_other   = ease_other,
-      enter        = enter,
-      exit         = exit,
+      enter        = setNames(list(enter), enter_name),
+      exit         = setNames(list(exit), exit_name),
       text_family  = text_family,
       text_size    = text_size,
       title_family = title_family,
@@ -54,6 +56,7 @@ validate_anim_opts <- function(ao, quiet = FALSE, strict = getOption("tidyexplai
   if (!inherits(ao, "anim_opts")) {
     rlang::warn("Use `anim_options()` to set `anim_opts`")
   }
+  stopifnot(is.ggproto(ao$enter[[1]]), is.ggproto(ao$exit[[1]]))
   extra_names <- setdiff(names(ao), names(formals(anim_options)))
   if (!quiet && length(extra_names)) {
     extra_names <- paste0(sprintf("`%s`", extra_names), collapse = ", ")
@@ -87,8 +90,8 @@ animate_plot <- function(
 
   static_plot(d, title, anim_opts = ao) +
     transition_states(.frame, ao$transition_length, ao$state_length) +
-    ao$enter +
-    ao$exit +
+    ao$enter[[1]] +
+    ao$exit[[1]] +
     ao_ease_aes
 }
 
