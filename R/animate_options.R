@@ -148,7 +148,15 @@ default_anim_opts <- function(family, ao_custom = NULL) {
                             ease_other = list(y = "cubic-out", x = "cubic-in")),
     anim_options()
   )
-  if (is.null(ao_custom)) ao_default else merge(ao_custom, ao_default)
+  if (is.null(ao_custom)) {
+    # User set globals override defaults
+    ao_custom <- get_anim_opt()
+  } else {
+    # Opts from function call override user-set globals
+    ao_custom <- merge(ao_custom, get_anim_opt())
+  }
+  # function > user-set global > default (> global default)
+  if (!is.null(ao_custom)) merge(ao_custom, ao_default) else ao_default
 }
 
 # Font Size Setters and Getters -------------------------------------------
