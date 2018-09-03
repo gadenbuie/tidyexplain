@@ -89,6 +89,23 @@ remove_default_anim_opts <- function(ao) {
   ao[!same]
 }
 
+default_anim_opts <- function(family, ao_custom = NULL) {
+  family_options <- c("join", "set", "gather", "spread")
+  family <- match.arg(family, family_options, several.ok = FALSE)
+  ao_default <- switch(
+    family,
+    "gather" = anim_options(enter = enter_fade(), exit = exit_fade(),
+                            ease_default = "sine-in-out",
+                            ease_other = list(y = "cubic-out", x = "cubic-in")),
+    "spread" = anim_options(enter = enter_fade(), exit = exit_fade(),
+                            ease_default = "sine-in-out",
+                            ease_other = list(y = "cubic-out", x = "cubic-in")),
+    anim_options()
+  )
+  if (is.null(ao_custom)) return(ao_default)
+  merge(ao_custom, ao_default)
+}
+
 #' Animates a plot
 #'
 #' @param d a processed dataset
