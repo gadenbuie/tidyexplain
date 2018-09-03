@@ -24,6 +24,7 @@ Depends:
 Imports: 
     dplyr,
     magrittr,
+    purrr,
     rlang (>= 0.1.2),
     scales,
     tidyr,
