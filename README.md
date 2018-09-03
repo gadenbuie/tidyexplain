@@ -145,7 +145,8 @@ y_extra # has multiple rows with the key from `x`
 #> 3     4 y4   
 #> 4     2 y5
 
-animate_left_join(x, y_extra, by = "id")
+animate_left_join(x, y_extra, by = "id", 
+  anim_opts = anim_options(title_size = 22))
 ```
 
 ![](man/figures/tidyexplain-left-join-extra-1.gif)<!-- -->

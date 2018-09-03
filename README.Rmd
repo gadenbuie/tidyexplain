@@ -119,7 +119,8 @@ dplyr::left_join(x, y, by = "id")
 y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 
-animate_left_join(x, y_extra, by = "id")
+animate_left_join(x, y_extra, by = "id", 
+  anim_opts = anim_options(title_size = 22))
 ```
 
 ```{r}
