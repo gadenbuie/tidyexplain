@@ -61,7 +61,7 @@ anim_options <- function(
 #' @describeIn anim_options Set default animation options for the current session.
 #' @param anim_opts An [anim_options()] options list.
 #' @export
-anim_options_set <- function(anim_opts) {
+anim_options_set <- function(anim_opts = anim_options()) {
   stopifnot(is.anim_opts(anim_opts))
   ao_old <- plot_settings$anim_opts
   plot_settings$anim_opts <- merge(anim_opts, plot_settings$anim_opts)
