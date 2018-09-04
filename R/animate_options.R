@@ -79,13 +79,16 @@ get_anim_opt <- function(anim_opt = NULL) {
 
 # Animation Options Methods -----------------------------------------------
 
-print.anim_opts <- function(ao) {
-  aop <- purrr::discard(ao, is.null)
+print.anim_opts <- function(ao, full = FALSE) {
+  if (!full) ao <- purrr::discard(ao, is.null)
   # Replace ggproto (enter/exit functions) with their names
-  if ("enter" %in% names(aop)) aop$enter <- paste("ggproto:", names(ao$enter))
-  if ("exit" %in% names(aop))  aop$exit  <- paste("ggproto:", names(ao$exit))
-  str(aop)
-  invisible(ao)
+  if ("enter" %in% names(ao)) ao$enter <- paste("ggproto:", names(ao$enter))
+  if ("exit"  %in% names(ao)) ao$exit  <- paste("ggproto:", names(ao$exit))
+  x <- capture.output(str(ao, no.list = TRUE))
+  cat(
+    paste0("<anim_options: ", length(ao), " options>"),
+    x, sep = "\n"
+  )
 }
 
 is.anim_opts <- function(ao) inherits(ao, "anim_opts")
