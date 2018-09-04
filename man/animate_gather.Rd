@@ -5,7 +5,7 @@
 \title{Animates the gather function}
 \usage{
 animate_gather(w, key, value, ..., export = "gif", detailed = TRUE,
-  anim_opts = NULL)
+  anim_opts = anim_options())
 }
 \arguments{
 \item{w}{a data_frame in the wide format}

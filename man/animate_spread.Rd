@@ -5,7 +5,7 @@
 \title{Animates the spread function}
 \usage{
 animate_spread(l, key, value, export = "gif", detailed = TRUE, ...,
-  anim_opts = NULL)
+  anim_opts = anim_options())
 }
 \arguments{
 \item{l}{a data_frame in the long/tidy format}

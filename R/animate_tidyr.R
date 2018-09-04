@@ -28,7 +28,7 @@
 #'   # if you want to have a less detailed animation, you can also use
 #'   animate_gather(wide, "person", "sales", -year, export = "gif", detailed = FALSE)
 #' }
-animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE, anim_opts = NULL) {
+animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE, anim_opts = anim_options()) {
   anim_opts <- default_anim_opts("gather", anim_opts)
   lhs <- w
   rhs <- tidyr::gather(w, !!key, !!value, ...)
@@ -88,7 +88,7 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE, 
 #'   # if you want to have a less detailed animation, you can also use
 #'   animate_spread(long, key = "person", value = "sales", export = "gif", detailed = FALSE)
 #' }
-animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ..., anim_opts = NULL) {
+animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ..., anim_opts = anim_options()) {
   anim_opts <- default_anim_opts("spread", anim_opts)
 
   lhs <- l
