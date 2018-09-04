@@ -1,4 +1,4 @@
-#' Animation Options
+#' Animate a Plot
 #'
 #' @param d a processed dataset
 #' @param title the title of the plot
