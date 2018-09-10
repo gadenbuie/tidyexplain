@@ -12,8 +12,8 @@
 #' get_quos_names(-x)
 #' get_quos_names(x:y)
 get_quos_names <- function(...) {
-  q <- quos(...)
-  sapply(q, function(i) as.character(i[[2]]))
+  q <- rlang::quos(...)
+  purrr::map_chr(q, rlang::quo_name)
 }
 
 #' Parses a simple vector so that it looks like its input
@@ -25,12 +25,15 @@ get_quos_names <- function(...) {
 #' @examples
 #' dput_parser("x")
 #' dput_parser(c("x", "y"))
-dput_parser <- function(x) {
-  ifelse(length(x) == 1,
-         sprintf("'%s'", x),
-         paste0("c(",
-                paste(sprintf("'%s'", x), collapse = ", "),
-                ")"))
+dput_parser <- function(x) UseMethod("dput_parser")
+
+dput_parser.character <- function(x) {
+  if (length(x) == 1) {
+    sprintf('"%s"', x)
+  } else {
+    x <- capture.output(dput(x))
+    paste(x, collapse = "")
+  }
 }
 
 #' Adds color to processed tidy data
@@ -85,11 +88,11 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
   key_values <- names(x)
   key_values <- key_values[!key_values %in% ids]
 
-  id_values <- x %>% select(one_of(ids))
-  id_values <- id_values %>% gather(key = ".key_map", value = ".id_map")
+  id_values <- x %>% select(dplyr::one_of(ids))
+  id_values <- id_values %>% tidyr::gather(key = ".key_map", value = ".id_map")
 
   x <- x %>% mutate(.r = row_number()) %>%
-    unite(one_of(ids), col = ".id_map", remove = F)
+    tidyr::unite(dplyr::one_of(ids), col = ".id_map", remove = F)
 
   x <- x %>%
     gather(key = ".col", value = ".val", names(x)[grepl("^[^\\.]", names(x))]) %>%
@@ -104,13 +107,13 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
   tmp <- x %>% filter(.key_map %in% ids)
   x <- bind_rows(
     left_join(tmp %>% select(-.key_map),
-              tmp %>% select(.id_map) %>% crossing(.key_map = key_values),
+              tmp %>% select(.id_map) %>% tidyr::crossing(.key_map = key_values),
               by = ".id_map"),
     x %>% filter(!.key_map %in% ids)
   )
 
   # add header:
-  crosser <- crossing(.id_map = as.character(id_values$.id_map),
+  crosser <- tidyr::crossing(.id_map = as.character(id_values$.id_map),
                       .key_map = key_values)
   key_header <- data_frame(
     .key_map = key_values,
@@ -132,13 +135,13 @@ process_wide <- function(x, ids, key, color_id = "lightgray", ...) {
                .x = 1:length(ids),
                .y = 0,
                .header = TRUE),
-    crossing(.id_map = ids, .key_map = key_values),
+    tidyr::crossing(.id_map = ids, .key_map = key_values),
     by = ".id_map"
   )
 
   x <- bind_rows(id_header, key_header, x)
 
-  x <- x %>% unite(.key_map, .id_map, .val, col = ".id", remove = F)
+  x <- x %>% tidyr::unite(.key_map, .id_map, .val, col = ".id", remove = F)
 
   x %>%
     add_color_tidyr(key_values = key_values) %>%
@@ -172,8 +175,8 @@ process_long <- function(x, ids, key, value, ...) {
   xn <- names(x)
 
   x <- x %>% mutate(.r = row_number()) %>%
-    unite(ids, col = ".id_map", remove = F) %>%
-    unite(key, col = ".key_map", remove = F)
+    tidyr::unite(ids, col = ".id_map", remove = F) %>%
+    tidyr::unite(key, col = ".key_map", remove = F)
 
   key_values <- x %>% pull(key) %>% unique()
 
@@ -184,7 +187,7 @@ process_long <- function(x, ids, key, value, ...) {
   names(x_dict) <- xn
 
   x <- x %>%
-    gather(key = ".col", value = ".val", names(x)[grepl("^[^\\.]", names(x))]) %>%
+    tidyr::gather(key = ".col", value = ".val", names(x)[grepl("^[^\\.]", names(x))]) %>%
     mutate(
       .x = x_dict[.col],
       .y = -rep(1:nr, nc),
@@ -195,9 +198,9 @@ process_long <- function(x, ids, key, value, ...) {
 
   # add headers:
 
-  id_headers <- crossing(.id_map = ids, # x$.id_map %>% unique()
-                         .key_map = key_values,
-                         ) %>%
+  id_headers <- tidyr::crossing(.id_map = ids, # x$.id_map %>% unique()
+                                .key_map = key_values,
+  ) %>%
     mutate(
       .r = 0,
       .col = "id",
@@ -209,7 +212,7 @@ process_long <- function(x, ids, key, value, ...) {
   )
 
   x <- x %>%
-    add_row(
+    dplyr::add_row(
       .before = T,
       .id_map = c(rep("key", length(key)), rep("value", length(value))),
       .key_map = c(rep("key", length(key)), rep("value", length(value))),
@@ -225,7 +228,7 @@ process_long <- function(x, ids, key, value, ...) {
   x <- bind_rows(id_headers, x)
 
   x <- x %>%
-    unite(.key_map, .id_map, .val, col = ".id", remove = F)
+    tidyr::unite(.key_map, .id_map, .val, col = ".id", remove = F)
 
   x %>% add_color_tidyr(key_values = key_values) %>%
     mutate(.alpha = ifelse(.header == TRUE, 1, 0.6))
@@ -250,7 +253,7 @@ process_long <- function(x, ids, key, value, ...) {
 #'
 #' @examples
 #' NULL
-gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...) {
+gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ..., anim_opts = anim_options()) {
   # lhs is the one state of the df
   # rhs is the target state
 
@@ -339,11 +342,11 @@ gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...)
                            labels = frame_labels))
 
   if (export == "gif") {
-    animate_plot(anim_df, title = title_string, transition_length = tl, state_length = sl) #, ...)
+    animate_plot(anim_df, title = title_string, anim_opts = anim_opts)
   } else if (export == "first") {
-    static_plot(state_start) #....
+    static_plot(state_start, anim_opts = anim_opts) #....
   } else if (export == "last") {
-    static_plot(state_end) #....
+    static_plot(state_end, anim_opts = anim_opts) #....
   }
 
   # open issues: ... doesnt work properly.

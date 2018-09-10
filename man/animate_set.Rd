@@ -8,6 +8,9 @@
 \alias{animate_setdiff}
 \title{Animates a set operation}
 \usage{
+animate_set(x, y, type = c("union", "union_all", "intersect", "setdiff"),
+  export = c("gif", "first", "last"), ...)
+
 animate_union(x, y, export = "gif", ...)
 
 animate_union_all(x, y, export = "gif", ...)
@@ -20,6 +23,8 @@ animate_setdiff(x, y, export = "gif", ...)
 \item{x}{the x dataset}
 
 \item{y}{the y dataset}
+
+\item{type}{type of the set, i.e., intersect, setdiff, etc.}
 
 \item{export}{the export type, either gif, first or last. The latter two
 export ggplots of the first/last state of the join}
@@ -34,14 +39,8 @@ Functions to visualise the set operations either static as a ggplot, or
 dynamic as a gif.
 }
 \examples{
-x <- data_frame(
-  x = c(1, 1, 2),
-  y = c("a", "b", "a")
-)
-y <- data_frame(
-  x = c(1, 2),
-  y = c("a", "b")
-)
+x <- data_frame(x = c(1, 1, 2), y = c("a", "b", "a"))
+y <- data_frame(x = c(1, 2), y = c("a", "b"))
 
 # Animate the first or last state of the set
 animate_union(x, y, export = "first")
@@ -49,36 +48,36 @@ animate_union(x, y, export = "last")
 
 # animate the transition as a gif (default)
 \donttest{
-  animate_union(x, y, export = "gif")
+animate_union(x, y, export = "gif")
 }
 
 # different options include
 \donttest{
-  animate_union(x, y)
-  animate_union_all(x, y)
-  animate_intersect(x, y)
-  animate_setdiff(x, y)
+animate_union(x, y)
+animate_union_all(x, y)
+animate_intersect(x, y)
+animate_setdiff(x, y)
 
-  # further arguments can be passed to all animate_* functions
-  animate_union(
-    x, y,
-    text_size = 5, title_size = 25,
-    color_header = "black",
-    color_other = "lightblue",
-    color_fun = viridis::viridis
-  )
+# further arguments can be passed to all animate_* functions
+animate_union(
+  x, y,
+  text_size = 5, title_size = 25,
+  color_header = "black",
+  color_other = "lightblue",
+  color_fun = viridis::viridis
+)
 }
 
 # Save the results
 \dontrun{
-  # to save the ggplot, use
-  un <- animate_union(x, y, by = "id", export = "last")
-  ggsave("union.pdf", un)
+# to save the ggplot, use
+un <- animate_union(x, y, by = "id", export = "last")
+ggsave("union.pdf", un)
 
-  animate_union(x, y, by = "id", export = "gif")
-  # to save the gif, use
-  un <- animate_union(x, y, by = "id", export = "gif")
-  anim_save(un, "union.gif")
+animate_union(x, y, by = "id", export = "gif")
+# to save the gif, use
+un <- animate_union(x, y, by = "id", export = "gif")
+anim_save(un, "union.gif")
 }
 }
 \seealso{

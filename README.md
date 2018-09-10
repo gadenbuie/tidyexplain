@@ -25,10 +25,9 @@ Smith](https://github.com/TylerGrantSmith).
   - Tidyr Operations: [`gather()`](#gather), [`spread()`](#spread)
 
   - Learn more about
-
-  - [Relational Data](#relational-data)
-
-  - [gganimate](#gganimate)
+    
+      - [Relational Data](#relational-data)
+      - [gganimate](#gganimate)
 
 Please feel free to use these images for teaching or learning about
 action verbs from the [tidyverse](https://tidyverse.org). You can
@@ -44,23 +43,25 @@ welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
 ## Installing
 
-The library can be installed with
+The in-development version of `tidyexplain` can be installed with
+`devtools`:
 
 ``` r
 # install.package("devtools")
 devtools::install_github("gadenbuie/tidy-animated-verbs")
+
+library(tidyexplain)
 ```
 
 ## Mutating Joins
 
 ``` r
-library(tidyAnimatedVerbs)
-x <- data_frame(
+x <- dplyr::data_frame(
   id = 1:3,
   x = paste0("x", 1:3)
 )
 
-y <- data_frame(
+y <- dplyr::data_frame(
   id = (1:4)[-3],
   y = paste0("y", (1:4)[-3])
 )
@@ -68,7 +69,7 @@ y <- data_frame(
 animate_full_join(x, y, by = c("id"), export = "first")
 ```
 
-![](README_files/figure-gfm/intial-dfs-1.png)<!-- -->
+![](man/figures/tidyexplain-intial-dfs-1.png)<!-- -->
 
 ``` r
 x
@@ -96,10 +97,10 @@ y
 animate_inner_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/inner-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-inner-join-1.gif)<!-- -->
 
 ``` r
-inner_join(x, y, by = "id")
+dplyr::inner_join(x, y, by = "id")
 #> # A tibble: 2 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -116,10 +117,10 @@ inner_join(x, y, by = "id")
 animate_left_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/left-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-left-join-1.gif)<!-- -->
 
 ``` r
-left_join(x, y, by = "id")
+dplyr::left_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -134,7 +135,7 @@ left_join(x, y, by = "id")
 > of the matches are returned.
 
 ``` r
-y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
+y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 #> # A tibble: 4 x 2
 #>      id y    
@@ -144,13 +145,14 @@ y_extra # has multiple rows with the key from `x`
 #> 3     4 y4   
 #> 4     2 y5
 
-animate_left_join(x, y_extra, by = "id")
+animate_left_join(x, y_extra, by = "id", 
+  anim_opts = anim_options(title_size = 22))
 ```
 
-![](README_files/figure-gfm/left-join-extra-1.gif)<!-- -->
+![](man/figures/tidyexplain-left-join-extra-1.gif)<!-- -->
 
 ``` r
-left_join(x, y_extra, by = "id")
+dplyr::left_join(x, y_extra, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <dbl> <chr> <chr>
@@ -169,10 +171,10 @@ left_join(x, y_extra, by = "id")
 animate_right_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/right-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-right-join-1.gif)<!-- -->
 
 ``` r
-right_join(x, y, by = "id")
+dplyr::right_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -190,10 +192,10 @@ right_join(x, y, by = "id")
 animate_full_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/full-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-full-join-1.gif)<!-- -->
 
 ``` r
-full_join(x, y, by = "id")
+dplyr::full_join(x, y, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -214,10 +216,10 @@ full_join(x, y, by = "id")
 animate_semi_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/semi-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-semi-join-1.gif)<!-- -->
 
 ``` r
-semi_join(x, y, by = "id")
+dplyr::semi_join(x, y, by = "id")
 #> # A tibble: 2 x 2
 #>      id x    
 #>   <int> <chr>
@@ -234,10 +236,10 @@ semi_join(x, y, by = "id")
 animate_anti_join(x, y, by = "id")
 ```
 
-![](README_files/figure-gfm/anti-join-1.gif)<!-- -->
+![](man/figures/tidyexplain-anti-join-1.gif)<!-- -->
 
 ``` r
-anti_join(x, y, by = "id")
+dplyr::anti_join(x, y, by = "id")
 #> # A tibble: 1 x 2
 #>      id x    
 #>   <int> <chr>
@@ -247,11 +249,11 @@ anti_join(x, y, by = "id")
 ## Set Operations
 
 ``` r
-x <- data_frame(
+x <- dplyr::data_frame(
   x = c(1, 1, 2),
   y = c("a", "b", "a")
 )
-y <- data_frame(
+y <- dplyr::data_frame(
   x = c(1, 2),
   y = c("a", "b")
 )
@@ -259,7 +261,7 @@ y <- data_frame(
 animate_union(x, y, export = "first")
 ```
 
-![](README_files/figure-gfm/intial-dfs-so-1.png)<!-- -->
+![](man/figures/tidyexplain-intial-dfs-so-1.png)<!-- -->
 
 ``` r
 x
@@ -285,10 +287,10 @@ y
 animate_union(x, y)
 ```
 
-![](README_files/figure-gfm/union-1.gif)<!-- -->
+![](man/figures/tidyexplain-union-1.gif)<!-- -->
 
 ``` r
-union(x, y)
+dplyr::union(x, y)
 #> # A tibble: 4 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -302,11 +304,11 @@ union(x, y)
 animate_union(y, x)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.gif)<!-- -->
+![](man/figures/tidyexplain-union-y-x-1.gif)<!-- -->
 
 ``` r
 
-union(y, x)
+dplyr::union(y, x)
 #> # A tibble: 4 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -324,10 +326,10 @@ union(y, x)
 animate_union_all(x, y)
 ```
 
-![](README_files/figure-gfm/union-all-1.gif)<!-- -->
+![](man/figures/tidyexplain-union-all-1.gif)<!-- -->
 
 ``` r
-union_all(x, y)
+dplyr::union_all(x, y)
 #> # A tibble: 5 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -346,10 +348,10 @@ union_all(x, y)
 animate_intersect(x, y)
 ```
 
-![](README_files/figure-gfm/intersect-1.gif)<!-- -->
+![](man/figures/tidyexplain-intersect-1.gif)<!-- -->
 
 ``` r
-intersect(x, y)
+dplyr::intersect(x, y)
 #> # A tibble: 1 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -365,10 +367,10 @@ intersect(x, y)
 animate_setdiff(x, y)
 ```
 
-![](README_files/figure-gfm/setdiff-1.gif)<!-- -->
+![](man/figures/tidyexplain-setdiff-1.gif)<!-- -->
 
 ``` r
-setdiff(x, y)
+dplyr::setdiff(x, y)
 #> # A tibble: 2 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -380,11 +382,11 @@ setdiff(x, y)
 animate_setdiff(y, x)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.gif)<!-- -->
+![](man/figures/tidyexplain-setdiff-y-x-1.gif)<!-- -->
 
 ``` r
 
-setdiff(y, x)
+dplyr::setdiff(y, x)
 #> # A tibble: 1 x 2
 #>       x y    
 #>   <dbl> <chr>
@@ -406,12 +408,12 @@ to be formatted as a tidy dataset and the
 you organize your data into tidy data.
 
 ``` r
-long <- data_frame(
+long <- dplyr::data_frame(
   year = c(2010, 2011, 2010, 2011, 2010, 2011),
   person = c("Alice", "Alice", "Bob", "Bob", "Charlie", "Charlie"),
   sales = c(105, 110, 100, 97, 90, 95)
 )
-wide <- data_frame(
+wide <- dplyr::data_frame(
   year = 2010:2011, 
   Alice = c(105, 110), 
   Bob = c(100, 97), 
@@ -427,13 +429,14 @@ wide <- data_frame(
 > of a variable.
 
 ``` r
+set_font_size(4.5, 15)
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.gif)<!-- -->
+![](man/figures/tidyexplain-gather-1.gif)<!-- -->
 
 ``` r
-gather(wide, key = "person", value = "sales", -year)
+tidyr::gather(wide, key = "person", value = "sales", -year)
 #> # A tibble: 6 x 3
 #>    year person  sales
 #>   <int> <chr>   <dbl>
@@ -454,10 +457,10 @@ gather(wide, key = "person", value = "sales", -year)
 animate_spread(long, key = "person", value = "sales")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.gif)<!-- -->
+![](man/figures/tidyexplain-spread-1.gif)<!-- -->
 
 ``` r
-spread(long, key = "person", value = "sales")
+tidyr::spread(long, key = "person", value = "sales")
 #> # A tibble: 2 x 4
 #>    year Alice   Bob Charlie
 #>   <dbl> <dbl> <dbl>   <dbl>

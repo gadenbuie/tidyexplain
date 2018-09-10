@@ -4,7 +4,8 @@
 \alias{gather_spread}
 \title{Animates a gather or spread function}
 \usage{
-gather_spread(lhs, rhs, sequence, key_values, export, detailed, ...)
+gather_spread(lhs, rhs, sequence, key_values, export, detailed, ...,
+  anim_opts = anim_options())
 }
 \arguments{
 \item{lhs}{the (processed) dataset on the left-side}

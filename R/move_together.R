@@ -15,12 +15,12 @@ move_together <- function(lhs, rhs, type) {
   all <- bind_rows(lhs, rhs)
 
   # separate column and row-filter (ids)
-  x_cols <- distinct(lhs, .col)
-  y_cols <- distinct(rhs, .col)
+  x_cols <- dplyr::distinct(lhs, .col)
+  y_cols <- dplyr::distinct(rhs, .col)
 
   # separate header columns from ids and treat them as columns
-  x_ids <- distinct(lhs, .id, .id_long)
-  y_ids <- distinct(rhs, .id, .id_long)
+  x_ids <- dplyr::distinct(lhs, .id, .id_long)
+  y_ids <- dplyr::distinct(rhs, .id, .id_long)
 
   x_headers <- filter(x_ids, grepl("^\\.header", .id_long))
   y_headers <- filter(y_ids, grepl("^\\.header", .id_long))
@@ -93,7 +93,7 @@ move_together <- function(lhs, rhs, type) {
            .x = xvals[.col],
            .y = yvals[.id_long])
 
-  res <- bind_rows(
+  bind_rows(
     # take,
     take_vals,
     # fade in place:
@@ -102,5 +102,4 @@ move_together <- function(lhs, rhs, type) {
     all %>% filter(.id_long %in% take_ids$.id_long & !.col %in% take_cols$.col) %>%
       mutate(.alpha = 0)
   )
-  return(res)
 }

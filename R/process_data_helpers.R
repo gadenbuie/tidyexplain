@@ -24,11 +24,11 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
   }
 
   x <- x %>%
-    unite(one_of(by), col = ".id", remove = FALSE) %>%
+    tidyr::unite(dplyr::one_of(by), col = ".id", remove = FALSE) %>%
     mutate(.id_long = add_duplicate_number(.id))
 
   y <- y %>%
-    unite(one_of(by), col = ".id", remove = FALSE)  %>%
+    tidyr::unite(dplyr::one_of(by), col = ".id", remove = FALSE)  %>%
     mutate(.id_long = add_duplicate_number(.id))
 
   ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
@@ -38,7 +38,7 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
   y_ <- process_data_join(y, ids, by, fill = fill, ...) %>%
     mutate(.x = .x + ncol(x) - 1)
 
-  return(list(x = x_, y = y_))
+  list(x = x_, y = y_)
 }
 
 
@@ -67,7 +67,8 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
 
   x <- x %>%
     mutate(.r = row_number()) %>%
-    gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
+    # TODO re-evaluate gather_ here
+    tidyr::gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
     mutate(.x = x_keys[.col],
            .y = -.r) %>%
     bind_rows(data_frame(.id = ".header",
@@ -101,8 +102,7 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
     }
   }
 
-  res <- add_color_join(x, rev(ids$.id), by, ...)
-  return(res)
+  add_color_join(x, rev(ids$.id), by, ...)
 }
 
 #' Adds Color to a processed data_frame
@@ -141,7 +141,7 @@ add_color_join <- function(x, ids, by,
       .textcolor = text_color)
 
   if (is.na(text_color))
-    res <- res %>% mutate(.textcolor = set_text_color(.color))
+    res <- res %>% mutate(.textcolor = choose_text_color(.color))
 
   return(res)
 }

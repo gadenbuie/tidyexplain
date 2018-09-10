@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -11,9 +13,11 @@ knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
   message = FALSE,
+  fig.path = "man/figures/tidyexplain-",
   cache = TRUE
 )
-library(tidyAnimatedVerbs)
+library(tidyexplain)
+set_font_size(11, 26)
 ```
 
 [gganimate]: https://github.com/thomasp85/gganimate#README
@@ -38,8 +42,8 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
 - Tidyr Operations: [`gather()`](#gather), [`spread()`](#spread)
 
 - Learn more about
-- [Relational Data](#relational-data)
-- [gganimate](#gganimate)
+    - [Relational Data](#relational-data)
+    - [gganimate](#gganimate)
 
 
 Please feel free to use these images for teaching or learning about action verbs from the [tidyverse](https://tidyverse.org).
@@ -50,22 +54,24 @@ Currently, the animations cover the [dplyr two-table verbs][dplyr-two-table] and
 
 ## Installing
 
-The library can be installed with
-```{r, echo=T,eval=F}
+The in-development version of `tidyexplain` can be installed with `devtools`:
+
+```r
 # install.package("devtools")
 devtools::install_github("gadenbuie/tidy-animated-verbs")
+
+library(tidyexplain)
 ```
 
 ## Mutating Joins
 
-```{r intial-dfs, echo=T}
-library(tidyAnimatedVerbs)
-x <- data_frame(
+```{r intial-dfs}
+x <- dplyr::data_frame(
   id = 1:3,
   x = paste0("x", 1:3)
 )
 
-y <- data_frame(
+y <- dplyr::data_frame(
   id = (1:4)[-3],
   y = paste0("y", (1:4)[-3])
 )
@@ -74,7 +80,7 @@ animate_full_join(x, y, by = c("id"), export = "first")
 ```
 
 
-```{r echo=TRUE}
+```{r}
 x
 y
 ```
@@ -83,67 +89,68 @@ y
 
 > All rows from `x` where there are matching values in `y`, and all columns from `x` and `y`.
 
-```{r inner-join, echo=T}
+```{r inner-join}
 animate_inner_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-inner_join(x, y, by = "id")
+```{r}
+dplyr::inner_join(x, y, by = "id")
 ```
 
 ### Left Join
 
 > All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns.
 
-```{r left-join, echo=T}
+```{r left-join}
 animate_left_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-left_join(x, y, by = "id")
+```{r}
+dplyr::left_join(x, y, by = "id")
 ```
 
 ### Left Join (Extra Rows in y)
 
 > ... If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
 
-```{r left-join-extra, echo=T}
-y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
+```{r left-join-extra}
+y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 
-animate_left_join(x, y_extra, by = "id")
+animate_left_join(x, y_extra, by = "id", 
+  anim_opts = anim_options(title_size = 22))
 ```
 
-```{r echo=TRUE}
-left_join(x, y_extra, by = "id")
+```{r}
+dplyr::left_join(x, y_extra, by = "id")
 ```
 
 ### Right Join
 
 > All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns.
 
-```{r right-join, echo = T}
+```{r right-join}
 animate_right_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-right_join(x, y, by = "id")
+```{r}
+dplyr::right_join(x, y, by = "id")
 ```
 
 ### Full Join
 
 > All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing.
 
-```{r full-join, echo=T}
+```{r full-join}
 animate_full_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-full_join(x, y, by = "id")
+```{r}
+dplyr::full_join(x, y, by = "id")
 ```
 
 ## Filtering Joins
@@ -152,36 +159,36 @@ full_join(x, y, by = "id")
 
 > All rows from `x` where there are matching values in `y`, keeping just columns from `x`.
 
-```{r semi-join, echo=T}
+```{r semi-join}
 animate_semi_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-semi_join(x, y, by = "id")
+```{r}
+dplyr::semi_join(x, y, by = "id")
 ```
 
 ### Anti Join
 
 > All rows from `x` where there are not matching values in `y`, keeping just columns from `x`.
 
-```{r anti-join, echo=T}
+```{r anti-join}
 animate_anti_join(x, y, by = "id")
 ```
 
 
-```{r echo=TRUE}
-anti_join(x, y, by = "id")
+```{r}
+dplyr::anti_join(x, y, by = "id")
 ```
 
 ## Set Operations
 
-```{r intial-dfs-so, echo=T}
-x <- data_frame(
+```{r intial-dfs-so}
+x <- dplyr::data_frame(
   x = c(1, 1, 2),
   y = c("a", "b", "a")
 )
-y <- data_frame(
+y <- dplyr::data_frame(
   x = c(1, 2),
   y = c("a", "b")
 )
@@ -190,7 +197,7 @@ animate_union(x, y, export = "first")
 ```
 
 
-```{r echo=TRUE}
+```{r}
 x
 y 
 ```
@@ -199,35 +206,35 @@ y
 
 > All unique rows from `x` and `y`.
 
-```{r union, echo=T}
+```{r union}
 animate_union(x, y)
 ```
 
 
-```{r echo=TRUE}
-union(x, y)
+```{r}
+dplyr::union(x, y)
 ```
 
 
 
-```{r echo=TRUE}
+```{r union-y-x}
 animate_union(y, x)
 
-union(y, x)
+dplyr::union(y, x)
 ```
 
 ### Union All
 
 > All rows from `x` and `y`, keeping duplicates.
 
-```{r union-all, echo=T}
+```{r union-all}
 animate_union_all(x, y)
 ```
 
 
 
-```{r echo=TRUE}
-union_all(x, y)
+```{r}
+dplyr::union_all(x, y)
 ```
 
 
@@ -235,33 +242,33 @@ union_all(x, y)
 
 > Common rows in both `x` and `y`, keeping just unique rows.
 
-```{r intersect, echo=T}
+```{r intersect}
 animate_intersect(x, y)
 ```
 
 
-```{r echo=TRUE}
-intersect(x, y)
+```{r}
+dplyr::intersect(x, y)
 ```
 
 ### Set Difference
 
 > All rows from `x` which are not also rows in `y`, keeping just unique rows.
 
-```{r setdiff, echo=T}
+```{r setdiff}
 animate_setdiff(x, y)
 ```
 
 
-```{r echo=TRUE}
-setdiff(x, y)
+```{r}
+dplyr::setdiff(x, y)
 ```
 
 
-```{r echo=TRUE}
+```{r setdiff-y-x}
 animate_setdiff(y, x)
 
-setdiff(y, x)
+dplyr::setdiff(y, x)
 ```
 
 ## Tidy Data and `gather()`, `spread()` functionality
@@ -279,12 +286,12 @@ to be formatted as a tidy dataset and the
 you organize your data into tidy data.
 
 ```{r}
-long <- data_frame(
+long <- dplyr::data_frame(
   year = c(2010, 2011, 2010, 2011, 2010, 2011),
   person = c("Alice", "Alice", "Bob", "Bob", "Charlie", "Charlie"),
   sales = c(105, 110, 100, 97, 90, 95)
 )
-wide <- data_frame(
+wide <- dplyr::data_frame(
   year = 2010:2011, 
   Alice = c(105, 110), 
   Bob = c(100, 97), 
@@ -292,35 +299,30 @@ wide <- data_frame(
 )
 ```
 
-
 ### Gather
 
 > Gather takes multiple columns and collapses into key-value pairs, duplicating all other columns as needed. You use gather() when you notice that your column names are not names of variables, but values of a variable.
 
-```{r}
+```{r gather}
+set_font_size(4.5, 15)
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 
 ```{r}
-gather(wide, key = "person", value = "sales", -year)
+tidyr::gather(wide, key = "person", value = "sales", -year)
 ```
-
-
 
 ### Spread
 
 > Spread a key-value pair across multiple columns. Use it when an a column contains observations from multiple variables.
 
-```{r}
+```{r spread}
 animate_spread(long, key = "person", value = "sales")
 ```
 
 ```{r}
-spread(long, key = "person", value = "sales")
+tidyr::spread(long, key = "person", value = "sales")
 ```
-
-
-
 
 
 ## Learn More
