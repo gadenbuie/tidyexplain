@@ -1,14 +1,14 @@
-
 #' Animates the gather function
 #'
 #' @param w a data_frame in the wide format
 #' @param key the key
 #' @param value the value
-#' @param ... further arguments passed to gather, static_plot, or animate_plot
-#' @param export the export type, either gif, first or last. The latter two
-#'          export ggplots of the first/last state of the gather function
+#' @param ... further arguments passed to [tidyr::gather()], [process_wide()],
+#'   or [process_long()]
 #' @param detailed boolean value if the animation should show one step for each
-#'              key value
+#'   key value
+#' @inheritParams animate_join
+#' @inheritParams anim_options
 #'
 #' @return a gif or a ggplot
 #' @export
@@ -28,7 +28,8 @@
 #'   # if you want to have a less detailed animation, you can also use
 #'   animate_gather(wide, "person", "sales", -year, export = "gif", detailed = FALSE)
 #' }
-animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) {
+animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE, anim_opts = anim_options()) {
+  anim_opts <- default_anim_opts("gather", anim_opts)
   lhs <- w
   rhs <- tidyr::gather(w, !!key, !!value, ...)
 
@@ -58,20 +59,17 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
   rhs_proc <- process_long(rhs, ids, key, value, ...)
 
   gather_spread(lhs_proc, rhs_proc, sequence = sequence, key_values = key_values,
-                export = export, detailed = detailed, ...)
+                export = export, detailed = detailed, ..., anim_opts = anim_opts)
 }
 
 
 #' Animates the spread function
 #'
 #' @param l a data_frame in the long/tidy format
-#' @param key the key
-#' @param value the values
-#' @param export the export type, either gif, first or last. The latter two
-#'              export ggplots of the first/last state of the spread function
-#' @param detailed boolean value if the animation should show one step for each
-#'              key value
-#' @param ... further arguments passed to static_plot
+#' @param ... further arguments passed to [process_long] or [process_wide]
+#' @inheritParams animate_gather
+#' @inheritParams animate_join
+#' @inheritParams anim_options
 #'
 #' @return a ggplot or a gif
 #' @export
@@ -90,7 +88,8 @@ animate_gather <- function(w, key, value, ..., export = "gif", detailed = TRUE) 
 #'   # if you want to have a less detailed animation, you can also use
 #'   animate_spread(long, key = "person", value = "sales", export = "gif", detailed = FALSE)
 #' }
-animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ...) {
+animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ..., anim_opts = anim_options()) {
+  anim_opts <- default_anim_opts("spread", anim_opts)
 
   lhs <- l
   rhs <- tidyr::spread(l, key = key, value = value)
@@ -120,5 +119,5 @@ animate_spread <- function(l, key, value, export = "gif", detailed = TRUE, ...) 
   rhs_proc <- process_wide(rhs, ids, key, value, ...)
 
   key_values <- lhs %>% pull(key) %>% unique()
-  gather_spread(lhs_proc, rhs_proc, sequence, key_values, export, detailed, ...)
+  gather_spread(lhs_proc, rhs_proc, sequence, key_values, export, detailed, ..., anim_opts = anim_opts)
 }
