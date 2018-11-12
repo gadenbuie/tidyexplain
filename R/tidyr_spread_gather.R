@@ -67,7 +67,7 @@ sg_data <- bind_rows(
   mutate(
     label = ifelse(value %in% setdiff(colnames(wide), "id"), "key", label),
     label = ifelse(value %in% c("key", "val"), "zzz", label),
-    .text_size = ifelse(grepl("label", .id), 8, 12)
+    .text_size = ifelse(grepl("label", .id) | .y == 0, 8, 12)
   ) %>%
   arrange(label, .id, value) %>%
   mutate(frame = factor(frame, labels = c('spread(long, key, val)', 'gather(wide, key, val, x:z)'))) %>%
