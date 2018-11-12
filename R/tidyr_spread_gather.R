@@ -7,6 +7,7 @@ sg_wide <- wide %>%
 sg_long <- wide %>%
   tidyr::gather("key", "val", -id) %>%
   proc_data("3-tall", color_fun = function(x, y) x) %>%
+  mutate(.text_color = if_else(label == "key", "black", "white")) %>%
   split(.$label)
 
 sg_long$id <-
@@ -22,26 +23,26 @@ sg_long$key <-
   select(label, color) %>%
   left_join(sg_long$key, ., by = c("value" = "label")) %>%
   distinct() %>%
-  mutate(alpha = 1)
+  mutate(alpha = 0.6)
 
 sg_long$val <-
   sg_wide %>%
   filter(label != "id", .y < 0) %>%
   select(value, color) %>%
   left_join(sg_long$val, ., by = "value") %>%
-  mutate(alpha = 0.6)
+  mutate(alpha = 1)
 
 sg_long <- bind_rows(sg_long) %>% mutate(frame = 2)
 
 sg_long_labels <- data_frame(id = 1, a = "id", x = "key", y = "val") %>%
   proc_data("4-label") %>%
   filter(label != "id") %>%
-  mutate(color = "#FFFFFF", .y = 0, .x = .x -1, frame = 2, alpha = 1, label = recode(label, "a" = "id"))
+  mutate(color = "white", .text_color = "black", .y = 0, .x = .x -1, frame = 2, alpha = 1, label = recode(label, "a" = "id"))
 
 sg_wide_labels <- data_frame(id = 1, a = "id") %>%
   proc_data("2-label") %>%
   filter(label != "id") %>%
-  mutate(color = "#FFFFFF", .y = 0, .x = .x -1, frame = 1, alpha = 1, label = recode(label, "a" = "id"))
+  mutate(color = "white", .text_color = "black", .y = 0, .x = .x -1, frame = 1, alpha = 1, label = recode(label, "a" = "id"))
 
 sg_long_extra_keys <- map_dfr(
   seq_len(nrow(wide) - 1),
@@ -66,7 +67,6 @@ sg_data <- bind_rows(
   mutate(
     label = ifelse(value %in% setdiff(colnames(wide), "id"), "key", label),
     label = ifelse(value %in% c("key", "val"), "zzz", label),
-    .text_color = ifelse(grepl("label", .id), "black", "white"),
     .text_size = ifelse(grepl("label", .id), 8, 12)
   ) %>%
   arrange(label, .id, value) %>%

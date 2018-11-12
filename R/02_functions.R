@@ -65,7 +65,8 @@ colorize_wide_tidyr <- function(df, n_colors, key_col = "id") {
       color = colors[idc],
     ) %>%
     filter(!is.na(color)) %>%
-    mutate(alpha = ifelse(label != "id" & .y < 0, 0.6, 1.0)) %>%
+    mutate(alpha = ifelse(.y < 0, 1.0, 0.2)) %>%
+    mutate(.text_color = ifelse(.y < 0, "white", "black")) %>%
     select(-idc)
 }
 
