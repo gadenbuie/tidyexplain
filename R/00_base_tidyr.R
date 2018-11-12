@@ -25,4 +25,4 @@ wide <- data_frame(
   z = letters[5:6]
 )
 
-long <- tidyr::gather(wide, key, val, x:z)
+long <- tidyr::gather(wide, key, val, -id)

@@ -70,7 +70,7 @@ sg_data <- bind_rows(
     .text_size = ifelse(grepl("label", .id) | .y == 0, 8, 12)
   ) %>%
   arrange(label, .id, value) %>%
-  mutate(frame = factor(frame, labels = c('spread(long, key, val)', 'gather(wide, key, val, x:z)'))) %>%
+  mutate(frame = factor(frame, labels = c('spread(long, key, val)', 'gather(wide, key, val, -id)'))) %>%
   select(.x, .y, everything())
 
 sg_static <-
