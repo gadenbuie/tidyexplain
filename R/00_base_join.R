@@ -32,6 +32,6 @@ y <- data_frame(
   y = paste0("y", (1:4)[-3])
 )
 
-initial_join_dfs <- proc_data(x, "x") %>%
-  bind_rows(mutate(proc_data(y, "y"), .x = .x + 3)) %>%
+initial_join_dfs <- proc_data(x, "x", add_colnames = TRUE) %>%
+  bind_rows(mutate(proc_data(y, "y", add_colnames = TRUE), .x = .x + 3)) %>%
   mutate(frame = 1)

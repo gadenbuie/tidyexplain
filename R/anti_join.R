@@ -15,12 +15,12 @@ aj_step2 <- initial_join_dfs %>%
          ))
 
 aj_step3 <- aj_step2 %>%
-  filter(alpha == 1) %>%
+  filter(alpha == 1 | .y == 0) %>%
   mutate(frame = 3)
 
 aj_step4 <- aj_step2 %>%
-  filter(alpha == 1) %>%
-  mutate(frame = 4, .y = -1)
+  filter(alpha == 1 | .y == 0) %>%
+  mutate(frame = 4, .y = .y / 3)
 
 aj <- bind_rows(
   initial_join_dfs,
@@ -33,7 +33,7 @@ aj <- bind_rows(
     .obj = ifelse(value == 4, 0, .obj)
   ) %>%
   arrange(.obj, frame) %>%
-  plot_data("anti_join(x, y)") %>%
+  plot_data('anti_join(x, y, by = "id")') %>%
   animate_plot(transition_length = c(2, 1, 2),
                state_length = c(1, 0, 0, 1))
 
@@ -43,6 +43,6 @@ anim_save(here::here("images", "anti-join.gif"), aj)
 aj_g <- anti_join(x, y, by = "id") %>%
   proc_data() %>%
   mutate(.x = .x + 1.5) %>%
-  plot_data_join("anti_join(x, y)")
+  plot_data_join('anti_join(x, y, by = "id")')
 
 save_static_plot(aj_g, "anti-join")

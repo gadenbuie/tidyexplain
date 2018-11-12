@@ -1,6 +1,8 @@
-proc_data <- function(x, .id = "x", color_fun = colorize_keys, color_when = c("after", "before"), ...) {
+proc_data <- function(x, .id = "x", color_fun = colorize_keys, color_when = c("after", "before"), add_colnames = FALSE, ...) {
   color_when <- match.arg(color_when)
   n_colors <- max(x$id)
+
+  orig_names <- names(x)
 
   if (color_when == "before") x <- color_fun(x, n_colors, ...)
 
@@ -17,6 +19,18 @@ proc_data <- function(x, .id = "x", color_fun = colorize_keys, color_when = c("a
     ungroup(.y)
 
   if (color_when == "after") x <- color_fun(x, n_colors, ...)
+
+  if (add_colnames) {
+    x <- x %>%
+      mutate(.text_color = "white")
+
+    colnames_df <- orig_names %>%
+      enframe(name = ".x", value = "label") %>%
+      mutate(.y = 0L, value = label, .id = .id, .width = 1, color = "white", .text_color = "black")
+
+    x <- bind_rows(colnames_df, x)
+  }
+
   x
 }
 

@@ -1,12 +1,12 @@
 source(here::here("R/00_base_join.R"))
 
 lj_joined_dfs <- left_join(x, y, "id") %>%
-  proc_data("x") %>%
+  proc_data("x", add_colnames = TRUE) %>%
   mutate(frame = 2, .x = .x + 1)
 
 lj_extra_blocks <- inner_join(x, y, "id") %>%
   select(id) %>%
-  proc_data("y") %>%
+  proc_data("y", add_colnames = TRUE) %>%
   mutate(frame = 2, .x = .x + 1)
 
 lj <- bind_rows(
@@ -15,13 +15,13 @@ lj <- bind_rows(
   lj_extra_blocks
 ) %>%
   mutate(color = ifelse(is.na(value), "#ffffff", color)) %>%
-  arrange(value) %>%
-  plot_data("left_join(x, y)") %>%
+  arrange(label, .id, .x, .y) %>%
+  plot_data('left_join(x, y, by = "id")') %>%
   animate_plot()
 
 lj <- animate(lj)
 anim_save(here::here("images", "left-join.gif"), lj)
 
-lj_g <- plot_data_join(lj_joined_dfs, "left_join(x, y)")
+lj_g <- plot_data_join(lj_joined_dfs, 'left_join(x, y, by = "id")')
 
 save_static_plot(lj_g, "left-join")
