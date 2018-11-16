@@ -4,8 +4,10 @@
 # Tidy Animated Verbs
 
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
-[garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations
-contributed by [Tyler Grant
+[garrickadenbuie.com](https://www.garrickadenbuie.com). David Zimmermann
+– [@dav\_zim](https://twitter.com/dav_zim) –
+[datashenanigan.wordpress.com](https://datashenanigan.wordpress.com/)
+Set operations contributed by [Tyler Grant
 Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
@@ -23,8 +25,7 @@ Smith](https://github.com/TylerGrantSmith).
     [`union_all()`](#union-all), [`intersect()`](#intersect),
     [`setdiff()`](#setdiff)
 
-  - [**Tidy Data**](#tidy-data) — [`spread()` and
-    `gather()`](#spread-and-gather)
+  - Tidyr Operations: [`gather()`](#gather), [`spread()`](#spread)
 
   - Learn more about
     
@@ -48,37 +49,35 @@ to expand the animations to include more verbs from the tidyverse.
 [Suggestions are
 welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
-### Relational Data
+## Installing
 
-The [Relational Data](http://r4ds.had.co.nz/relational-data.html)
-chapter of the [R for Data Science](http://r4ds.had.co.nz/) book by
-Garrett Grolemund and Hadley Wickham is an excellent resource for
-learning more about relational data.
+The in-development version of `tidyexplain` can be installed with
+`devtools`:
 
-The [dplyr two-table verbs
-vignette](https://dplyr.tidyverse.org/articles/two-table.html) and Jenny
-Bryan’s [Cheatsheet for dplyr join
-functions](http://stat545.com/bit001_dplyr-cheatsheet.html) are also
-great resources.
+``` r
+# install.package("devtools")
+devtools::install_github("gadenbuie/tidy-animated-verbs")
 
-### gganimate
-
-The animations were made possible by the newly re-written
-[gganimate](https://github.com/thomasp85/gganimate#README) package by
-[Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
-Robinson](https://github.com/dgrtwo)). The [package
-readme](https://github.com/thomasp85/gganimate#README) provides an
-excellent (and quick) introduction to gganimte.
+library(tidyexplain)
+```
 
 ## Mutating Joins
 
-> A mutating join allows you to combine variables from two tables. It
-> first matches observations by their keys, then copies across variables
-> from one table to the other.  
-> [R for Data Science: Mutating
-> joins](http://r4ds.had.co.nz/relational-data.html#mutating-joins)
+``` r
+x <- dplyr::data_frame(
+  id = 1:3,
+  x = paste0("x", 1:3)
+)
 
-<img src="images/static/png/original-dfs.png" width="480px" />
+y <- dplyr::data_frame(
+  id = (1:4)[-3],
+  y = paste0("y", (1:4)[-3])
+)
+
+animate_full_join(x, y, by = c("id"), export = "first")
+```
+
+![](man/figures/tidyexplain-intial-dfs-1.png)<!-- -->
 
 ``` r
 x
@@ -102,10 +101,14 @@ y
 > All rows from `x` where there are matching values in `y`, and all
 > columns from `x` and `y`.
 
-![](images/inner-join.gif)
+``` r
+animate_inner_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-inner-join-1.gif)<!-- -->
 
 ``` r
-inner_join(x, y, by = "id")
+dplyr::inner_join(x, y, by = "id")
 #> # A tibble: 2 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -118,10 +121,14 @@ inner_join(x, y, by = "id")
 > All rows from `x`, and all columns from `x` and `y`. Rows in `x` with
 > no match in `y` will have `NA` values in the new columns.
 
-![](images/left-join.gif)
+``` r
+animate_left_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-left-join-1.gif)<!-- -->
 
 ``` r
-left_join(x, y, by = "id")
+dplyr::left_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -135,9 +142,8 @@ left_join(x, y, by = "id")
 > … If there are multiple matches between `x` and `y`, all combinations
 > of the matches are returned.
 
-![](images/left-join-extra.gif)
-
 ``` r
+y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 #> # A tibble: 4 x 2
 #>      id y    
@@ -146,7 +152,15 @@ y_extra # has multiple rows with the key from `x`
 #> 2     2 y2   
 #> 3     4 y4   
 #> 4     2 y5
-left_join(x, y_extra, by = "id")
+
+animate_left_join(x, y_extra, by = "id", 
+  anim_opts = anim_options(title_size = 22))
+```
+
+![](man/figures/tidyexplain-left-join-extra-1.gif)<!-- -->
+
+``` r
+dplyr::left_join(x, y_extra, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <dbl> <chr> <chr>
@@ -161,10 +175,14 @@ left_join(x, y_extra, by = "id")
 > All rows from y, and all columns from `x` and `y`. Rows in `y` with no
 > match in `x` will have `NA` values in the new columns.
 
-![](images/right-join.gif)
+``` r
+animate_right_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-right-join-1.gif)<!-- -->
 
 ``` r
-right_join(x, y, by = "id")
+dplyr::right_join(x, y, by = "id")
 #> # A tibble: 3 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -178,10 +196,14 @@ right_join(x, y, by = "id")
 > All rows and all columns from both `x` and `y`. Where there are not
 > matching values, returns `NA` for the one missing.
 
-![](images/full-join.gif)
+``` r
+animate_full_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-full-join-1.gif)<!-- -->
 
 ``` r
-full_join(x, y, by = "id")
+dplyr::full_join(x, y, by = "id")
 #> # A tibble: 4 x 3
 #>      id x     y    
 #>   <int> <chr> <chr>
@@ -205,10 +227,14 @@ full_join(x, y, by = "id")
 > All rows from `x` where there are matching values in `y`, keeping just
 > columns from `x`.
 
-![](images/semi-join.gif)
+``` r
+animate_semi_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-semi-join-1.gif)<!-- -->
 
 ``` r
-semi_join(x, y, by = "id")
+dplyr::semi_join(x, y, by = "id")
 #> # A tibble: 2 x 2
 #>      id x    
 #>   <int> <chr>
@@ -221,10 +247,14 @@ semi_join(x, y, by = "id")
 > All rows from `x` where there are not matching values in `y`, keeping
 > just columns from `x`.
 
-![](images/anti-join.gif)
+``` r
+animate_anti_join(x, y, by = "id")
+```
+
+![](man/figures/tidyexplain-anti-join-1.gif)<!-- -->
 
 ``` r
-anti_join(x, y, by = "id")
+dplyr::anti_join(x, y, by = "id")
 #> # A tibble: 1 x 2
 #>      id x    
 #>   <int> <chr>
@@ -233,92 +263,114 @@ anti_join(x, y, by = "id")
 
 ## Set Operations
 
-> Set operations are occasionally useful when you want to break a single
-> complex filter into simpler pieces. All these operations work with a
-> complete row, comparing the values of every variable. These expect the
-> x and y inputs to have the same variables, and treat the observations
-> like sets.  
-> [R for Data Science: Set
-> operations](http://r4ds.had.co.nz/relational-data.html#set-operations)
+``` r
+x <- dplyr::data_frame(
+  x = c(1, 1, 2),
+  y = c("a", "b", "a")
+)
+y <- dplyr::data_frame(
+  x = c(1, 2),
+  y = c("a", "b")
+)
 
-<img src="images/static/png/original-dfs-set-ops.png" width="480px" />
+animate_union(x, y, export = "first")
+```
+
+![](man/figures/tidyexplain-intial-dfs-so-1.png)<!-- -->
 
 ``` r
 x
 #> # A tibble: 3 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 1     b    
-#> 3 2     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     1 b    
+#> 3     2 a
 y 
 #> # A tibble: 2 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 2     b
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     2 b
 ```
 
 ### Union
 
 > All unique rows from `x` and `y`.
 
-![](images/union.gif)
-
 ``` r
-union(x, y)
-#> # A tibble: 4 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     b    
-#> 2 2     a    
-#> 3 1     b    
-#> 4 1     a
+animate_union(x, y)
 ```
 
-![](images/union-rev.gif)
+![](man/figures/tidyexplain-union-1.gif)<!-- -->
 
 ``` r
-union(y, x)
+dplyr::union(x, y)
 #> # A tibble: 4 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     a    
-#> 2 1     b    
-#> 3 2     b    
-#> 4 1     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 b    
+#> 2     2 a    
+#> 3     1 b    
+#> 4     1 a
+```
+
+``` r
+animate_union(y, x)
+```
+
+![](man/figures/tidyexplain-union-y-x-1.gif)<!-- -->
+
+``` r
+
+dplyr::union(y, x)
+#> # A tibble: 4 x 2
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 a    
+#> 2     1 b    
+#> 3     2 b    
+#> 4     1 a
 ```
 
 ### Union All
 
 > All rows from `x` and `y`, keeping duplicates.
 
-![](images/union-all.gif)
+``` r
+animate_union_all(x, y)
+```
+
+![](man/figures/tidyexplain-union-all-1.gif)<!-- -->
 
 ``` r
-union_all(x, y)
+dplyr::union_all(x, y)
 #> # A tibble: 5 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a    
-#> 2 1     b    
-#> 3 2     a    
-#> 4 1     a    
-#> 5 2     b
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a    
+#> 2     1 b    
+#> 3     2 a    
+#> 4     1 a    
+#> 5     2 b
 ```
 
 ### Intersection
 
 > Common rows in both `x` and `y`, keeping just unique rows.
 
-![](images/intersect.gif)
+``` r
+animate_intersect(x, y)
+```
+
+![](man/figures/tidyexplain-intersect-1.gif)<!-- -->
 
 ``` r
-intersect(x, y)
+dplyr::intersect(x, y)
 #> # A tibble: 1 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 a
 ```
 
 ### Set Difference
@@ -326,28 +378,112 @@ intersect(x, y)
 > All rows from `x` which are not also rows in `y`, keeping just unique
 > rows.
 
-![](images/setdiff.gif)
+``` r
+animate_setdiff(x, y)
+```
+
+![](man/figures/tidyexplain-setdiff-1.gif)<!-- -->
 
 ``` r
-setdiff(x, y)
+dplyr::setdiff(x, y)
 #> # A tibble: 2 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 1     b    
-#> 2 2     a
+#>       x y    
+#>   <dbl> <chr>
+#> 1     1 b    
+#> 2     2 a
 ```
-
-![](images/setdiff-rev.gif)
 
 ``` r
-setdiff(y, x)
-#> # A tibble: 1 x 2
-#>   x     y    
-#>   <chr> <chr>
-#> 1 2     b
+animate_setdiff(y, x)
 ```
 
-## Tidy Data
+![](man/figures/tidyexplain-setdiff-y-x-1.gif)<!-- -->
+
+``` r
+
+dplyr::setdiff(y, x)
+#> # A tibble: 1 x 2
+#>       x y    
+#>   <dbl> <chr>
+#> 1     2 b
+```
+
+## Tidy Data and `gather()`, `spread()` functionality
+
+[Tidy data](http://r4ds.had.co.nz/tidy-data.html#tidy-data-1) follows
+the following three rules:
+
+1.  Each variable has its own column.
+2.  Each observation has its own row.
+3.  Each value has its own cell.
+
+Many of the tools in the [tidyverse](https://tidyverse.org) expect data
+to be formatted as a tidy dataset and the
+[tidyr](https://tidyr.tidyverse.org) package provides functions to help
+you organize your data into tidy data.
+
+``` r
+long <- dplyr::data_frame(
+  year = c(2010, 2011, 2010, 2011, 2010, 2011),
+  person = c("Alice", "Alice", "Bob", "Bob", "Charlie", "Charlie"),
+  sales = c(105, 110, 100, 97, 90, 95)
+)
+wide <- dplyr::data_frame(
+  year = 2010:2011, 
+  Alice = c(105, 110), 
+  Bob = c(100, 97), 
+  Charlie = c(90, 95)
+)
+```
+
+### Gather
+
+> Gather takes multiple columns and collapses into key-value pairs,
+> duplicating all other columns as needed. You use gather() when you
+> notice that your column names are not names of variables, but values
+> of a variable.
+
+``` r
+set_font_size(4.5, 15)
+animate_gather(wide, key = "person", value = "sales", -year)
+```
+
+![](man/figures/tidyexplain-gather-1.gif)<!-- -->
+
+``` r
+tidyr::gather(wide, key = "person", value = "sales", -year)
+#> # A tibble: 6 x 3
+#>    year person  sales
+#>   <int> <chr>   <dbl>
+#> 1  2010 Alice     105
+#> 2  2011 Alice     110
+#> 3  2010 Bob       100
+#> 4  2011 Bob        97
+#> 5  2010 Charlie    90
+#> 6  2011 Charlie    95
+```
+
+### Spread
+
+> Spread a key-value pair across multiple columns. Use it when an a
+> column contains observations from multiple variables.
+
+``` r
+animate_spread(long, key = "person", value = "sales")
+```
+
+![](man/figures/tidyexplain-spread-1.gif)<!-- -->
+
+``` r
+tidyr::spread(long, key = "person", value = "sales")
+#> # A tibble: 2 x 4
+#>    year Alice   Bob Charlie
+#>   <dbl> <dbl> <dbl>   <dbl>
+#> 1  2010   105   100      90
+#> 2  2011   110    97      95
+```
+
+## Learn More
 
 [Tidy data](http://r4ds.had.co.nz/tidy-data.html#tidy-data-1) follows
 the following three rules:
