@@ -26,7 +26,9 @@ set_font_size(11, 26)
 
 # Tidy Animated Verbs
 
-Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
+Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com).
+David Zimmermann -- [&commat;dav_zim](https://twitter.com/dav_zim) -- [datashenanigan.wordpress.com](https://datashenanigan.wordpress.com/)
+Set operations contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
 [![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)

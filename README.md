@@ -4,8 +4,10 @@
 # Tidy Animated Verbs
 
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
-[garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations
-contributed by [Tyler Grant
+[garrickadenbuie.com](https://www.garrickadenbuie.com). David Zimmermann
+– [@dav\_zim](https://twitter.com/dav_zim) –
+[datashenanigan.wordpress.com](https://datashenanigan.wordpress.com/)
+Set operations contributed by [Tyler Grant
 Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
