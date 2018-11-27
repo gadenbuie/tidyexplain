@@ -72,7 +72,6 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE,
 
   x <- x %>%
     mutate(.r = row_number()) %>%
-    # TODO re-evaluate gather_ here
     tidyr::gather_(key = ".col", value = ".val", names(x)[grepl("^[^.]", names(x))]) %>%
     mutate(.x = x_keys[.col],
            .y = -.r) %>%

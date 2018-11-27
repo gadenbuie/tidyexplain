@@ -253,7 +253,8 @@ process_long <- function(x, ids, key, value, ...) {
 #'
 #' @examples
 #' NULL
-gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ..., anim_opts = anim_options()) {
+gather_spread <- function(lhs, rhs, sequence, key_values, export, detailed, ...,
+                          anim_opts = anim_options(...)) {
   # lhs is the one state of the df
   # rhs is the target state
 

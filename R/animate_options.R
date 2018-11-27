@@ -151,7 +151,7 @@ validate_anim_opts <- function(ao, quiet = FALSE, strict = getOption("tidyexplai
   if (!quiet && length(extra_names)) {
     extra_names <- paste0(sprintf("`%s`", extra_names), collapse = ", ")
     msg <- paste("Unknown animation options will be ignored:", extra_names)
-    if (isTrue(strict)) rlang::abort(msg) else rlang::warn(msg)
+    if (isTRUE(strict)) rlang::abort(msg) else rlang::warn(msg)
   }
   invisible(ao)
 }
