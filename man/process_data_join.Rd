@@ -4,7 +4,8 @@
 \alias{process_data_join}
 \title{Processes the data}
 \usage{
-process_data_join(x, ids, by, width = 1, side = NA, fill = TRUE, ...)
+process_data_join(x, ids, by, width = 1, side = NA, fill = TRUE, ...,
+  ao = anim_options(...))
 }
 \arguments{
 \item{x}{a preprocessed dataset}
@@ -20,6 +21,8 @@ process_data_join(x, ids, by, width = 1, side = NA, fill = TRUE, ...)
 \item{fill}{if missing ids should be filled}
 
 \item{...}{further arguments passed to add_color}
+
+\item{ao}{anim_options}
 }
 \value{
 a data_frame including all necessary information

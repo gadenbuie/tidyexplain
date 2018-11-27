@@ -4,10 +4,7 @@
 \alias{add_color_join}
 \title{Adds Color to a processed data_frame}
 \usage{
-add_color_join(x, ids, by, color_header = "#737373",
-  color_other = "#d0d0d0", color_missing = "#ffffff",
-  color_fun = scales::brewer_pal(type = "qual", "Set1"),
-  text_color = NA, ...)
+add_color_join(x, ids, by, ao, ...)
 }
 \arguments{
 \item{x}{a processed data_frame}
@@ -15,6 +12,8 @@ add_color_join(x, ids, by, color_header = "#737373",
 \item{ids}{a vector of ids for the color-matching}
 
 \item{by}{a vector of column names that constitute the by-argument of joins/sets}
+
+\item{...}{}
 
 \item{color_header}{color for the header}
 
@@ -26,8 +25,6 @@ add_color_join(x, ids, by, color_header = "#737373",
 
 \item{text_color}{the color for the text inside the tiles,
 defaults to white/black depending on tile color}
-
-\item{...}{}
 }
 \value{
 the processed data_frame with a new column .color

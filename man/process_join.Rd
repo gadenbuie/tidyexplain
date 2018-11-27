@@ -4,7 +4,7 @@
 \alias{process_join}
 \title{Preprocess data}
 \usage{
-process_join(x, y, by, fill = TRUE, ...)
+process_join(x, y, by, fill = TRUE, ..., ao = anim_options(...))
 }
 \arguments{
 \item{x}{a left dataset}
@@ -16,6 +16,8 @@ process_join(x, y, by, fill = TRUE, ...)
 \item{fill}{if missing ids should be filled}
 
 \item{...}{further arguments passed to add_color}
+
+\item{ao}{anim_options()}
 }
 \value{
 a preprocessed dataset

@@ -29,7 +29,7 @@ animate_setdiff(x, y, export = "gif", ...)
 \item{export}{the export type, either gif, first or last. The latter two
 export ggplots of the first/last state of the join}
 
-\item{...}{further argument passed to static_plot}
+\item{...}{further argument passed to anim_options()}
 }
 \value{
 either a gif or a ggplot
@@ -63,7 +63,6 @@ animate_union(
   x, y,
   text_size = 5, title_size = 25,
   color_header = "black",
-  color_other = "lightblue",
   color_fun = viridis::viridis
 )
 }

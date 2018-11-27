@@ -8,7 +8,9 @@
 anim_options(transition_length = NULL, state_length = NULL,
   ease_default = NULL, ease_other = NULL, enter = NULL,
   exit = NULL, text_family = NULL, title_family = NULL,
-  text_size = NULL, title_size = NULL, ...)
+  text_size = NULL, title_size = NULL, color_header = NULL,
+  color_other = NULL, color_missing = NULL, color_fun = NULL,
+  text_color = NULL, ...)
 
 anim_options_set(anim_opts = anim_options())
 }
@@ -43,6 +45,18 @@ Use \code{\link[=set_font_size]{set_font_size()}} to set global default font siz
 \item{text_size}{Font size of the plot text, default is 5.}
 
 \item{title_size}{Font size of the plot title, default is 17.}
+
+\item{color_header}{Color of the header row.}
+
+\item{color_other}{Color of the cells that are not highlighted otherwise.}
+
+\item{color_missing}{Color of the missing cells.}
+
+\item{color_fun}{A function that generates the colors for the highlighted
+cells, default is \code{\link[scales:brewer_pal]{scales::brewer_pal()}} Set1.}
+
+\item{text_color}{Color of the text of the cells, default is a black or
+white, based on the background color of the cell.}
 
 \item{anim_opts}{An \code{\link[=anim_options]{anim_options()}} options list.}
 }

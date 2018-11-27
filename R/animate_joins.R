@@ -8,7 +8,7 @@
 #' @param by the by arguments for the join
 #' @param export the export type, either gif, first or last. The latter two
 #'              export ggplots of the first/last state of the join
-#' @param ... further arguments passed to static_plot
+#' @param ... further arguments passed to anim_options()
 #'
 #' @return either a gif or a ggplot
 #'
@@ -37,7 +37,7 @@
 #' animate_semi_join(x, y, by = "id")
 #' animate_anti_join(x, y, by = "id")
 #'
-#' # further arguments can be passed to all animate_* functions
+#' # further arguments can be passed to all animate_* functions, see also ?anim_options
 #' animate_full_join(
 #'   x, y, by = "id", export = "last",
 #'   text_size = 5, title_size = 25,

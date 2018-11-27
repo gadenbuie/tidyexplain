@@ -15,6 +15,11 @@ plot_settings$default <- list(
   text_family       = "Fira Mono",
   title_family      = "Fira Mono",
   text_size         = 5,
-  title_size        = 17
+  title_size        = 17,
+  color_header      = "#737373",
+  color_other       = "#d0d0d0",
+  color_missing     = "#ffffff",
+  color_fun         = scales::brewer_pal(type = "qual", "Set1"),
+  text_color        = NA
 )
 

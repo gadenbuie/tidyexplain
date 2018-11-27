@@ -8,7 +8,7 @@
 #' @param export the export type, either gif, first or last. The latter two
 #'              export ggplots of the first/last state of the join
 #' @param type type of the set, i.e., intersect, setdiff, etc.
-#' @param ... further argument passed to static_plot
+#' @param ... further argument passed to anim_options()
 #'
 #' @return either a gif or a ggplot
 #'
@@ -39,7 +39,6 @@
 #'   x, y,
 #'   text_size = 5, title_size = 25,
 #'   color_header = "black",
-#'   color_other = "lightblue",
 #'   color_fun = viridis::viridis
 #' )
 #' }

@@ -3,6 +3,13 @@
 #' Helper function to set animation and plotting options to be passed to
 #' [animate_plot()] and [static_plot()].
 #'
+#' @param color_header Color of the header row.
+#' @param color_other Color of the cells that are not highlighted otherwise.
+#' @param color_missing Color of the missing cells.
+#' @param color_fun A function that generates the colors for the highlighted
+#'   cells, default is [scales::brewer_pal()] Set1.
+#' @param text_color Color of the text of the cells, default is a black or
+#'   white, based on the background color of the cell.
 #' @param text_family Font family for the plot text, default is "Fira Mono". Use
 #'   [set_font_size()] to set global default font sizes.
 #' @param title_family Font family for the plot title, default is "Fira Mono".
@@ -34,6 +41,11 @@ anim_options <- function(
   title_family = NULL,
   text_size    = NULL,
   title_size   = NULL,
+  color_header = NULL,
+  color_other  = NULL,
+  color_missing = NULL,
+  color_fun    = NULL,
+  text_color   = NULL,
   ...
 ){
   enter_name <- if (!missing(enter)) rlang::quo_name(rlang::enquo(enter))
@@ -49,6 +61,11 @@ anim_options <- function(
     text_size    = text_size,
     title_family = title_family,
     title_size   = title_size,
+    color_header = color_header,
+    color_other  = color_other,
+    color_missing = color_missing,
+    color_fun    = color_fun,
+    text_color   = text_color,
     ...
   )
   ao <- purrr::compact(ao)
@@ -107,6 +124,12 @@ fill_anim_opts <- function(ao) {
   ao$exit         <- ao$exit         %||% get_anim_opt("exit")
   ao$text_family  <- ao$text_family  %||% get_anim_opt("text_family")
   ao$title_family <- ao$title_family %||% get_anim_opt("title_family")
+  ao$color_header <- ao$color_header %||% get_anim_opt("color_header")
+  ao$color_other  <- ao$color_other  %||% get_anim_opt("color_other")
+  ao$color_missing <- ao$color_missing %||% get_anim_opt("color_missing")
+  ao$color_fun    <- ao$color_fun    %||% get_anim_opt("color_fun")
+  ao$text_color   <- ao$text_color   %||% get_anim_opt("text_color")
+
   ao
 }
 

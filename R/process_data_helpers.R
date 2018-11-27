@@ -6,12 +6,14 @@
 #' @param by a by argument for joins / set operations
 #' @param fill if missing ids should be filled
 #' @param ... further arguments passed to add_color
+#' @param ao anim_options()
 #'
 #' @return a preprocessed dataset
 #'
 #' @examples
 #' NULL
-process_join <- function(x, y, by, fill = TRUE, ...) {
+process_join <- function(x, y, by, fill = TRUE, ...,
+                         ao = anim_options(...)) {
 
   #' test for
   #' a <- c("unique", "mult", "mult", "also unique")
@@ -34,8 +36,8 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
   ids <- dplyr::union(x %>% dplyr::select(.id, .id_long),
                       y %>% dplyr::select(.id, .id_long))
 
-  x_ <- process_data_join(x, ids, by, fill = fill, ...)
-  y_ <- process_data_join(y, ids, by, fill = fill, ...) %>%
+  x_ <- process_data_join(x, ids, by, fill = fill, ao = ao)
+  y_ <- process_data_join(y, ids, by, fill = fill, ao = ao) %>%
     mutate(.x = .x + ncol(x) - 1)
 
   list(x = x_, y = y_)
@@ -51,12 +53,15 @@ process_join <- function(x, y, by, fill = TRUE, ...) {
 #' @param side the side (x or y, lhs or rhs, etc)
 #' @param fill if missing ids should be filled
 #' @param ... further arguments passed to add_color
+#' @param ao anim_options
 #'
 #' @return a data_frame including all necessary information
 #'
 #' @examples
 #' NULL
-process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...) {
+process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE,
+                              ...,
+                              ao = anim_options(...)) {
   if (is.na(side)) side <- deparse(substitute(x))
 
   x_names <- names(x)[grepl("^[^\\.]", names(x))]
@@ -102,7 +107,7 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
     }
   }
 
-  add_color_join(x, rev(ids$.id), by, ...)
+  add_color_join(x, rev(ids$.id), by, ao)
 }
 
 #' Adds Color to a processed data_frame
@@ -122,11 +127,14 @@ process_data_join <- function(x, ids, by, width = 1, side = NA, fill = TRUE, ...
 #'
 #' @examples
 #' NULL
-add_color_join <- function(x, ids, by,
-                      color_header = "#737373", color_other = "#d0d0d0",
-                      color_missing = "#ffffff",
-                      color_fun = scales::brewer_pal(type = "qual", "Set1"),
-                      text_color = NA, ...) {
+add_color_join <- function(x, ids, by, ao, ...) {
+
+  color_header <- ao$color_header %||% get_anim_opt("color_header")
+  color_other  <- ao$color_other  %||% get_anim_opt("color_other")
+  color_missing <- ao$color_missing %||% get_anim_opt("color_missing")
+  color_fun    <- ao$color_fun    %||% get_anim_opt("color_fun")
+  text_color   <- ao$text_color   %||% get_anim_opt("text_color")
+
   colors <- c(color_header, color_fun(length(ids)))
   names(colors) <- c(".header", ids)
 
