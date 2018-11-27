@@ -1,0 +1,41 @@
+Type: Package
+Package: tidyexplain
+Title: Animated Explanations of Tidyverse Verbs
+Version: 0.0.1.9000
+Date: 2018-08-27
+Authors@R: 
+    c(person(given = "Garrick",
+             family = "Aden-Buie",
+             role = c("aut", "cre"),
+             email = "g.adenbuie@gmail.com"),
+      person(given = "David",
+             family = "Zimmermann",
+             role = "aut",
+             email = "david_j_zimmermann@hotmail.com"),
+      person(given = "Tyler Grant",
+             family = "Smith",
+             role = "ctb"))
+Description: Animated explanations of the verbs in the tidyverse
+    using gganimate and ggplot2.
+License: MIT + file LICENSE
+Depends: 
+    gganimate (>= 0.9.9.9999),
+    ggplot2 (>= 3.0.0)
+Imports: 
+    dplyr,
+    magrittr,
+    purrr,
+    rlang (>= 0.1.2),
+    scales,
+    tidyr,
+    tidyselect
+Suggests: 
+    knitr,
+    roxygen2,
+    testthat,
+    viridis
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
