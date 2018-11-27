@@ -20,6 +20,8 @@ plot_settings$default <- list(
   color_other       = "#d0d0d0",
   color_missing     = "#ffffff",
   color_fun         = scales::brewer_pal(type = "qual", "Set1"),
-  text_color        = NA
+  text_color        = NA,
+  cell_width        = 1,
+  cell_height       = 1
 )
 

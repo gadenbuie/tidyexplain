@@ -26,6 +26,8 @@ white, based on the background color of the cell.}
 Use \code{\link[=set_font_size]{set_font_size()}} to set global default font sizes.}
   \item{text_size}{Font size of the plot text, default is 5.}
   \item{title_size}{Font size of the plot title, default is 17.}
+  \item{cell_width}{Width of a cell, default is 1.}
+  \item{cell_height}{Height of a cell, default is 1.}
   \item{ease_default}{Default aes easing function. See \code{\link[tweenr:display_ease]{tweenr::display_ease()}}
 for more options. The tidyexplain default value is \code{sine-in-out}.}
   \item{ease_other}{Additional aes easing options, specified as a named list.

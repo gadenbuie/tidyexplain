@@ -16,6 +16,8 @@
 #'   Use [set_font_size()] to set global default font sizes.
 #' @param text_size Font size of the plot text, default is 5.
 #' @param title_size Font size of the plot title, default is 17.
+#' @param cell_width Width of a cell, default is 1.
+#' @param cell_height Height of a cell, default is 1.
 #' @param ease_default Default aes easing function. See [tweenr::display_ease()]
 #'   for more options. The tidyexplain default value is `sine-in-out`.
 #' @param ease_other Additional aes easing options, specified as a named list.
@@ -46,6 +48,8 @@ anim_options <- function(
   color_missing = NULL,
   color_fun    = NULL,
   text_color   = NULL,
+  cell_width   = NULL,
+  cell_height  = NULL,
   ...
 ){
   enter_name <- if (!missing(enter)) rlang::quo_name(rlang::enquo(enter))
@@ -66,6 +70,8 @@ anim_options <- function(
     color_missing = color_missing,
     color_fun    = color_fun,
     text_color   = text_color,
+    cell_width   = cell_width,
+    cell_height  = cell_height,
     ...
   )
   ao <- purrr::compact(ao)
@@ -129,6 +135,8 @@ fill_anim_opts <- function(ao) {
   ao$color_missing <- ao$color_missing %||% get_anim_opt("color_missing")
   ao$color_fun    <- ao$color_fun    %||% get_anim_opt("color_fun")
   ao$text_color   <- ao$text_color   %||% get_anim_opt("text_color")
+  ao$cell_width   <- ao$cell_width   %||% get_anim_opt("cell_width")
+  ao$cell_height  <- ao$cell_height  %||% get_anim_opt("cell_height")
 
   ao
 }

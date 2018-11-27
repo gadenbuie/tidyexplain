@@ -58,8 +58,12 @@ static_plot <- function(
     d <- d %>% mutate(.item_id = .id)
   }
 
-  ggplot(d, aes(x = .x, y = .y, fill = .color, alpha = .alpha, group = .item_id)) +
-    geom_tile(width = 0.9, height = 0.9) +
+  width <- ao$cell_width %||% 1
+  height <- ao$cell_height %||% 1
+
+  ggplot(d, aes(x = .x * width, y = .y * height, fill = .color, alpha = .alpha,
+                group = .item_id)) +
+    geom_tile(width = 0.9 * width, height = 0.9 * height) +
     coord_equal() +
     geom_text(data = d %>% filter(!is.na(.val)), aes(label = .val, color = .textcolor),
               family = ao$text_family, size = text_size) +

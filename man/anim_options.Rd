@@ -10,7 +10,7 @@ anim_options(transition_length = NULL, state_length = NULL,
   exit = NULL, text_family = NULL, title_family = NULL,
   text_size = NULL, title_size = NULL, color_header = NULL,
   color_other = NULL, color_missing = NULL, color_fun = NULL,
-  text_color = NULL, ...)
+  text_color = NULL, cell_width = NULL, cell_height = NULL, ...)
 
 set_anim_options(anim_opts = anim_options())
 }
@@ -57,6 +57,10 @@ cells, default is \code{\link[scales:brewer_pal]{scales::brewer_pal()}} Set1.}
 
 \item{text_color}{Color of the text of the cells, default is a black or
 white, based on the background color of the cell.}
+
+\item{cell_width}{Width of a cell, default is 1.}
+
+\item{cell_height}{Height of a cell, default is 1.}
 
 \item{anim_opts}{An \code{\link[=anim_options]{anim_options()}} options list.}
 }
