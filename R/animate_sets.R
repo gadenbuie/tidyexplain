@@ -91,7 +91,7 @@ animate_set <- function(
   all <- bind_rows(step0, step1)
 
   if (export == "gif") {
-    animate_plot(all, title, ...) %>% animate()
+    animate_plot(all, title, ...)
   } else if (export == "first") {
     title <- ""
     static_plot(step0, title, ...)
