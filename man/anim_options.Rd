@@ -2,7 +2,7 @@
 % Please edit documentation in R/animate_options.R
 \name{anim_options}
 \alias{anim_options}
-\alias{anim_options_set}
+\alias{set_anim_options}
 \title{Animation Options}
 \usage{
 anim_options(transition_length = NULL, state_length = NULL,
@@ -12,7 +12,7 @@ anim_options(transition_length = NULL, state_length = NULL,
   color_other = NULL, color_missing = NULL, color_fun = NULL,
   text_color = NULL, ...)
 
-anim_options_set(anim_opts = anim_options())
+set_anim_options(anim_opts = anim_options())
 }
 \arguments{
 \item{transition_length}{The relative length of the transition. Will be
@@ -66,6 +66,6 @@ Helper function to set animation and plotting options to be passed to
 }
 \section{Functions}{
 \itemize{
-\item \code{anim_options_set}: Set default animation options for the current session.
+\item \code{set_anim_options}: Set default animation options for the current session.
 }}
 

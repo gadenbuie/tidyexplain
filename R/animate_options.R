@@ -78,7 +78,7 @@ anim_options <- function(
 #' @describeIn anim_options Set default animation options for the current session.
 #' @param anim_opts An [anim_options()] options list.
 #' @export
-anim_options_set <- function(anim_opts = anim_options()) {
+set_anim_options <- function(anim_opts = anim_options()) {
   stopifnot(is.anim_opts(anim_opts))
   ao_old <- plot_settings$anim_opts
   plot_settings$anim_opts <- merge(anim_opts, plot_settings$anim_opts)
@@ -211,13 +211,13 @@ get_font_size <- function() {
 
 set_text_size <- function(size) {
   old <- plot_settings$text_size
-  anim_options_set(anim_options(text_size = size))
+  set_anim_options(anim_options(text_size = size))
   invisible(old)
 }
 
 set_title_size <- function(size) {
   old <- plot_settings$title_size
-  anim_options_set(anim_options(title_size = size))
+  set_anim_options(anim_options(title_size = size))
   invisible(old)
 }
 
