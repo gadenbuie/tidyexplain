@@ -201,13 +201,13 @@ set_title_size <- function(size) {
 get_text_size <- function(x = NULL) {
   if (!is.null(x)) return(x)
   plot_settings$anim_opts$text_size %||%
-    getFromNamespace("theme_env", "ggplot2")$current$text$size %||%
+    getFromNamespace("theme_void", "ggplot2")()$text$size %||%
     plot_settings$default$text_size
 }
 
 get_title_size <- function(x = NULL) {
   if (!is.null(x)) return(x)
   plot_settings$anim_opts$title_size %||%
-    getFromNamespace("theme_env", "ggplot2")$current$plot.title$size %||%
+    getFromNamespace("theme_void", "ggplot2")()$plot.title$size %||%
     plot_settings$default$title_size
 }
