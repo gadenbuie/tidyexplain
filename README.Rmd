@@ -27,7 +27,9 @@ set_font_size(11, 26)
 # Tidy Animated Verbs
 
 Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com).
+
 David Zimmermann -- [&commat;dav_zim](https://twitter.com/dav_zim) -- [datashenanigan.wordpress.com](https://datashenanigan.wordpress.com/)
+
 Set operations contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/master?urlpath=rstudio)
@@ -121,8 +123,7 @@ dplyr::left_join(x, y, by = "id")
 y_extra <- dplyr::bind_rows(y, dplyr::data_frame(id = 2, y = "y5"))
 y_extra # has multiple rows with the key from `x`
 
-animate_left_join(x, y_extra, by = "id", 
-  anim_opts = anim_options(title_size = 22))
+animate_left_join(x, y_extra, by = "id", title_size = 22)
 ```
 
 ```{r}
@@ -306,7 +307,8 @@ wide <- dplyr::data_frame(
 > Gather takes multiple columns and collapses into key-value pairs, duplicating all other columns as needed. You use gather() when you notice that your column names are not names of variables, but values of a variable.
 
 ```{r gather}
-set_font_size(4.5, 15)
+set_font_size(4, 15)
+set_anim_options(anim_options(cell_width = 2))
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 

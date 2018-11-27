@@ -4,9 +4,11 @@
 # Tidy Animated Verbs
 
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
-[garrickadenbuie.com](https://www.garrickadenbuie.com). David Zimmermann
-– [@dav\_zim](https://twitter.com/dav_zim) –
+[garrickadenbuie.com](https://www.garrickadenbuie.com).
+
+David Zimmermann – [@dav\_zim](https://twitter.com/dav_zim) –
 [datashenanigan.wordpress.com](https://datashenanigan.wordpress.com/)
+
 Set operations contributed by [Tyler Grant
 Smith](https://github.com/TylerGrantSmith).
 
@@ -147,8 +149,7 @@ y_extra # has multiple rows with the key from `x`
 #> 3     4 y4   
 #> 4     2 y5
 
-animate_left_join(x, y_extra, by = "id", 
-  anim_opts = anim_options(title_size = 22))
+animate_left_join(x, y_extra, by = "id", title_size = 22)
 ```
 
 ![](man/figures/tidyexplain-left-join-extra-1.gif)<!-- -->
@@ -431,7 +432,8 @@ wide <- dplyr::data_frame(
 > of a variable.
 
 ``` r
-set_font_size(4.5, 15)
+set_font_size(4, 15)
+set_anim_options(anim_options(cell_width = 2))
 animate_gather(wide, key = "person", value = "sales", -year)
 ```
 
