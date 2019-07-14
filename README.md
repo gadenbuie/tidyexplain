@@ -22,8 +22,8 @@ Smith](https://github.com/TylerGrantSmith).
     [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
   - [**Set Operations**](#set-operations) — [`union()`](#union),
-    [`union_all()`](#union-all), [`intersect()`](#intersect),
-    [`setdiff()`](#setdiff)
+    [`union_all()`](#union-all), [`intersect()`](#intersection),
+    [`setdiff()`](#set-difference)
 
   - [**Tidy Data**](#tidy-data) — [`spread()` and
     `gather()`](#spread-and-gather)
