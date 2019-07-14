@@ -70,7 +70,15 @@ The animations were made possible by the newly re-written
 [Thomas Lin Pedersen](https://github.com/thomasp85) (original by [Dave
 Robinson](https://github.com/dgrtwo)). The [package
 readme](https://github.com/thomasp85/gganimate#README) provides an
-excellent (and quick) introduction to gganimte.
+excellent (and quick) introduction to gganimate.
+
+### Dynamic Animations
+
+Thanks to an initial push by [David Zimmermann](https://github.com/DavZim), we
+have begun work toward a packaged set of functions to generate dynamic
+explanatory animations from users' actual data.
+Please visit the [pkg branch](https://github.com/gadenbuie/tidyexplain/tree/pkg) 
+of the tidyexplain repository for more information (or to contribute!).
 
 ## Mutating Joins
 
