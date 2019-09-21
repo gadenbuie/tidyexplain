@@ -87,7 +87,7 @@ Please visit the [pkg branch](https://github.com/gadenbuie/tidyexplain/tree/pkg)
 
 ```{r intial-dfs}
 source("R/00_base_join.R")
-df_names <- data_frame(
+df_names <- tibble(
   .x = c(1.5, 4.5), .y = 0.25,
   value = c("x", "y"),
   size = 12,
@@ -222,7 +222,7 @@ anti_join(x, y, by = "id")
 
 ```{r intial-dfs-so}
 source("R/00_base_set.R")
-df_names <- data_frame(
+df_names <- tibble(
   .x = c(2.5, 5.5), .y = 0.25,
   value = c("x", "y"),
   size = 12,

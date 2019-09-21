@@ -18,7 +18,7 @@ source(here::here("R", "03_check-folders.R"))
 
 # Data ----
 set.seed(42)
-wide <- data_frame(
+wide <- tibble(
   id = rep(1:2),
   x = letters[1:2],
   y = letters[3:4],
