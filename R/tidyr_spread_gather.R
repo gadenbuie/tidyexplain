@@ -33,12 +33,12 @@ sg_long$val <-
 
 sg_long <- bind_rows(sg_long) %>% mutate(frame = 2)
 
-sg_long_labels <- data_frame(id = 1, a = "id", x = "key", y = "val") %>%
+sg_long_labels <- tibble(id = 1, a = "id", x = "key", y = "val") %>%
   proc_data("4-label") %>%
   filter(label != "id") %>%
   mutate(color = "#FFFFFF", .y = 0, .x = .x -1, frame = 2, alpha = 1, label = recode(label, "a" = "id"))
 
-sg_wide_labels <- data_frame(id = 1, a = "id") %>%
+sg_wide_labels <- tibble(id = 1, a = "id") %>%
   proc_data("2-label") %>%
   filter(label != "id") %>%
   mutate(color = "#FFFFFF", .y = 0, .x = .x -1, frame = 1, alpha = 1, label = recode(label, "a" = "id"))

@@ -1,6 +1,6 @@
 source(here::here("R/00_base_join.R"))
 
-y_extra <- bind_rows(y, data_frame(id = 2, y = "y5"))
+y_extra <- bind_rows(y, tibble(id = 2, y = "y5"))
 
 # I manually linked objects together, it was late and this was easier...
 anim_df <- tibble::tribble(
@@ -46,7 +46,7 @@ lj_extra <- animate(lj_extra)
 anim_save(here::here("images", "left-join-extra.gif"), lj_extra)
 
 ## Save static images
-df_names <- data_frame(
+df_names <- tibble(
   .x = c(1.5, 4.5), .y = 0.25,
   value = c("x", "y"),
   size = 12,
