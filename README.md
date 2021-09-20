@@ -168,7 +168,7 @@ left_join(x, y_extra, by = "id")
 
 ### Right Join
 
-> All rows from y, and all columns from `x` and `y`. Rows in `y` with no
+> All rows from `y`, and all columns from `x` and `y`. Rows in `y` with no
 > match in `x` will have `NA` values in the new columns.
 
 ![](images/right-join.gif)
