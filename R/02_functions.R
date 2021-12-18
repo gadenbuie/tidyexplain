@@ -84,8 +84,11 @@ plot_data <- function(x, title = "") {
     coord_equal() +
     ggtitle(title) +
     theme_void() +
-    theme(plot.title = element_text(family = "Fira Mono", hjust = 0.5, size = 24)) +
-    guides(fill = FALSE)
+    theme(
+      plot.title = element_text(family = "Fira Mono", hjust = 0.5, size = 24),
+      plot.background = element_rect(fill = "white", color = "white")
+    ) +
+    guides(fill = "none")
 }
 
 animate_plot <- function(x, transition_length = 2, state_length = 1) {
