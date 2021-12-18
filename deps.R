@@ -1,5 +1,6 @@
 library(tidyverse)
 library(rmarkdown)
+library(markdown)
 library(here)
 library(cowplot)
 library(sysfonts)
