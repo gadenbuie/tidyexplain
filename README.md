@@ -5,34 +5,33 @@
 
 Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
 [garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations
-contributed by [Tyler Grant
-Smith](https://github.com/TylerGrantSmith).
+contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
 
 [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/main?urlpath=rstudio)
-[![CC0](https://img.shields.io/badge/license_\(images\)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
-[![MIT](https://img.shields.io/badge/license_\(code\)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![MIT](https://img.shields.io/badge/license_(code)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 <!-- README START -->
 
-  - [**Mutating Joins**](#mutating-joins) —
+-   [**Mutating Joins**](#mutating-joins) —
     [`inner_join()`](#inner-join), [`left_join()`](#left-join),
     [`right_join()`](#right-join), [`full_join()`](#full-join)
 
-  - [**Filtering Joins**](#filtering-joins) —
+-   [**Filtering Joins**](#filtering-joins) —
     [`semi_join()`](#semi-join), [`anti_join()`](#anti-join)
 
-  - [**Set Operations**](#set-operations) — [`union()`](#union),
+-   [**Set Operations**](#set-operations) — [`union()`](#union),
     [`union_all()`](#union-all), [`intersect()`](#intersection),
     [`setdiff()`](#set-difference)
 
-  - [**Tidy Data**](#tidy-data) — [`spread()` and
+-   [**Tidy Data**](#tidy-data) — [`spread()` and
     `gather()`](#spread-and-gather)
 
-  - Learn more about
-    
-      - [Using the animations and images](#usage)
-      - [Relational Data](#relational-data)
-      - [gganimate](#gganimate)
+-   Learn more about
+
+    -   [Using the animations and images](#usage)
+    -   [Relational Data](#relational-data)
+    -   [gganimate](#gganimate)
 
 ## Background
 
@@ -48,7 +47,7 @@ Currently, the animations cover the [dplyr two-table
 verbs](https://dplyr.tidyverse.org/articles/two-table.html) and I’d like
 to expand the animations to include more verbs from the tidyverse.
 [Suggestions are
-welcome\!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
+welcome!](https://github.com/gadenbuie/tidy-animated-verbs/issues)
 
 ### Relational Data
 
@@ -74,11 +73,12 @@ excellent (and quick) introduction to gganimate.
 
 ### Dynamic Animations
 
-Thanks to an initial push by [David Zimmermann](https://github.com/DavZim), we
-have begun work toward a packaged set of functions to generate dynamic
-explanatory animations from users' actual data.
-Please visit the [pkg branch](https://github.com/gadenbuie/tidyexplain/tree/pkg) 
-of the tidyexplain repository for more information (or to contribute!).
+Thanks to an initial push by [David
+Zimmermann](https://github.com/DavZim), we have begun work towards
+functions that generate dynamic animations from users’ actual data.
+Please visit the [pkg
+branch](https://github.com/gadenbuie/tidyexplain/tree/pkg) of the
+tidyexplain repository for more information (or to contribute!).
 
 ## Mutating Joins
 
@@ -92,14 +92,14 @@ of the tidyexplain repository for more information (or to contribute!).
 
 ``` r
 x
-#> # A tibble: 3 x 2
+#> # A tibble: 3 × 2
 #>      id x    
 #>   <int> <chr>
 #> 1     1 x1   
 #> 2     2 x2   
 #> 3     3 x3
 y
-#> # A tibble: 3 x 2
+#> # A tibble: 3 × 2
 #>      id y    
 #>   <int> <chr>
 #> 1     1 y1   
@@ -116,7 +116,7 @@ y
 
 ``` r
 inner_join(x, y, by = "id")
-#> # A tibble: 2 x 3
+#> # A tibble: 2 × 3
 #>      id x     y    
 #>   <int> <chr> <chr>
 #> 1     1 x1    y1   
@@ -132,7 +132,7 @@ inner_join(x, y, by = "id")
 
 ``` r
 left_join(x, y, by = "id")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>      id x     y    
 #>   <int> <chr> <chr>
 #> 1     1 x1    y1   
@@ -149,7 +149,7 @@ left_join(x, y, by = "id")
 
 ``` r
 y_extra # has multiple rows with the key from `x`
-#> # A tibble: 4 x 2
+#> # A tibble: 4 × 2
 #>      id y    
 #>   <dbl> <chr>
 #> 1     1 y1   
@@ -157,7 +157,7 @@ y_extra # has multiple rows with the key from `x`
 #> 3     4 y4   
 #> 4     2 y5
 left_join(x, y_extra, by = "id")
-#> # A tibble: 4 x 3
+#> # A tibble: 4 × 3
 #>      id x     y    
 #>   <dbl> <chr> <chr>
 #> 1     1 x1    y1   
@@ -175,7 +175,7 @@ left_join(x, y_extra, by = "id")
 
 ``` r
 right_join(x, y, by = "id")
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>      id x     y    
 #>   <int> <chr> <chr>
 #> 1     1 x1    y1   
@@ -192,7 +192,7 @@ right_join(x, y, by = "id")
 
 ``` r
 full_join(x, y, by = "id")
-#> # A tibble: 4 x 3
+#> # A tibble: 4 × 3
 #>      id x     y    
 #>   <int> <chr> <chr>
 #> 1     1 x1    y1   
@@ -219,7 +219,7 @@ full_join(x, y, by = "id")
 
 ``` r
 semi_join(x, y, by = "id")
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>      id x    
 #>   <int> <chr>
 #> 1     1 x1   
@@ -235,7 +235,7 @@ semi_join(x, y, by = "id")
 
 ``` r
 anti_join(x, y, by = "id")
-#> # A tibble: 1 x 2
+#> # A tibble: 1 × 2
 #>      id x    
 #>   <int> <chr>
 #> 1     3 x3
@@ -255,14 +255,14 @@ anti_join(x, y, by = "id")
 
 ``` r
 x
-#> # A tibble: 3 x 2
+#> # A tibble: 3 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 1     a    
 #> 2 1     b    
 #> 3 2     a
 y 
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 1     a    
@@ -277,26 +277,26 @@ y
 
 ``` r
 union(x, y)
-#> # A tibble: 4 x 2
+#> # A tibble: 4 × 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 2     b    
-#> 2 2     a    
-#> 3 1     b    
-#> 4 1     a
+#> 1 1     a    
+#> 2 1     b    
+#> 3 2     a    
+#> 4 2     b
 ```
 
 ![](images/union-rev.gif)
 
 ``` r
 union(y, x)
-#> # A tibble: 4 x 2
+#> # A tibble: 4 × 2
 #>   x     y    
 #>   <chr> <chr>
-#> 1 2     a    
-#> 2 1     b    
-#> 3 2     b    
-#> 4 1     a
+#> 1 1     a    
+#> 2 2     b    
+#> 3 1     b    
+#> 4 2     a
 ```
 
 ### Union All
@@ -307,7 +307,7 @@ union(y, x)
 
 ``` r
 union_all(x, y)
-#> # A tibble: 5 x 2
+#> # A tibble: 5 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 1     a    
@@ -325,7 +325,7 @@ union_all(x, y)
 
 ``` r
 intersect(x, y)
-#> # A tibble: 1 x 2
+#> # A tibble: 1 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 1     a
@@ -340,7 +340,7 @@ intersect(x, y)
 
 ``` r
 setdiff(x, y)
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 1     b    
@@ -351,7 +351,7 @@ setdiff(x, y)
 
 ``` r
 setdiff(y, x)
-#> # A tibble: 1 x 2
+#> # A tibble: 1 × 2
 #>   x     y    
 #>   <chr> <chr>
 #> 1 2     b
@@ -375,13 +375,13 @@ you organize your data into tidy data.
 
 ``` r
 wide
-#> # A tibble: 2 x 4
+#> # A tibble: 2 × 4
 #>      id x     y     z    
 #>   <int> <chr> <chr> <chr>
 #> 1     1 a     c     e    
 #> 2     2 b     d     f
 long
-#> # A tibble: 6 x 3
+#> # A tibble: 6 × 3
 #>      id key   val  
 #>   <int> <chr> <chr>
 #> 1     1 x     a    
@@ -410,7 +410,7 @@ long
 
 ``` r
 gather(wide, key, val, x:z)
-#> # A tibble: 6 x 3
+#> # A tibble: 6 × 3
 #>      id key   val  
 #>   <int> <chr> <chr>
 #> 1     1 x     a    
@@ -420,7 +420,7 @@ gather(wide, key, val, x:z)
 #> 5     1 z     e    
 #> 6     2 z     f
 spread(long, key, val)
-#> # A tibble: 2 x 4
+#> # A tibble: 2 × 4
 #>      id x     y     z    
 #>   <int> <chr> <chr> <chr>
 #> 1     1 a     c     e    
