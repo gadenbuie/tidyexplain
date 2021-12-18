@@ -97,12 +97,11 @@ animate_plot <- function(x, transition_length = 2, state_length = 1) {
 }
 
 save_static_plot <- function(g, filename, formats = c("png", "svg"), ...) {
-  filenames <- formats %>%
+  ggsave <- purrr::partial(ggplot2::ggsave, plot = g, ...)
+  formats %>%
     purrr::set_names() %>%
     purrr::map_chr(static_plot_filename, x = filename) %>%
-    purrr::iwalk(
-      ~ ggsave(filename = .x, plot = g, dev = .y, ...)
-    )
+    purrr::iwalk(~ ggsave(filename = .x, device = .y))
 }
 
 static_plot_filename <- function(x, ext) {
