@@ -1,3 +1,4 @@
+# Don't source this file, it's just used to tell {renv} which packages we need
 library(tidyverse)
 library(rmarkdown)
 library(markdown)
