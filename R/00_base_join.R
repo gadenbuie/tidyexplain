@@ -22,12 +22,12 @@ plot_data_join <- function(x, title = "", xlims = xlim(0.5, 5.5), ylims = ylim(-
 }
 
 # Data ----
-x <- data_frame(
+x <- tibble(
   id = 1:3,
   x = paste0("x", 1:3)
 )
 
-y <- data_frame(
+y <- tibble(
   id = (1:4)[-3],
   y = paste0("y", (1:4)[-3])
 )
