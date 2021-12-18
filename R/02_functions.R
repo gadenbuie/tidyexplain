@@ -96,12 +96,12 @@ animate_plot <- function(x, transition_length = 2, state_length = 1) {
     ease_aes("sine-in-out")
 }
 
-save_static_plot <- function(g, filename, formats = c("png", "svg")) {
+save_static_plot <- function(g, filename, formats = c("png", "svg"), ...) {
   filenames <- formats %>%
     purrr::set_names() %>%
     purrr::map_chr(static_plot_filename, x = filename) %>%
     purrr::iwalk(
-      ~ ggsave(filename = .x, plot = g, dev = .y)
+      ~ ggsave(filename = .x, plot = g, dev = .y, ...)
     )
 }
 
