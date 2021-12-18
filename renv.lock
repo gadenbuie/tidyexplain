@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "http://rspm.infra/all/latest"
+        "URL": "http://cran.rstudio.com"
       },
       {
         "Name": "RSPM",
