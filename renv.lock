@@ -146,13 +146,6 @@
       "Repository": "RSPM",
       "Hash": "6baccb763ee83c0bd313460fdb8b8a84"
     },
-    "cowplot": {
-      "Package": "cowplot",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "b418e8423699d11c7f2087c2bfd07da2"
-    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.2",
@@ -493,6 +486,13 @@
       "RemotePkgPlatform": "windows",
       "RemoteSha": "1.4.5",
       "Hash": "5406fd37ef0bf9b88c8a4f264d6ec220"
+    },
+    "patchwork": {
+      "Package": "patchwork",
+      "Version": "1.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c446b30cb33ec125ff02588b60660ccb"
     },
     "pillar": {
       "Package": "pillar",
