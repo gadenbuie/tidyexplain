@@ -1,0 +1,13 @@
+# Don't source this file, it's just used to tell {renv} which packages we need
+library(tidyverse)
+library(rmarkdown)
+library(markdown)
+library(here)
+library(patchwork)
+library(sysfonts)
+library(jsonlite)
+library(curl)
+library(showtext)
+library(gganimate)
+library(gifski)
+library(svglite)
