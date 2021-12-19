@@ -28,7 +28,6 @@ knitr::opts_chunk$set(
 
 Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
 
-[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/gadenbuie/tidy-animated-verbs/main?urlpath=rstudio)
 [![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_(code)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -331,7 +330,7 @@ setdiff(y, x)
 
 Many of the tools in the [tidyverse] expect data to be formatted as a tidy dataset and the [tidyr] package provides functions to help you organize your data into tidy data.
 
-```{r tidyr-wide-long}
+```{r tidyr-wide-long, fig.width = 6, fig.height = 10}
 source("R/tidyr_spread_gather.R")
 
 tidy_plots <- list()
@@ -346,7 +345,12 @@ tidy_plots <- map(tidy_plots, ~ mutate(.,
 
 tidy_plots$wide <- tidy_plots$wide + ylim(-6.5, 0.5)
 
-save_static_plot(cowplot::plot_grid(plotlist = tidy_plots, axis = "t"), "original-dfs-tidy")
+save_static_plot(
+  patchwork::wrap_plots(tidy_plots, widths = 4, heights = 8),
+  width = 8,
+  height = 8,
+  "original-dfs-tidy"
+)
 ```
 
 ![](images/static/png/original-dfs-tidy.png)
