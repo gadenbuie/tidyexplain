@@ -162,16 +162,16 @@ views <-
     across(ends_with("max"), ~ .x + 0.5)
   )
 
+pv_anim_plot <-
+  plot_data(pv_data) +
+    aes(group = value) +
+    theme(
+      plot.title = element_text(family = "Fira Mono", size = 20, lineheight = 1.3, margin = margin(t = 5, b = 40)),
+      plot.margin = margin(b = 0, 5, 5, 5)
+    )
+
 pv_anim <-
-  (
-    plot_data(pv_data) +
-      aes(group = value) +
-      theme(
-        plot.title = element_text(family = "Fira Mono", size = 20, lineheight = 1.3, margin = margin(t = 5, b = 40)),
-        plot.margin = margin(b = 0, 5, 5, 5)
-      )
-  ) %>%
-  animate_plot(transition_length = 1) +
+  animate_plot(pv_anim_plot, transition_length = 1) +
   # zoom with smooth transitions: fixed y but make space in the x axis
   view_zoom_manual(
     xmin = views$.x_min,
