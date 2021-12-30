@@ -3,12 +3,21 @@
 
 # Tidy Animated Verbs
 
-Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
-[garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations
-contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
-
 [![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_(code)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+Garrick Aden-Buie – [@grrrck](https://twitter.com/grrrck) –
+[garrickadenbuie.com](https://www.garrickadenbuie.com)
+
+**Thanks to contributions from …**
+
+-   [Tyler Grant Smith](https://github.com/TylerGrantSmith) contributed
+    set operations animations.
+-   [Lukas Wallrich](https://github.com/LukasWallrich) and [Kelsey
+    Gonzalez](https://github.com/kelseygonzalez) helped create
+    animations of tidyr’s pivoting functions.
+
+**Animations:**
 
 <!-- README START -->
 
@@ -23,7 +32,8 @@ contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
     [`union_all()`](#union-all), [`intersect()`](#intersection),
     [`setdiff()`](#set-difference)
 
--   [**Tidy Data**](#tidy-data) — [`spread()` and
+-   [**Tidy Data**](#tidy-data) — [`pivot_wider()` and
+    `pivot_longer()`](#pivot-wider-and-longer), [`spread()` and
     `gather()`](#spread-and-gather)
 
 -   Learn more about
@@ -391,14 +401,47 @@ long
 #> 6     2 z     f
 ```
 
+### Pivot Wider and Longer
+
+`pivot_wider()` and `pivot_longer()` were introduced in [tidyr version
+1.0](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/#pivoting)
+(released in September 2019). They provide a more consistent and more
+powerful approach to changing the fundamental shape of the data and are
+“modern alternatives to `spread()` and `gather()`.
+
+Here we show the very basic mechanics of pivoting, but there’s much more
+that the pivot functions can do. You can learn more about them in the
+[Pivoting vignette in
+tidyr](https://tidyr.tidyverse.org/articles/pivot.html).
+
+``` r
+pivot_wider(data, names_from = key, values_from = val)
+```
+
+> `pivot_wider()` “widens” data, increasing the number of columns and
+> decreasing the number of rows.
+
+``` r
+pivot_longer(data, cols = x:y, names_to = "key", values_to = "val")
+```
+
+> `pivot_longer()` “lengthens” data, increasing the number of rows and
+> decreasing the number of columns.
+
+![](images/tidyr-pivoting.gif)
+
 ### Spread and Gather
 
-`spread(data, key, value)`
+``` r
+spread(data, key, value)
+```
 
 > Spread a key-value pair across multiple columns. Use it when an a
 > column contains observations from multiple variables.
 
-`gather(data, key = "key", value = "value", ...)`
+``` r
+gather(data, key = "key", value = "value", ...)
+```
 
 > Gather takes multiple columns and collapses into key-value pairs,
 > duplicating all other columns as needed. You use `gather()` when you
