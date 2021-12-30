@@ -414,12 +414,16 @@ that the pivot functions can do. You can learn more about them in the
 [Pivoting vignette in
 tidyr](https://tidyr.tidyverse.org/articles/pivot.html).
 
-`pivot_wider(data, names_from = key, values_from = val)`
+``` r
+pivot_wider(data, names_from = key, values_from = val)
+```
 
 > `pivot_wider()` “widens” data, increasing the number of columns and
 > decreasing the number of rows.
 
-`pivot_longer(data, cols = x:y, names_to = "key", values_to = "val")`
+``` r
+pivot_longer(data, cols = x:y, names_to = "key", values_to = "val")
+```
 
 > `pivot_longer()` “lengthens” data, increasing the number of rows and
 > decreasing the number of columns.
@@ -428,12 +432,16 @@ tidyr](https://tidyr.tidyverse.org/articles/pivot.html).
 
 ### Spread and Gather
 
-`spread(data, key, value)`
+``` r
+spread(data, key, value)
+```
 
 > Spread a key-value pair across multiple columns. Use it when an a
 > column contains observations from multiple variables.
 
-`gather(data, key = "key", value = "value", ...)`
+``` r
+gather(data, key = "key", value = "value", ...)
+```
 
 > Gather takes multiple columns and collapses into key-value pairs,
 > duplicating all other columns as needed. You use `gather()` when you
