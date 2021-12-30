@@ -26,10 +26,17 @@ knitr::opts_chunk$set(
 
 # Tidy Animated Verbs
 
-Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com). Set operations contributed by [Tyler Grant Smith](https://github.com/TylerGrantSmith).
-
 [![CC0](https://img.shields.io/badge/license_(images)_-CC0-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![MIT](https://img.shields.io/badge/license_(code)_-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickadenbuie.com](https://www.garrickadenbuie.com)
+
+**Thanks to contributions from ...**
+
+- [Tyler Grant Smith](https://github.com/TylerGrantSmith) contributed set operations animations.
+- [Lukas Wallrich](https://github.com/LukasWallrich) and [Kelsey Gonzalez](https://github.com/kelseygonzalez) helped create animations of tidyr's pivoting functions.
+
+**Animations:**
 
 <!-- README START -->
 
@@ -40,7 +47,7 @@ Garrick Aden-Buie -- [&commat;grrrck](https://twitter.com/grrrck) -- [garrickade
 
 - [**Set Operations**](#set-operations) — [`union()`](#union), [`union_all()`](#union-all), [`intersect()`](#intersection), [`setdiff()`](#set-difference)
 
-- [**Tidy Data**](#tidy-data) — [`spread()` and `gather()`](#spread-and-gather)
+- [**Tidy Data**](#tidy-data) — [`pivot_wider()` and `pivot_longer()`](#pivot-wider-and-longer), [`spread()` and `gather()`](#spread-and-gather)
 
 - Learn more about
     - [Using the animations and images](#usage)
@@ -331,6 +338,7 @@ setdiff(y, x)
 Many of the tools in the [tidyverse] expect data to be formatted as a tidy dataset and the [tidyr] package provides functions to help you organize your data into tidy data.
 
 ```{r tidyr-wide-long, fig.width = 6, fig.height = 10}
+source("R/tidyr_pivoting.R")
 source("R/tidyr_spread_gather.R")
 
 tidy_plots <- list()
@@ -359,6 +367,24 @@ save_static_plot(
 wide
 long
 ```
+
+### Pivot Wider and Longer
+
+`pivot_wider()` and `pivot_longer()` were introduced in [tidyr version 1.0](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/#pivoting) (released in September 2019).
+They provide a more consistent and more powerful approach to changing the fundamental shape of the data and are "modern alternatives to `spread()` and `gather()`. 
+
+Here we show the very basic mechanics of pivoting, but there's much more that the pivot functions can do.
+You can learn more about them in the [Pivoting vignette in tidyr](https://tidyr.tidyverse.org/articles/pivot.html).
+
+`pivot_wider(data, names_from = key, values_from = val)`
+
+> `pivot_wider()` "widens" data, increasing the number of columns and decreasing the number of rows.
+
+`pivot_longer(data, cols = x:y, names_to = "key", values_to = "val")`
+
+> `pivot_longer()` "lengthens" data, increasing the number of rows and decreasing the number of columns.
+
+![](images/tidyr-pivoting.gif)
 
 ### Spread and Gather
 
