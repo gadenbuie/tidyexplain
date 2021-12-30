@@ -69,6 +69,14 @@ colorize_wide_tidyr <- function(df, n_colors, key_col = "id") {
     select(-idc)
 }
 
+copy_rows <- function(x, ..., n = 1) {
+  y <- filter(x, ...)
+  for (i in seq_len(n)) {
+    x <- bind_rows(x, y)
+  }
+  x
+}
+
 plot_data <- function(x, title = "") {
   if (!"alpha" %in% colnames(x)) x$alpha <- 1
   if (!".text_color" %in% colnames(x)) x$`.text_color` <- "white"
