@@ -73,10 +73,15 @@ plot_data <- function(x, title = "") {
   if (!"alpha" %in% colnames(x)) x$alpha <- 1
   if (!".text_color" %in% colnames(x)) x$`.text_color` <- "white"
   if (!".text_size" %in% colnames(x)) x$`.text_size` <- 12
+  if (!".text_alpha" %in% colnames(x)) x$`.text_alpha` <- 1
   ggplot(x) +
     aes(.x, .y, fill = color, label = value) +
     geom_tile(aes(alpha = alpha), width = 0.9, height = 0.9) +
-    geom_text(aes(x = .x, color = .text_color, size = .text_size), hjust = 0.5, family = "Fira Sans") +
+    geom_text(
+      aes(x = .x, color = .text_color, size = .text_size, alpha = .text_alpha),
+      hjust = 0.5,
+      family = "Fira Sans"
+    ) +
     scale_fill_identity() +
     scale_alpha_identity() +
     scale_color_identity() +
