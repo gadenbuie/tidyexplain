@@ -157,8 +157,8 @@ pv_anim_plot <-
   plot_data(pv_data) +
     aes(group = value) +
     theme(
-      plot.title = element_text(family = "Fira Mono", size = 20, lineheight = 1.3, margin = margin(t = 5, b = 40)),
-      plot.margin = margin(b = 0, 5, 5, 5)
+      plot.title = element_text(family = "Fira Mono", size = 20, lineheight = 1.3, margin = margin(b = 50)),
+      plot.margin = margin(t = 75, unit = "pt")
     )
 
 pv_anim <-
@@ -174,5 +174,5 @@ pv_anim <-
   labs(title = '{animated_titles[frame]}') +
   ease_aes("sine-in-out", x = "exponential-in-out", y = "exponential-in-out", alpha = "circular-in-out")
 
-pv_anim <- animate(pv_anim, width = 600, height = 800, nframes = 120)
-anim_save(here::here("images", "tidyr-pivoting.gif"), pv_anim, width = 6, height = 8)
+pv_anim <- animate(pv_anim, width = 575, height = 700, nframes = 120)
+anim_save(here::here("images", "tidyr-pivoting.gif"), pv_anim)
