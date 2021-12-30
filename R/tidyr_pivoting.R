@@ -142,6 +142,7 @@ animated_titles <- as.character(cut(
   breaks = 6,
   labels = c("wide", titles$longer, titles$longer_int, titles$longer, "long", titles$wider)
 ))
+animated_titles[1:23] <- "wide"
 
 # Calculate min/max x and y for the view port (for view_zoom_manual() below)
 views <-
@@ -171,8 +172,9 @@ pv_anim <-
     ymax = rep(min(views$.y_max), times = nrow(views)),
     ease = "quintic-out"
   ) +
+  labs(title = '{case_when(frame < 24 ~ "wide", frame < 41 ~ titles$longer, frame < 61 ~ titles$longer_int, frame < 81 ~ titles$longer, frame < 101 ~ "long", TRUE ~ titles$wider)}') +
   labs(title = '{animated_titles[frame]}') +
   ease_aes("sine-in-out", x = "exponential-in-out", y = "exponential-in-out", alpha = "circular-in-out")
 
-pv_anim <- animate(pv_anim, width = 575, height = 700, nframes = 120)
+pv_anim <- animate(pv_anim, width = 580, height = 700, nframes = 120)
 anim_save(here::here("images", "tidyr-pivoting.gif"), pv_anim)
