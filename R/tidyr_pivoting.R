@@ -142,15 +142,6 @@ animated_titles <- as.character(cut(
   breaks = 6,
   labels = c("wide", titles$longer, titles$longer_int, titles$longer, "long", titles$wider)
 ))
-# This next bit is weird and took me quite a long time to get right. AFAICT the
-# looping adds one frame to the total number of frames. I set `nframes = 120`
-# below (three states, equal transition/pause lengths. So I add one title for
-# the last frame, which I would expect to be the last state in the loop. But it
-# turns out it's not: the last state and the first state need to be the same. If
-# they aren't, then the pauses happen in the wrong place (maybe gganimate is
-# taking a shortcut knowing that the titles don't change during the pause?). So
-# I push the first title to the end, but add the extra title frame in the middle.
-animated_titles <- c(animated_titles[-1], animated_titles[120], animated_titles[1])
 
 # Calculate min/max x and y for the view port (for view_zoom_manual() below)
 views <-
