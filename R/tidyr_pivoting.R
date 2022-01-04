@@ -140,7 +140,7 @@ save_static_plot(pv_static[[1]], "tidyr-pivot_wider", width = 4, height = 8)
 animated_titles <- as.character(cut(
   1:120,
   breaks = 6,
-  labels = c("wide", titles$longer, titles$longer_int, titles$longer, "long", titles$wider)
+  labels = c("wide", titles$longer, titles$longer, titles$longer, "long", titles$wider)
 ))
 animated_titles[1:23] <- "wide"
 
