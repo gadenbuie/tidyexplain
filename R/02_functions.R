@@ -104,9 +104,9 @@ plot_data <- function(x, title = "") {
     guides(fill = "none")
 }
 
-animate_plot <- function(x, transition_length = 2, state_length = 1) {
+animate_plot <- function(x, transition_length = 2, state_length = 1, wrap = TRUE) {
   x +
-    transition_states(frame, transition_length, state_length) +
+    transition_states(frame, transition_length, state_length, wrap = wrap) +
     enter_fade() +
     exit_fade() +
     ease_aes("sine-in-out")
